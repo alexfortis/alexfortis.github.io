@@ -9,7 +9,7 @@
       <resources>
         <j2se version="1.6.10+" href="http://java.sun.com/products/autodl/j2se"
 java-vm-args="-Djava.net.preferIPv4Stack=true"/>
-	<jar href="GoFish.jar"/>
+	<jar href="https://github.com/alexfortis/alexfortis.github.io/blob/master/GoFish/GoFish.jar"/>
       </resources>
       <application-desc main-class="com.alexstrong.gofish.GoFish"/>
 </jnlp>
