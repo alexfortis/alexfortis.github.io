@@ -1,0 +1,15 @@
+<jnlp spec="1.0+" codebase="http://alexfortis.github.io/EulerApprox" href="eulerapprox.jnlp">
+      <information>
+        <title>Euler Approximation</title>
+        <vendor>Alex Strong</vendor>
+        <description>Uses Euler's approximation (see http://en.wikipedia.org/wiki/Euler_method) to approximate a value of a function.</description>
+        <offline-allowed/>
+        <icon kind="splash" href="http://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Euler_method.svg/824px-Euler_method.svg.png"/>
+      </information>
+      <resources>
+        <j2se version="1.6.10+" href="http://java.sun.com/products/autodl/j2se"
+java-vm-args="-Djava.net.preferIPv4Stack=true"/>
+        <jar href="EulerApprox.jar"/>
+      </resources>
+      <application-desc main-class="com.alexstrong.eulersMethod.EulerDriver"/>
+</jnlp>                                                                            
