@@ -121,3 +121,6 @@
       .tree table:before {
         content: " ";
       }
+.tree code {
+      display:inline;
+}
