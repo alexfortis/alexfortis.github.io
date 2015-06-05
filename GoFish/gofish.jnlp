@@ -1,15 +1,15 @@
-<jnlp spec="1.0+" codebase="." href="gofish.jnlp">
+<jnlp spec="1.0+" codebase="http://alexfortis.github.io/GoFish" href="gofish.jnlp">
       <information>
 	<title>Go Fish game</title>
 	<vendor>Alex Strong</vendor>
 	<description>Simple game, one user against three CPU players</description>
 	<offline-allowed/>
-	<icon kind="splash" href="deckofcards.png"/>
+	<icon kind="splash" href="http://alexfortis.github.io/deckofcards.png"/>
       </information>
       <resources>
         <j2se version="1.6.10+" href="http://java.sun.com/products/autodl/j2se"
 java-vm-args="-Djava.net.preferIPv4Stack=true"/>
-	<jar href="http://alexfortis.github.io/GoFish/GoFish.jar"/>
+	<jar href="GoFish.jar"/>
       </resources>
       <application-desc main-class="com.alexstrong.gofish.GoFish"/>
 </jnlp>
