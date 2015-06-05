@@ -1,6 +1,6 @@
 <jnlp spec="1.0+" codebase="http://alexfortis.github.io/GoFish" href="gofish.jnlp">
       <information>
-	<title>Go Fish game</title>
+	<title>Go Fish</title>
 	<vendor>Alex Strong</vendor>
 	<description>Simple game, one user against three CPU players</description>
 	<offline-allowed/>
