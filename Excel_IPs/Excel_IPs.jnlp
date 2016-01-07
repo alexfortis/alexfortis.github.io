@@ -9,5 +9,8 @@
 	<j2se version="1.8" href="java.sun.com/products/autodl/j2se" java-vm-args="-Djava.ne.preferIPv4Stack=true"/>
 	<jar href="Excel_IPs.jar"/>
       </resources>
+      <security>
+	<all-permissions/>
+      </security>
       <application-desc main-class="com.alexstrong.excel_ips.ExcelDriver"/>
 </jnlp>
