@@ -6,7 +6,7 @@
 	<offline-allowed/>
       </information>
       <resources>
-	<j2se version="1.8" href="java.sun.com/products/autodl/j2se" java-vm-args="-Djava.ne.preferIPv4Stack=true"/>
+	<j2se version="1.7+" href="java.oracle.com/products/autodl/j2se"/>
 	<jar href="Excel_IPs.jar"/>
       </resources>
       <security>
