@@ -1,0 +1,13 @@
+<jnlp spec="1.0+" codebase="http://alexfortis.github.io/Excel_IPs" href="Excel_IPs.jnlp">
+      <information>
+	<title>Excel IPs</title>
+	<vendor>Alex Strong</vendor>
+	<description></description>
+	<offline-allowed/>
+      </information>
+      <resources>
+	<j2se version="1.8.0+" href="java.sun.com/products/autodl/j2se" java-vm-args="-Djava.ne.preferIPv4Stack=true"/>
+	<jar href="Excel_IPs.jar"/>
+      </resources>
+      <application-desc main-class="com.alexstrong.excel_ips.ExcelDriver"/>
+</jnlp>
