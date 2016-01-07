@@ -1,4 +1,4 @@
-<jnlp spec="1.0+" codebase="http://alexfortis.github.io/GoFish" href="gofish.jnlp">
+<jnlp spec="1.0+" codebase="https://alexfortis.github.io/GoFish" href="gofish.jnlp">
       <information>
 	<title>Go Fish</title>
 	<vendor>Alex Strong</vendor>

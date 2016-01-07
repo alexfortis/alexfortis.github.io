@@ -1,4 +1,4 @@
-<jnlp spec="1.0+" codebase="http://alexfortis.github.io/EulerApprox" href="eulerapprox.jnlp">
+<jnlp spec="1.0+" codebase="https://alexfortis.github.io/EulerApprox" href="eulerapprox.jnlp">
       <information>
         <title>Euler Approximation</title>
         <vendor>Alex Strong</vendor>
