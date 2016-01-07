@@ -8,9 +8,9 @@
       <resources>
 	<j2se version="1.8+" href="java.oracle.com/products/autodl/j2se"/>
 	<jar href="Excel_IPs.jar"/>
-	<jar href="../ApachePOI/poi-3.12-20150511.jar"/>
-	<jar href="../ApachePOI/poi-ooxml-20150511.jar"/>
-	<jar href="../ApachePOI/poi-ooxml-schemas-20150511.jar"/>
+	<jar href="../ApachePOI/POI.jar"/>
+	<jar href="../ApachePOI/ooxml.jar"/>
+	<jar href="../ApachePOI/ooxml-schemas.jar"/>
       </resources>
       <security>
 	<all-permissions/>
