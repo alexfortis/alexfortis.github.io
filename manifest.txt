@@ -1,0 +1,3 @@
+Permissions: all-permissions
+Codebase: https://alexfortis.github.io
+Application-Name: Excel_IPs
