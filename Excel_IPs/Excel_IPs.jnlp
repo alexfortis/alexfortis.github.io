@@ -6,7 +6,7 @@
 	<offline-allowed/>
       </information>
       <resources>
-	<j2se version="1.8+" href="java.oracle.com/products/autodl/j2se"/>
+	<j2se version="1.8.0_45+" href="java.oracle.com/products/autodl/j2se"/>
 	<jar href="Excel_IPs.jar"/>
 	<jar href="../ApachePOI/POI.jar"/>
 	<jar href="../ApachePOI/ooxml.jar"/>
