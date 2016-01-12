@@ -19,7 +19,7 @@
 	<jar href="../ApachePOI/saxon8.jar"/>
 	<jar href="../ApachePOI/commons-codec-1.9.jar"/>
 	<jar href="../ApachePOI/commons-logging-1.1.3.jar"/>
-	<jar href="../ApachePOI/junit-4.1.2.jar"/>
+	<jar href="../ApachePOI/junit-4.12.jar"/>
 	<jar href="../ApachePOI/log4j-1.2.17.jar"/>
       </resources>
       <security>
