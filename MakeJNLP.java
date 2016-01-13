@@ -17,7 +17,7 @@ public class MakeJNLP {
 	    String manifest = "manifest.txt";
 	    File folder = new File(f.getPath()+"/Excel_IPs/libs");
 	    PrintStream jnlpStream = new PrintStream(jnlp), scriptStream = new PrintStream(script);
-	    jnlpStream.println("<jnlp spec=\"1.0+\" codebase=\"https://alexfortis.github.io/Excel_IPs\" href=\"" + jnlp.getName() + "\">");
+	    jnlpStream.println("<jnlp spec=\"1.0+\" codebase=\"https://alexfortis.github.io/Excel_IPs\" href=\"" + jnlp.getName() + " " + " java-vm-args=\"-Djava.net.preferIPv4Stack=true\">");
 	    jnlpStream.println("\t<information>");
 	    jnlpStream.println("\t\t<title>Excel IPs</title>");
 	    jnlpStream.println("\t\t<vendor>Alex Strong</vendor>");
