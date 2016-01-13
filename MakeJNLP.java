@@ -41,7 +41,7 @@ public class MakeJNLP {
 		scriptStream.println(signJar);
 	    }
 	    jnlpStream.println("\t</resources>");
-	    jnlpStream.println("\t<security\n\t\t<all-permissions/>\n\t</security>");
+	    jnlpStream.println("\t<security>\n\t\t<all-permissions/>\n\t</security>");
 	    jnlpStream.println("\t<application-desc main-class=\"com.alexstrong.excel_ips.ExcelDriver\"/>");
 	    jnlpStream.println("</jnlp>");
 	    //System.out.println("Done.");

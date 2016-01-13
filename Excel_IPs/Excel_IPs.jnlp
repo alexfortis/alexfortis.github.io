@@ -49,7 +49,7 @@
 		<jar href="libs/saxon8.jar"/>
 		<jar href="libs/xmlbeans-2.6.0.jar"/>
 	</resources>
-	<security
+	<security>
 		<all-permissions/>
 	</security>
 	<application-desc main-class="com.alexstrong.excel_ips.ExcelDriver"/>
