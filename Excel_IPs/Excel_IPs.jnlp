@@ -6,6 +6,7 @@
 		<offline-allowed/>
 	</information>
 	<resources>
+		<j2se version="1.8+" href="java.oracle.com/products/autodl/j2se" java-vm-args="Djava.net.preferIPv4Stack=true"/>
 		<jar href="libs/ant-antlr.jar"/>
 		<jar href="libs/ant-apache-bcel.jar"/>
 		<jar href="libs/ant-apache-bsf.jar"/>
