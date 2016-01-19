@@ -1,4 +1,4 @@
-<jnlp spec="1.0+" codebase="https://alexfortis.github.io/Excel_IPs" href="Excel_IPs.jnlp" java-vm-args="-Djava.net.preferIPv4Stack=true">
+<jnlp spec="1.0+" codebase="https://alexfortis.github.io/Excel_IPs" href="Excel_IPs.jnlp"/>
 	<information>
 		<title>Excel IPs</title>
 		<vendor>Alex Strong</vendor>
@@ -6,7 +6,7 @@
 		<offline-allowed/>
 	</information>
 	<resources>
-		<j2se version="1.8+" href="java.oracle.com/products/autodl/j2se" java-vm-args="Djava.net.preferIPv4Stack=true"/>
+		<j2se version="1.8+" href="java.oracle.com/products/autodl/j2se" java-vm-args="-Djava.net.preferIPv4Stack=true"/>
 		<jar href="libs/ant-antlr.jar"/>
 		<jar href="libs/ant-apache-bcel.jar"/>
 		<jar href="libs/ant-apache-bsf.jar"/>
