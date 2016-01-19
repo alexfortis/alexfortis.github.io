@@ -1,4 +1,4 @@
-<jnlp spec="1.0+" codebase="https://alexfortis.github.io/Excel_IPs" href="Excel_IPs.jnlp"/>
+<jnlp spec="1.0+" codebase="https://alexfortis.github.io/Excel_IPs" href="Excel_IPs.jnlp">
   <information>
     <title>Excel IPs</title>
     <vendor>Alex Strong</vendor>
