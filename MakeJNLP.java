@@ -27,6 +27,7 @@ public class MakeJNLP {
 	    JarFilter jf = new JarFilter();
 	    jnlpStream.println("  <resources>");
 	    jnlpStream.println("    <j2se version=\"1.8+\" href=\"java.oracle.com/products/autodl/j2se\" java-vm-args=\"-Djava.net.preferIPv4Stack=true\"/>");
+	    jnlpStream.println("<jar href=\"Excel_IPs_JWS.jar\"/>");
 	    File[] jars = folder.listFiles(jf);
 	    String[] names = new String[jars.length];
 	    //System.out.println("Processing files...");
