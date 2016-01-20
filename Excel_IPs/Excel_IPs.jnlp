@@ -58,6 +58,9 @@
     <jar href="libs/xmlpublic.jar"/>
     <jar href="libs/microsoftschemas.jar"/>
     <jar href="libs/openxmlformats.jar"/>
+    <jar href="libs/excelSchemas.jar"/>
+    <jar href="libs/officeSchemas.jar"/>
+    <jar href="libs/vml.jar"/>
   </resources>
   <security>
     <all-permissions/>
