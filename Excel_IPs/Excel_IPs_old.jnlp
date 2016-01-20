@@ -1,0 +1,30 @@
+<jnlp spec="1.0+" codebase="https://alexfortis.github.io/Excel_IPs" href="Excel_IPs.jnlp">
+      <information>
+	<title>Excel IPs</title>
+	<vendor>Alex Strong</vendor>
+	<description></description>
+	<offline-allowed/>
+      </information>
+      <resources>
+	<j2se version="1.8.0_45+" href="java.oracle.com/products/autodl/j2se"/>
+	<jar href="Excel_IPs_JWS.jar"/>
+	<jar href="../ApachePOI/POI.jar"/>
+	<jar href="../ApachePOI/ooxml-schemas.jar"/>
+	<jar href="../ApachePOI/ooxml.jar"/>
+	<jar href="../ApachePOI/saxon8-dom.jar"/>
+	<jar href="../ApachePOI/saxon8-jdom.jar"/>
+	<jar href="../ApachePOI/saxon8-sql.jar"/>
+	<jar href="../ApachePOI/saxon8-xom.jar"/>
+	<jar href="../ApachePOI/saxon8-xpath.jar"/>
+	<jar href="../ApachePOI/saxon8.jar"/>
+	<jar href="../ApachePOI/commons-codec-1.9.jar"/>
+	<jar href="../ApachePOI/commons-logging-1.1.3.jar"/>
+	<jar href="../ApachePOI/junit-4.12.jar"/>
+	<jar href="../ApachePOI/log4j-1.2.17.jar"/>
+	<jar href="../ApachePOI/xmlbeans.jar"/>
+      </resources>
+      <security>
+	<all-permissions/>
+      </security>
+      <application-desc main-class="com.alexstrong.excel_ips.ExcelDriver"/>
+</jnlp>
