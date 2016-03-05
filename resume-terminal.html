@@ -30,9 +30,11 @@
 	</div>
   </head>
 <body>
-	<div id="terminal" style="width:100vw;height:90vh;background-color:black;overflow-y:auto">
+	<script>
+		document.body.style.overflow="hidden";
+	</script>
+	<div id="terminal" style="width:100vw;height:95vh;background-color:black;overflow-y:auto">
 		<script>
-			document.body.style.overflow="hidden";
 			//TODO: make cd and cat commands actually do something... or do I even need cat? yes, for job experience
 			//TODO: add pwd
 			//TODO: organize the resume data into objects and stuff
@@ -40,15 +42,39 @@
 			var numCmds = 0;
 			var cmds = [];
 			var outs = [];
-			var bing = {name: "Binghamton University"};
-			var bxsci = {name: "Bronx High School of Science"};
-			var jyard = {name: "The Juilliard School, Pre-College Division"};
-			var education = {name: "Education", contents: [bing, bxsci, jyard]};
-			var skills = {name: "Skills"};
-			var topLevel = [education, skills];
-			var currLevel = topLevel;
+			var bing = {
+				name: "Binghamton University",
+				catput: "Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017\nGPA: 3.54/4.00\nIBM/Watson Fellows Scholar, each fall since 2013\nUpsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015\nPi Mu Epsilon honor society member since April 2015\nCS Courses:\n\tCurrent: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)\n\tPast: CS140 (intro to OOP), CS240 (data structures and algorithms), CS320 (advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)\nMath Courses:\n\tCurrent: MATH404 (Advanced Linear Algebra)\n\tPast: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
+				lines: 16
+			};
+			var bxsci = {name: "Bronx High School of Science", time: "9/2009-6/2013", catput: "Treasurer of Latin Club"};
+			var jyard = {name: "The Juilliard School, Pre-College Division", time: "9/2009-5/2013"};
 			var rootDir = "resume";
-			var currDir = rootDir;
+			var strongLanguages = {name: "Strong", catput: "Java, C++, C"};
+			var familiarLanguages = {name: "Familiar", caput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript"};
+			var languages = {name: "Programming Languages", strong: strongLanguages, familiar: familiarLanguages, catput: "cat: Programming Languages: Is a directory"};
+			var software = {name: "Important Software", catput: "Emacs, Eclipse, Git, UNIX Terminal"};
+			var otherSkills = "Latin; vibraphone (and other percussion), piano, electric bass; composing, arranging, Sibelius 5, Sibelius 7";
+			var OS = "Mac OS X, Linux (Ubuntu, Debian), Windows";
+			var fileStructure = {
+				name: rootDir,
+				contents: [
+					{
+						name: "Education",
+						contents: [bing, bxsci, jyard],
+						catput: "cat: Education: Is a directory", 
+						lines: 1, 
+						parent: fileStructure
+					},
+					{
+						name: "Skills", contents: [languages, OS, software, otherSkills], lines: 1, catput: "cat: Skills: Is a directory", parent: fileStructure
+					},
+					{
+						name: "Experiences", catput: "cat: Experiences: Is a directory", lines: 1, parent: fileStructure
+					}
+				]
+			};
+			var currDir = fileStructure;
 
 			//found this here: http://www.javascripter.net/faq/browsern.htm
 			function getAppName() {
@@ -119,21 +145,20 @@
 			var app = getAppName(); //not going to change, so why go through that method more than once?
 
 			function getPrompt() {
-				return app + ":alexfortis.github.io " + currDir + "$ ";
+				return app + ":alexfortis.github.io " + currDir.name + "$ ";
 			}
+			var prompt = getPrompt();
+			var promptBox = document.getElementById("prompt");
+			//promptBox.innerHTML = prompt;
 
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
    				if(code == 13) { //Enter keycode
-   					//alert(getPrompt());
-   					//alert(navigator.appName);
-   					var stuff = getPrompt();
-   					//alert(stuff);
 					var cmd = document.getElementById("cmd");
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
-					old.innerHTML += "<textarea font=\"courier\" readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+					old.innerHTML += "<textarea readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
@@ -150,15 +175,52 @@
 							lastOut.value += "\n\thelp:\t\t\tshow this help dialog";
 						}
 						else if(cmd.value == "ls") {
-							lastOut.rows = currLevel.length;
-							if(currLevel.length > 0) lastOut.value += "\t" + currLevel[0].name;
-							for(var count = 1; count < currLevel.length; count++) {
-								lastOut.value += "\n\t" + currLevel[count].name;
+							lastOut.rows = currDir.contents.length;
+							lastOut.value = "\t" + currDir.contents[0].name;
+							for(var i = 1; i < currDir.contents.length; i++) {
+								lastOut.value += "\n\t" + currDir.contents[i].name;
 							}
+						}
+						else if(cmd.value.substring(0,2) == "ls") {
+							lastOut.rows = 1;
+							lastOut.value = "Not yet implemented"
 						}
 						else if(cmd.value.substring(0,3) == "cat") {
 							lastOut.rows = 1;
-							lastOut.value = "\tcat: not yet implemented";
+							var fileName = cmd.value.substring(4);
+							var dir = currDir;
+							var path = fileName.split("/");
+							var out = "Could not find file: "+fileName+"."
+							if(path.length > 0) {
+								//alert("Looking for: " + fileName);
+								for(var i = 0; i < path.length-1; i++) {
+									var prev = dir;
+									if(dir.contents != undefined) {
+										//alert("Is a directory");
+										for(var j = 0; j < dir.contents.length; j++) {
+											//alert(dir.contents[j].name + " == " + path[i] + "?");
+											if(dir.contents[j].name === path[i]) {
+												//alert("Found it: " + path[i]);
+												dir = dir.contents[j];
+												break;
+											}
+										}
+									}
+									if(prev === dir) {
+										alert("Nope.");
+										break;
+									}
+								}
+								for(var i = 0; i < dir.contents.length; i++) {
+									//alert(dir.contents[i].name + " == " + path[path.length-1] + "?");
+									if(dir.contents[i].name == path[path.length-1]) {
+										out = dir.contents[i].catput;
+										lastOut.rows = dir.contents[i].lines;
+										break;
+									}
+								}
+							}
+							lastOut.value = out;
 						}
 						else {
 							lastOut.rows = 1;
@@ -170,7 +232,10 @@
 						window.open("resume.html", "_blank");
 					}
 					else {
-						alert("cd: not yet implemented");
+						if(cmd.value == "cd" || cmd.value == "cd ~") {
+							currDir = fileStructure;
+						}
+						else alert("cd: not yet implemented");
 					}
 					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
@@ -190,8 +255,8 @@
 			}
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<textarea font="courier" autofocus align="left" id="cmd" style="background-color:black;color:#00ff00;width:100vw;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)">
-		</textarea>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)">
+		</textarea><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 </body>
 </html>
