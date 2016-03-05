@@ -73,6 +73,10 @@
 								lastOut.value += "\n\t" + currLevel[count].name;
 							}
 						}
+						else if(cmd.value.substring(0,3) == "cat") {
+							lastOut.rows = 1;
+							lastOut.value = "\tcat: not yet implemented";
+						}
 						else {
 							lastOut.rows = 1;
 							lastOut.value = "Unknown command: " + cmd.value + ". Try again."
