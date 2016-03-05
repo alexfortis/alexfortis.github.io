@@ -20,35 +20,82 @@
 	</div>
       </div>
     </nav>
-    <h2><br></h2>
     <style type="text/css">
     	textarea { border: none; }
 	</style>
   </head>
 <body>
-	<div id="instructions" style="width:100vw;background-color:black">
-		<p style="color:#00ff00;font-family:Courier New">Type "help" to see a list of commands.</p></div>
-	<div id="terminal" style="width:100vw;height:100vh;background-color:black">
+	<div id="instructions" style="width:100vw;height:10vh;background-color:black"><br><br><br>
+		<p style="color:#00ff00;font-family:Courier New"><br>This is my resume page. Type "help" to see a list of commands.</p></div>
+	<div id="terminal" style="width:100vw;height:90vh;background-color:black">
 		<script>
+			document.body.style.overflow="hidden";
 			//TODO: make the commands actually do something
 			//TODO: organize the resume data into objects and stuff
+			//TODO: make a shell prompt
 			var numCmds = 0;
 			var cmds = [];
+			var outs = [];
+			var bing = {name: "Binghamton University"};
+			var bxsci = {name: "Bronx High School of Science"};
+			var jyard = {name: "The Juilliard School, Pre-College Division"};
+			var education = {name: "Education", contents: [bing, bxsci, jyard]};
+			var skills = {name: "Skills"};
+			var topLevel = [education, skills];
+			var currLevel = topLevel;
 			function processKey(e, textarea) {
-				//alert("hi");
 				var code = (e.keyCode ? e.keyCode : e.which);
    				if(code == 13) { //Enter keycode
 					var cmd = document.getElementById("cmd");
-					alert(cmd.value);
+					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
-					//cmd.value = "Command: " + cmd.value;
 					old.innerHTML += "<textarea font=\"courier\" readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
+					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
+						old.innerHTML += "<textarea font=\"courier\" readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+						var lastOut = document.getElementById("output"+numCmds);
+						kids = old.childNodes;
+						if(cmd.value == "help") {
+							lastOut.rows = 5;
+							lastOut.value = "\tls:\t\t\tlist all files and directories in this directory";
+							lastOut.value += "\n\tcd [directory_name]:\tchange to the given directory";
+							lastOut.value += "\n\tview:\t\t\tview my resume in a nice format";
+							lastOut.value += "\n\tcat [filename]:\t\tprint the contents of a given file"
+							lastOut.value += "\n\thelp:\t\t\tshow this help dialog";
+						}
+						else if(cmd.value == "ls") {
+							lastOut.rows = currLevel.length;
+							if(currLevel.length > 0) lastOut.value += "\t" + currLevel[0].name;
+							for(var count = 1; count < currLevel.length; count++) {
+								lastOut.value += "\n\t" + currLevel[count].name;
+							}
+						}
+						else {
+							lastOut.rows = 1;
+							lastOut.value = "Unknown command: " + cmd.value + ". Try again."
+						}
+						outs[outs.length]=lastOut.value;
+					}
+					else if(cmd.value == "view") {
+						window.open("resume.html", "_blank");
+					}
+					else {
+						alert("cd: not yet implemented");
+					}
+					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
-						kids[i].value = cmds[i];
+						if(kids[i].id.substring(0,6) == "output") {
+							kids[i].value = outs[j];
+							j++;
+						}
+						else if(kids[i].id.substring(0,3) == "cmd") {
+							kids[i].rows = 1;
+							kids[i].value = cmds[k];
+							k++;
+						}
 					}
 					cmd.value = "";
 					numCmds++;
@@ -56,7 +103,7 @@
 			}
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<textarea font="courier" autofocus align="left" id="cmd" style="background-color:black;color:#00ff00;width:100vw;font-family:Courier New" onKeyPress="processKey(event, this)">
+		<textarea font="courier" autofocus align="left" id="cmd" style="background-color:black;color:#00ff00;width:100vw;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)">
 		</textarea>
 	</div>
 </body>
