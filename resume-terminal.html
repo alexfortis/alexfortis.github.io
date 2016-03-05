@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<div style="background-color:black">
     <link href="favicon.ico" rel="shortcut icon">
     <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
     <link href="treeStuff.css" rel="stylesheet">
@@ -9,7 +10,7 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="index.html"><img src="alexstrong.jpg" style="width:30px;height:30px;display:inline"></img>&nbsp;Alexander Strong</a>
         </div>
-	<div id="navbar" class="collapse navbar-collapse">
+	<div id="navbar" class="collapse navbar-collapse" style="background-color:black">
 	  <ul class="nav navbar-nav">
 	    <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About Me</a></li>
@@ -23,14 +24,16 @@
     <style type="text/css">
     	textarea { border: none; }
 	</style>
+	<br><br><br><br><br>
+	<div id="instructions" style="background-color:black">
+		<p style="color:#00ff00;font-family:Courier New">This is my resume page. Type "help" to see a list of commands.</p></div>
+	</div>
   </head>
 <body>
-	<div id="instructions" style="width:100vw;height:10vh;background-color:black"><br><br><br>
-		<p style="color:#00ff00;font-family:Courier New"><br>This is my resume page. Type "help" to see a list of commands.</p></div>
-	<div id="terminal" style="width:100vw;height:90vh;background-color:black">
+	<div id="terminal" style="width:100vw;height:90vh;background-color:black;overflow-y:auto">
 		<script>
 			document.body.style.overflow="hidden";
-			//TODO: make the commands actually do something
+			//TODO: make cd and cat commands actually do something... or do I even need cat? yes, for job experience
 			//TODO: organize the resume data into objects and stuff
 			//TODO: make a shell prompt
 			var numCmds = 0;
@@ -43,9 +46,88 @@
 			var skills = {name: "Skills"};
 			var topLevel = [education, skills];
 			var currLevel = topLevel;
+			var rootDir = "resume";
+			var currDir = rootDir;
+
+			//found this here: http://www.javascripter.net/faq/browsern.htm
+			function getAppName() {
+				var nVer = navigator.appVersion;
+				var nAgt = navigator.userAgent;
+				var browserName  = navigator.appName;
+				var fullVersion  = ''+parseFloat(navigator.appVersion); 
+				var majorVersion = parseInt(navigator.appVersion,10);
+				var nameOffset,verOffset,ix;
+
+				// In Opera 15+, the true version is after "OPR/" 
+				if ((verOffset=nAgt.indexOf("OPR/"))!=-1) {
+				 browserName = "Opera";
+				 fullVersion = nAgt.substring(verOffset+4);
+				}
+				// In older Opera, the true version is after "Opera" or after "Version"
+				else if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
+				 browserName = "Opera";
+				 fullVersion = nAgt.substring(verOffset+6);
+				 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+				   fullVersion = nAgt.substring(verOffset+8);
+				}
+				// In MSIE, the true version is after "MSIE" in userAgent
+				else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
+				 browserName = "Microsoft Internet Explorer";
+				 fullVersion = nAgt.substring(verOffset+5);
+				}
+				// In Chrome, the true version is after "Chrome" 
+				else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
+				 browserName = "Chrome";
+				 fullVersion = nAgt.substring(verOffset+7);
+				}
+				// In Safari, the true version is after "Safari" or after "Version" 
+				else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
+				 browserName = "Safari";
+				 fullVersion = nAgt.substring(verOffset+7);
+				 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+				   fullVersion = nAgt.substring(verOffset+8);
+				}
+				// In Firefox, the true version is after "Firefox" 
+				else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
+				 browserName = "Firefox";
+				 fullVersion = nAgt.substring(verOffset+8);
+				}
+				// In most other browsers, "name/version" is at the end of userAgent 
+				else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
+				          (verOffset=nAgt.lastIndexOf('/')) ) 
+				{
+				 browserName = nAgt.substring(nameOffset,verOffset);
+				 fullVersion = nAgt.substring(verOffset+1);
+				 if (browserName.toLowerCase()==browserName.toUpperCase()) {
+				  browserName = navigator.appName;
+				 }
+				}
+				// trim the fullVersion string at semicolon/space if present
+				if ((ix=fullVersion.indexOf(";"))!=-1)
+				   fullVersion=fullVersion.substring(0,ix);
+				if ((ix=fullVersion.indexOf(" "))!=-1)
+				   fullVersion=fullVersion.substring(0,ix);
+
+				majorVersion = parseInt(''+fullVersion,10);
+				if (isNaN(majorVersion)) {
+				 fullVersion  = ''+parseFloat(navigator.appVersion); 
+				 majorVersion = parseInt(navigator.appVersion,10);
+				}
+				return browserName;
+			}
+			var app = getAppName(); //not going to change, so why go through that method more than once?
+
+			function getPrompt() {
+				return app + ":alexfortis.github.io " + currDir + "$ ";
+			}
+
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
    				if(code == 13) { //Enter keycode
+   					//alert(getPrompt());
+   					//alert(navigator.appName);
+   					var stuff = getPrompt();
+   					//alert(stuff);
 					var cmd = document.getElementById("cmd");
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
