@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
+    <link href="treeStuff.css" rel="stylesheet">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html"><img src="alexstrong.jpg" style="width:30px;height:30px;display:inline"></img>&nbsp;Alexander Strong</a>
+        </div>
+	<div id="navbar" class="collapse navbar-collapse">
+	  <ul class="nav navbar-nav">
+	    <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Me</a></li>
+	    <li><a href="programs.html">Programs</a></li>
+	    <li><a href="music.html">Music</a></li>
+	    <li class="active"><a href="resume.html">Resume</a></li>
+	  </ul>
+	</div>
+      </div>
+    </nav>
+    <h2><br></h2>
+    <style type="text/css">
+    	textarea { border: none; }
+	</style>
+  </head>
+<body>
+	<div id="instructions" style="width:100vw;background-color:black">
+		<p style="color:#00ff00;font-family:Courier New">Type "help" to see a list of commands.</p></div>
+	<div id="terminal" style="width:100vw;height:100vh;background-color:black">
+		<script>
+			//TODO: make the commands actually do something
+			//TODO: organize the resume data into objects and stuff
+			var numCmds = 0;
+			var cmds = [];
+			function processKey(e, textarea) {
+				//alert("hi");
+				var code = (e.keyCode ? e.keyCode : e.which);
+   				if(code == 13) { //Enter keycode
+					var cmd = document.getElementById("cmd");
+					alert(cmd.value);
+					var term = document.getElementById("terminal");
+					var old = document.getElementById("old");
+					//cmd.value = "Command: " + cmd.value;
+					old.innerHTML += "<textarea font=\"courier\" readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+					var prevCmd = document.getElementById("cmd"+numCmds);
+					var kids = old.childNodes;
+					cmds[cmds.length] = cmd.value;
+					for(var i = 0; i < kids.length; i++) {
+						kids[i].value = cmds[i];
+					}
+					cmd.value = "";
+					numCmds++;
+ 				}
+			}
+		</script>
+		<div id="old" style="width:100vw;background-color:black"></div>
+		<textarea font="courier" autofocus align="left" id="cmd" style="background-color:black;color:#00ff00;width:100vw;font-family:Courier New" onKeyPress="processKey(event, this)">
+		</textarea>
+	</div>
+</body>
+</html>
