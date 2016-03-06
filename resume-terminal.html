@@ -162,9 +162,40 @@
 			var promptBox = document.getElementById("prompt");
 			//promptBox.innerHTML = prompt;
 
+			function cleanUp(fileName) {
+				fileName = fileName.trim();
+				alert(fileName);
+				var dirs = fileName.split("/");
+				var newDirs = new Array();
+				var ret = fileName;
+				if(dirs.length > 0) {
+					for(var i = 0; i < dirs.length; i++) {
+						if(dirs[i] !== ".") {
+							if(dirs[i] === "..") {
+								newDirs.pop();
+							}
+							else {
+								newDirs.push(dirs[i]);
+							}
+						}
+					}
+					if(newDirs.length > 0) {
+						ret = newDirs[0];
+						for(var i = 1; i < newDirs.length; i++) {
+							ret += newDirs[i];
+						}
+						alert(ret);
+					}
+					else {
+						ret = "";
+					}
+				}
+				return ret;
+			}
+
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
-   				if(code == 13) { //Enter keycode
+   				if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
 					var cmd = document.getElementById("cmd");
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
@@ -197,15 +228,20 @@
 							lastOut.rows = 1;
 							var fileName = cmd.value.substring(3);
 							var dir = currDir;
-							var path = fileName.split("/");
+							var path = cleanUp(fileName).split("/");
 							var out = "No such directory.";
 							if(path.length > 0) {
 								for(var i = 0; i < path.length; i++) {
 									if(dir.contents != undefined) {
-										//alert("is a dir");
+										alert("is a dir");
 										for(var j = 0; j < dir.contents.length; j++) {
-											if(dir.contents[j].name === path[i]) {
-												//alert(dir.contents[j].name + " === " + path[i] + "?");
+											if(path[i] == "..") {
+												alert("going to parentFolder of " + dir.name);
+												dir = dir.parentFolder;
+											}
+											else if(path[i] == ".");
+											else if(dir.contents[j].name === path[i]) {
+												alert(dir.contents[j].name + " === " + path[i] + "?");
 												dir = dir.contents[j];
 												break;
 											}
@@ -229,8 +265,9 @@
 						else if(cmd.value.substring(0,3) === "cat") {
 							lastOut.rows = 1;
 							var fileName = cmd.value.substring(4);
+							var clean = cleanUp(fileName);
 							var dir = currDir;
-							var path = fileName.split("/");
+							var path = clean.split("/");
 							var out = "Could not find file: "+fileName+"."
 							if(path.length > 0) {
 								//alert("Looking for: " + fileName);
@@ -238,20 +275,14 @@
 									//alert(dir.name);
 									alert(path[i]);
 									var prev = dir;
-									if(path[i] === "..") {
-										dir = dir.parentFolder;
-									}
-									else if(path[i] === ".") {
-
-									}
-									else if(dir.contents != undefined) {
+									if(dir.contents != undefined) {
 										//alert("Is a directory");
 										for(var j = 0; j < dir.contents.length; j++) {
-											alert(dir.contents[j].name + " == " + path[i] + "?");
+											//alert(dir.contents[j].name + " == " + path[i] + "?");
 											if(dir.contents[j].name === path[i]) {
 												//alert("Found it: " + path[i]);
 												dir = dir.contents[j];
-												alert(dir.name);
+												//alert(dir.name);
 												break;
 											}
 										}
@@ -301,6 +332,23 @@
 					}
 					cmd.value = "";
 					numCmds++;
+ 				}
+ 				else if(code == 13) {
+ 					var old = document.getElementById("old");
+ 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New\" rows=1>"+"</textarea></td></tr></table>"
+ 					var kids = old.childNodes;
+ 					var j = 0, k = 0;
+					for(var i = 0; i < kids.length; i++) {
+						if(kids[i].id.substring(0,6) == "output") {
+							kids[i].value = outs[j];
+							j++;
+						}
+						else if(kids[i].id.substring(0,3) == "cmd") {
+							kids[i].rows = 1;
+							kids[i].value = cmds[k];
+							k++;
+						}
+					}
  				}
 			}
 		</script>
