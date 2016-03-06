@@ -195,7 +195,36 @@
 						}
 						else if(cmd.value.substring(0,2) === "ls") {
 							lastOut.rows = 1;
-							lastOut.value = "Not yet implemented"
+							var fileName = cmd.value.substring(3);
+							var dir = currDir;
+							var path = fileName.split("/");
+							var out = "No such directory.";
+							if(path.length > 0) {
+								for(var i = 0; i < path.length; i++) {
+									if(dir.contents != undefined) {
+										//alert("is a dir");
+										for(var j = 0; j < dir.contents.length; j++) {
+											if(dir.contents[j].name === path[i]) {
+												//alert(dir.contents[j].name + " === " + path[i] + "?");
+												dir = dir.contents[j];
+												break;
+											}
+										}
+									}
+									else break;
+								}
+								if(dir.contents != undefined) {
+									out = "";
+									if(dir.contents.length > 0) {
+										out = "\t" + dir.contents[0].name;
+										for(var i = 1; i < dir.contents.length; i++) {
+											out += "\n\t" + dir.contents[i].name;
+											lastOut.rows++;
+										}
+									}
+								}
+							}
+							lastOut.value = out;
 						}
 						else if(cmd.value.substring(0,3) === "cat") {
 							lastOut.rows = 1;
@@ -207,18 +236,22 @@
 								//alert("Looking for: " + fileName);
 								for(var i = 0; i < path.length-1; i++) {
 									//alert(dir.name);
+									alert(path[i]);
 									var prev = dir;
 									if(path[i] === "..") {
 										dir = dir.parentFolder;
 									}
-									else if(path[i] === ".") {}
+									else if(path[i] === ".") {
+
+									}
 									else if(dir.contents != undefined) {
 										//alert("Is a directory");
 										for(var j = 0; j < dir.contents.length; j++) {
-											//alert(dir.contents[j].name + " == " + path[i] + "?");
+											alert(dir.contents[j].name + " == " + path[i] + "?");
 											if(dir.contents[j].name === path[i]) {
 												//alert("Found it: " + path[i]);
 												dir = dir.contents[j];
+												alert(dir.name);
 												break;
 											}
 										}
