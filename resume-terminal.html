@@ -43,15 +43,15 @@
 			var cmds = [];
 			var outs = [];
 			var bing = {
-				name: "Binghamton University",
-				catput: "Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017\nGPA: 3.54/4.00\nIBM/Watson Fellows Scholar, each fall since 2013\nUpsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015\nPi Mu Epsilon honor society member since April 2015\nCS Courses:\n\tCurrent: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)\n\tPast: CS140 (intro to OOP), CS240 (data structures and algorithms), CS320 (advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)\nMath Courses:\n\tCurrent: MATH404 (Advanced Linear Algebra)\n\tPast: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
+				name: "bing",
+				catput: "Binghamton University (SUNY) - 2013-2017\nBachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017\nGPA: 3.54/4.00\nIBM/Watson Fellows Scholar, each fall since 2013\nUpsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015\nPi Mu Epsilon honor society member since April 2015\nCS Courses:\n\tCurrent: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)\n\tPast: CS140 (intro to OOP), CS240 (data structures and algorithms), CS320 (advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)\nMath Courses:\n\tCurrent: MATH404 (Advanced Linear Algebra)\n\tPast: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
 				lines: 16
 			};
-			var bxsci = {name: "Bronx High School of Science", time: "9/2009-6/2013", catput: "Treasurer of Latin Club"};
-			var jyard = {name: "The Juilliard School, Pre-College Division", time: "9/2009-5/2013"};
+			var bxsci = {name: "bxsci", time: "9/2009-6/2013", catput: "Bronx High School of Science, class of 2013\nqualified for 2013 AIME\nwon the Samuel Greitzer computer science award\nTreasurer of Latin Club; played in the jazz band", lines: 4};
+			var jyard = {name: "juilliard", time: "9/2009-5/2013", catput: "The Juilliard School, Pre-College Division\nStudied composition under Manuel Sosa; took courses in music theory, counterpoint, and ear training", lines: 2};
 			var rootDir = "resume";
 			var strongLanguages = {name: "Strong", catput: "Java, C++, C"};
-			var familiarLanguages = {name: "Familiar", caput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript"};
+			var familiarLanguages = {name: "Familiar", catput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript"};
 			var languages = {name: "Programming Languages", strong: strongLanguages, familiar: familiarLanguages, catput: "cat: Programming Languages: Is a directory"};
 			var software = {name: "Important Software", catput: "Emacs, Eclipse, Git, UNIX Terminal"};
 			var otherSkills = "Latin; vibraphone (and other percussion), piano, electric bass; composing, arranging, Sibelius 5, Sibelius 7";
@@ -64,15 +64,23 @@
 						contents: [bing, bxsci, jyard],
 						catput: "cat: Education: Is a directory", 
 						lines: 1, 
-						parent: fileStructure
+						parentFolder: fileStructure
 					},
 					{
-						name: "Skills", contents: [languages, OS, software, otherSkills], lines: 1, catput: "cat: Skills: Is a directory", parent: fileStructure
+						name: "Skills",
+						contents: [languages, OS, software, otherSkills],
+						lines: 1,
+						catput: "cat: Skills: Is a directory",
+						parentFolder: fileStructure
 					},
 					{
-						name: "Experiences", catput: "cat: Experiences: Is a directory", lines: 1, parent: fileStructure
+						name: "Experiences",
+						catput: "cat: Experiences: Is a directory",
+						lines: 1,
+						parentFolder: fileStructure
 					}
-				]
+				],
+				catput: "cat: " + rootDir + ": Is a directory"
 			};
 			var currDir = fileStructure;
 
@@ -145,7 +153,7 @@
 			var app = getAppName(); //not going to change, so why go through that method more than once?
 
 			function getPrompt() {
-				return app + ":alexfortis.github.io " + currDir.name + "$ ";
+				return app + ":alexfortis.github.io " + currDir.name + "$&nbsp";
 			}
 			var prompt = getPrompt();
 			var promptBox = document.getElementById("prompt");
@@ -158,7 +166,8 @@
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
-					old.innerHTML += "<textarea readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+					//old.innerHTML += "<textarea readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
@@ -181,11 +190,11 @@
 								lastOut.value += "\n\t" + currDir.contents[i].name;
 							}
 						}
-						else if(cmd.value.substring(0,2) == "ls") {
+						else if(cmd.value.substring(0,2) === "ls") {
 							lastOut.rows = 1;
 							lastOut.value = "Not yet implemented"
 						}
-						else if(cmd.value.substring(0,3) == "cat") {
+						else if(cmd.value.substring(0,3) === "cat") {
 							lastOut.rows = 1;
 							var fileName = cmd.value.substring(4);
 							var dir = currDir;
@@ -194,8 +203,13 @@
 							if(path.length > 0) {
 								//alert("Looking for: " + fileName);
 								for(var i = 0; i < path.length-1; i++) {
+									alert(dir.name);
 									var prev = dir;
-									if(dir.contents != undefined) {
+									if(path[i] === "..") {
+										dir = dir.parentFolder;
+									}
+									else if(path[i] === ".") {}
+									else if(dir.contents != undefined) {
 										//alert("Is a directory");
 										for(var j = 0; j < dir.contents.length; j++) {
 											//alert(dir.contents[j].name + " == " + path[i] + "?");
@@ -205,10 +219,10 @@
 												break;
 											}
 										}
-									}
-									if(prev === dir) {
-										alert("Nope.");
-										break;
+										if(prev === dir) {
+											//alert("Nope.");
+											break;
+										}
 									}
 								}
 								for(var i = 0; i < dir.contents.length; i++) {
