@@ -420,8 +420,15 @@
 
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
-   				if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
-					var cmd = document.getElementById("cmd");
+				var cmd = document.getElementById("cmd");
+				if(code == 37) {
+					alert("Up arrow pressed");
+				}
+				else if(code == 39) {
+					alert("Down arrow pressed");
+
+				}
+   				else if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
@@ -682,7 +689,7 @@
 			});
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New;border:none" onKeyPress="processKey(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 </body>
 </html>
