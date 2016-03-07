@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html style="background-color:black">
+<!--TODO: ADD CONTACT INFO-->
 <head>
 	<title>alexfortis.github.io - bash</title>
 	<div style="background-color:black">
@@ -458,7 +459,10 @@
 							var isDir = true;
 							if(path.length > 0) {
 								for(var i = 0; i < path.length; i++) {
-									if(path[i] == "..") {
+									if(i === 0 && path[i] === "~") {
+										dir = tree._root;
+									}
+									else if(path[i] == "..") {
 										if(dir.parent) {
 											dir = dir.parent;
 										}
@@ -500,7 +504,10 @@
 							var isDir = true;
 							if(path.length > 0) {
 								for(var i = 0; i < path.length-1; i++) {
-									if(path[i] == "..") {
+									if(i === 0 && path[i] === "~") {
+										dir = tree._root;
+									}
+									else if(path[i] == "..") {
 										if(dir.parent) {
 											dir = dir.parent;
 										}
@@ -523,7 +530,10 @@
 								}
 								if(isDir) {
 									var theFile = undefined;
-									if(path[path.length-1] === ".") {
+									if(path.length === 1 && path[0] === "~") {
+										theFile = dir.data;
+									}
+									else if(path[path.length-1] === ".") {
 										theFile = dir.data;
 									}
 									else if(path[path.length-1] === "..") {
