@@ -421,14 +421,7 @@
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
 				var cmd = document.getElementById("cmd");
-				if(code == 37) {
-					alert("Up arrow pressed");
-				}
-				else if(code == 39) {
-					alert("Down arrow pressed");
-
-				}
-   				else if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
+   				if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
@@ -661,7 +654,7 @@
 					cmd.value = "";
 					numCmds++;
 					document.getElementById("prompt").innerHTML = prompt;
-					var inputBox = document.getElementById("command");
+					var inputBox = document.getElementById("terminal");
 					var bottom = inputBox.scrollTop;
 					do {
 						bottom = inputBox.scrollTop;
@@ -685,7 +678,7 @@
 							k++;
 						}
 					}
-					var inputBox = document.getElementById("command");
+					var inputBox = document.getElementById("terminal");
 					var bottom = inputBox.scrollTop;
 					do {
 						bottom = inputBox.scrollTop;
