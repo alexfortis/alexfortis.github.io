@@ -566,7 +566,7 @@
 						}
 						else {
 							lastOut.rows = 1;
-							lastOut.value = "Unknown command: " + cmd.value + ". Try again."
+							lastOut.value = "-bash: " + cmd.value.split(" ")[0] + ": command not found"
 						}
 						outs[outs.length]=lastOut.value;
 					}
