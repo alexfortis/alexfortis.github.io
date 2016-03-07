@@ -450,7 +450,7 @@
 								lastOut.value += "\n\t" + currDir.children[i].data.name;
 							}
 						}
-						else if(cmd.value.substring(0,2) === "ls") {
+						else if(cmd.value.substring(0,3) === "ls ") {
 							lastOut.rows = 1;
 							var fileName = cmd.value.substring(3);
 							var dir = currDir;
@@ -495,7 +495,11 @@
 							}
 							lastOut.value = out;
 						}
-						else if(cmd.value.substring(0,3) === "cat") {
+						else if(cmd.value === "cat") {
+							lastOut.rows = 1;
+							lastOut.value = "cat: Please specify the file"
+						}
+						else if(cmd.value.substring(0,4) === "cat ") {
 							lastOut.rows = 1;
 							var fileName = cmd.value.substring(4);
 							var dir = currDir;
@@ -578,7 +582,7 @@
 							currDir = tree._root;
 							prompt = getPrompt();
 						}
-						else {
+						else if(cmd.value.substring(0,3) === "cd ") {
 							var dir = currDir;
 							var newPath = cmd.value.substring(3);
 							var newDirs = newPath.split("/");
@@ -626,6 +630,13 @@
 								currDir = dir;
 								prompt = getPrompt();
 							}
+						}
+						else {
+							old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+							var lastOut = document.getElementById("output"+numCmds);
+							lastOut.value = "-bash: " + cmd.value.split(" ")[0] + ": command not found";
+							outs[outs.length] = lastOut.value;
+							lastOut.rows = 1;
 						}
 					}
 					var j = 0, k = 0;
