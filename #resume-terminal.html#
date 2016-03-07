@@ -381,7 +381,7 @@
 			var app = getAppName(); //not going to change, so why go through that method more than once?
 
 			function getPrompt() {
-				return app + ":alexfortis.github.io " + currDir.data.name + "$&nbsp";
+				return app + ":alexfortis.github.io " + currDir.name + "$&nbsp";
 			}
 			var prompt = getPrompt();
 			var promptBox = document.getElementById("prompt");
@@ -499,6 +499,7 @@
 							var out = "cat: "+fileName+": No such file or directory."
 							var isDir = true;
 							if(path.length > 0) {
+								if(path.length > 0) {
 								for(var i = 0; i < path.length-1; i++) {
 									if(path[i] == "..") {
 										if(dir.parent) {
@@ -531,7 +532,7 @@
 									}
 									else {
 										for(var i = 0; i < dir.children.length; i++) {
-											if(dir.children[i].data.name === path[path.length-1]) {
+											if(dir.children[i].data.name === path(path.length-1)) {
 												theFile = dir.children[i].data;
 												break;
 											}
@@ -554,11 +555,9 @@
 					}
 					else {
 						if(cmd.value == "cd" || cmd.value == "cd ~") {
-							currDir = tree._root;
+							currDir = fileStructure;
 						}
-						else {
-							alert("cd: not yet implemented")
-						}
+						else alert("cd: not yet implemented");
 					}
 					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
@@ -593,7 +592,7 @@
 					}
  				}
 			}
-		//}
+		}
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
 		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)">

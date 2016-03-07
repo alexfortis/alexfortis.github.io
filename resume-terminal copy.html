@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>alexfortis.github.io - bash</title>
+	<script>
+	</script>
+	<div style="background-color:black">
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
+    <link href="treeStuff.css" rel="stylesheet">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html"><img src="alexstrong.jpg" style="width:30px;height:30px;display:inline"></img>&nbsp;Alexander Strong</a>
+        </div>
+	<div id="navbar" class="collapse navbar-collapse">
+	  <ul class="nav navbar-nav">
+	    <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Me</a></li>
+	    <li><a href="programs.html">Programs</a></li>
+	    <li><a href="music.html">Music</a></li>
+	    <li class="active"><a href="resume.html">Resume</a></li>
+	  </ul>
+	</div>
+      </div>
+    </nav>
+    <style type="text/css">
+    	textarea { border: none; }
+	</style>
+	<br><br><br><br><br>
+	<div id="instructions" style="background-color:black">
+		<p style="color:#00ff00;font-family:Courier New">This is my resume page. Type "help" to see a list of commands.</p></div>
+	</div>
+  </head>
+<body>
+	<script>
+		document.body.style.overflow="hidden";
+	</script>
+	<div id="terminal" style="width:100vw;height:95vh;background-color:black;overflow-y:auto">
+		<script>
+			//TODO: make cd and cat commands actually do something... or do I even need cat? yes, for job experience
+			//TODO: add pwd
+			//TODO: organize the resume data into objects and stuff
+			//TODO: make a shell prompt
+			var numCmds = 0;
+			var cmds = [];
+			var outs = [];
+			var bing = {
+				name: "bing",
+				catput: "Binghamton University (SUNY) - 2013-2017\nBachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017\nGPA: 3.54/4.00\nIBM/Watson Fellows Scholar, each fall since 2013\nUpsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015\nPi Mu Epsilon honor society member since April 2015\nCS Courses:\n\tCurrent: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)\n\tPast: CS140 (intro to OOP), CS240 (data structures and algorithms), CS320 (advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)\nMath Courses:\n\tCurrent: MATH404 (Advanced Linear Algebra)\n\tPast: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
+				lines: 16
+			};
+			var bxsci = {name: "bxsci", time: "9/2009-6/2013", catput: "Bronx High School of Science, class of 2013\nqualified for 2013 AIME\nwon the Samuel Greitzer computer science award\nTreasurer of Latin Club; played in the jazz band", lines: 4};
+			var jyard = {name: "juilliard", time: "9/2009-5/2013", catput: "The Juilliard School, Pre-College Division\nStudied composition under Manuel Sosa; took courses in music theory, counterpoint, and ear training", lines: 2};
+			var rootDir = "resume";
+			var strongLanguages = {name: "Strong", catput: "Java, C++, C"};
+			var familiarLanguages = {name: "Familiar", catput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript"};
+			var languages = {name: "Programming Languages", strong: strongLanguages, familiar: familiarLanguages, catput: "cat: Programming Languages: Is a directory"};
+			var software = {name: "Important Software", catput: "Emacs, Eclipse, Git, UNIX Terminal"};
+			var otherSkills = "Latin; vibraphone (and other percussion), piano, electric bass; composing, arranging, Sibelius 5, Sibelius 7";
+			var OS = "Mac OS X, Linux (Ubuntu, Debian), Windows";
+			var fileStructure = {
+				name: rootDir,
+				contents: [
+					{
+						name: "Education",
+						contents: [bing, bxsci, jyard],
+						catput: "cat: Education: Is a directory", 
+						lines: 1, 
+						parentFolder: fileStructure
+					},
+					{
+						name: "Skills",
+						contents: [languages, OS, software, otherSkills],
+						lines: 1,
+						catput: "cat: Skills: Is a directory",
+						parentFolder: fileStructure
+					},
+					{
+						name: "Experiences",
+						catput: "cat: Experiences: Is a directory",
+						lines: 1,
+						parentFolder: fileStructure
+					}
+				],
+				catput: "cat: " + rootDir + ": Is a directory"
+			};
+			var currDir = fileStructure;
+
+			//found this here: http://www.javascripter.net/faq/browsern.htm
+			function getAppName() {
+				var nVer = navigator.appVersion;
+				var nAgt = navigator.userAgent;
+				var browserName  = navigator.appName;
+				var fullVersion  = ''+parseFloat(navigator.appVersion); 
+				var majorVersion = parseInt(navigator.appVersion,10);
+				var nameOffset,verOffset,ix;
+
+				// In Opera 15+, the true version is after "OPR/" 
+				if ((verOffset=nAgt.indexOf("OPR/"))!=-1) {
+				 browserName = "Opera";
+				 fullVersion = nAgt.substring(verOffset+4);
+				}
+				// In older Opera, the true version is after "Opera" or after "Version"
+				else if ((verOffset=nAgt.indexOf("Opera"))!=-1) {
+				 browserName = "Opera";
+				 fullVersion = nAgt.substring(verOffset+6);
+				 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+				   fullVersion = nAgt.substring(verOffset+8);
+				}
+				// In MSIE, the true version is after "MSIE" in userAgent
+				else if ((verOffset=nAgt.indexOf("MSIE"))!=-1) {
+				 browserName = "Microsoft Internet Explorer";
+				 fullVersion = nAgt.substring(verOffset+5);
+				}
+				// In Chrome, the true version is after "Chrome" 
+				else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
+				 browserName = "Chrome";
+				 fullVersion = nAgt.substring(verOffset+7);
+				}
+				// In Safari, the true version is after "Safari" or after "Version" 
+				else if ((verOffset=nAgt.indexOf("Safari"))!=-1) {
+				 browserName = "Safari";
+				 fullVersion = nAgt.substring(verOffset+7);
+				 if ((verOffset=nAgt.indexOf("Version"))!=-1) 
+				   fullVersion = nAgt.substring(verOffset+8);
+				}
+				// In Firefox, the true version is after "Firefox" 
+				else if ((verOffset=nAgt.indexOf("Firefox"))!=-1) {
+				 browserName = "Firefox";
+				 fullVersion = nAgt.substring(verOffset+8);
+				}
+				// In most other browsers, "name/version" is at the end of userAgent 
+				else if ( (nameOffset=nAgt.lastIndexOf(' ')+1) < 
+				          (verOffset=nAgt.lastIndexOf('/')) ) 
+				{
+				 browserName = nAgt.substring(nameOffset,verOffset);
+				 fullVersion = nAgt.substring(verOffset+1);
+				 if (browserName.toLowerCase()==browserName.toUpperCase()) {
+				  browserName = navigator.appName;
+				 }
+				}
+				// trim the fullVersion string at semicolon/space if present
+				if ((ix=fullVersion.indexOf(";"))!=-1)
+				   fullVersion=fullVersion.substring(0,ix);
+				if ((ix=fullVersion.indexOf(" "))!=-1)
+				   fullVersion=fullVersion.substring(0,ix);
+
+				majorVersion = parseInt(''+fullVersion,10);
+				if (isNaN(majorVersion)) {
+				 fullVersion  = ''+parseFloat(navigator.appVersion); 
+				 majorVersion = parseInt(navigator.appVersion,10);
+				}
+				return browserName;
+			}
+			var app = getAppName(); //not going to change, so why go through that method more than once?
+
+			function getPrompt() {
+				return app + ":alexfortis.github.io " + currDir.name + "$&nbsp";
+			}
+			var prompt = getPrompt();
+			var promptBox = document.getElementById("prompt");
+			//promptBox.innerHTML = prompt;
+
+			function cleanUp(fileName) {
+				fileName = fileName.trim();
+				alert(fileName);
+				var dirs = fileName.split("/");
+				var newDirs = new Array();
+				var ret = fileName;
+				if(dirs.length > 0) {
+					for(var i = 0; i < dirs.length; i++) {
+						if(dirs[i] !== ".") {
+							if(dirs[i] === "..") {
+								newDirs.pop();
+							}
+							else {
+								newDirs.push(dirs[i]);
+							}
+						}
+					}
+					if(newDirs.length > 0) {
+						ret = newDirs[0];
+						for(var i = 1; i < newDirs.length; i++) {
+							ret += newDirs[i];
+						}
+						alert(ret);
+					}
+					else {
+						ret = "";
+					}
+				}
+				return ret;
+			}
+
+			function processKey(e, textarea) {
+				var code = (e.keyCode ? e.keyCode : e.which);
+   				if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
+					var cmd = document.getElementById("cmd");
+					cmd.value = cmd.value.trim();
+					var term = document.getElementById("terminal");
+					var old = document.getElementById("old");
+					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+					//old.innerHTML += "<textarea readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+					var prevCmd = document.getElementById("cmd"+numCmds);
+					var kids = old.childNodes;
+					cmds[cmds.length] = cmd.value;
+					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
+						old.innerHTML += "<textarea font=\"courier\" readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+						var lastOut = document.getElementById("output"+numCmds);
+						kids = old.childNodes;
+						if(cmd.value == "help") {
+							lastOut.rows = 5;
+							lastOut.value = "\tls:\t\t\tlist all files and directories in this directory";
+							lastOut.value += "\n\tcd [directory_name]:\tchange to the given directory";
+							lastOut.value += "\n\tview:\t\t\tview my resume in a nicer (read: more traditional) format";
+							lastOut.value += "\n\tcat [filename]:\t\tprint the contents of a given file"
+							lastOut.value += "\n\thelp:\t\t\tshow this help dialog";
+						}
+						else if(cmd.value == "ls") {
+							lastOut.rows = currDir.contents.length;
+							lastOut.value = "\t" + currDir.contents[0].name;
+							for(var i = 1; i < currDir.contents.length; i++) {
+								lastOut.value += "\n\t" + currDir.contents[i].name;
+							}
+						}
+						else if(cmd.value.substring(0,2) === "ls") {
+							lastOut.rows = 1;
+							var fileName = cmd.value.substring(3);
+							var dir = currDir;
+							var path = cleanUp(fileName).split("/");
+							var out = "ls: " + fileName.trim() + ": No such file or directory.";
+							if(path.length > 0) {
+								for(var i = 0; i < path.length; i++) {
+									if(dir.contents != undefined) {
+										//alert("is a dir");
+										for(var j = 0; j < dir.contents.length; j++) {
+											if(path[i] == "..") {
+												..alert("going to parentFolder of " + dir.name);
+												dir = dir.parentFolder;
+											}
+											else if(path[i] == ".");
+											else if(dir.contents[j].name === path[i]) {
+												//alert(dir.contents[j].name + " === " + path[i] + "?");
+												dir = dir.contents[j];
+												break;
+											}
+										}
+									}
+									else break;
+								}
+								if(dir.contents != undefined) {
+									out = "";
+									if(dir.contents.length > 0) {
+										out = "\t" + dir.contents[0].name;
+										for(var i = 1; i < dir.contents.length; i++) {
+											out += "\n\t" + dir.contents[i].name;
+											lastOut.rows++;
+										}
+									}
+								}
+							}
+							lastOut.value = out;
+						}
+						else if(cmd.value.substring(0,3) === "cat") {
+							lastOut.rows = 1;
+							var fileName = cmd.value.substring(4);
+							var clean = cleanUp(fileName);
+							var dir = currDir;
+							var path = clean.split("/");
+							var out = "cat: "+fileName+": No such file or directory."
+							if(path.length > 0) {
+								for(var i = 0; i < path.length; i++) {
+									if(dir.contents != undefined) {
+										alert("is a dir");
+										for(var j = 0; j < dir.contents.length; j++) {
+											if(path[i] == "..") {
+												alert("going to parentFolder of " + dir.name);
+												dir = dir.parentFolder;
+											}
+											else if(path[i] == ".");
+											else if(dir.contents[j].name === path[i]) {
+												alert(dir.contents[j].name + " === " + path[i] + "?");
+												dir = dir.contents[j];
+												break;
+											}
+										}
+									}
+									else break;
+								}
+								for(var i = 0; i < dir.contents.length; i++) {
+									//alert(dir.contents[i].name + " == " + path[path.length-1] + "?");
+									if(dir.contents[i].name == path[path.length-1]) {
+										out = dir.contents[i].catput;
+										lastOut.rows = dir.contents[i].lines;
+										break;
+									}
+								}
+							}
+							lastOut.value = out;
+						}
+						else {
+							lastOut.rows = 1;
+							lastOut.value = "Unknown command: " + cmd.value + ". Try again."
+						}
+						outs[outs.length]=lastOut.value;
+					}
+					else if(cmd.value == "view") {
+						window.open("resume.html", "_blank");
+					}
+					else {
+						if(cmd.value == "cd" || cmd.value == "cd ~") {
+							currDir = fileStructure;
+						}
+						else alert("cd: not yet implemented");
+					}
+					var j = 0, k = 0;
+					for(var i = 0; i < kids.length; i++) {
+						if(kids[i].id.substring(0,6) == "output") {
+							kids[i].value = outs[j];
+							j++;
+						}
+						else if(kids[i].id.substring(0,3) == "cmd") {
+							kids[i].rows = 1;
+							kids[i].value = cmds[k];
+							k++;
+						}
+					}
+					cmd.value = "";
+					numCmds++;
+ 				}
+ 				else if(code == 13) {
+ 					var old = document.getElementById("old");
+ 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New\" rows=1>"+"</textarea></td></tr></table>"
+ 					var kids = old.childNodes;
+ 					var j = 0, k = 0;
+					for(var i = 0; i < kids.length; i++) {
+						if(kids[i].id.substring(0,6) == "output") {
+							kids[i].value = outs[j];
+							j++;
+						}
+						else if(kids[i].id.substring(0,3) == "cmd") {
+							kids[i].rows = 1;
+							kids[i].value = cmds[k];
+							k++;
+						}
+					}
+ 				}
+			}
+		</script>
+		<div id="old" style="width:100vw;background-color:black"></div>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)">
+		</textarea><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+	</div>
+</body>
+</html>
