@@ -431,7 +431,7 @@
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
 					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
-						old.innerHTML += "<textarea font=\"courier\" readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+						old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
 						var lastOut = document.getElementById("output"+numCmds);
 						kids = old.childNodes;
 						if(cmd.value == "help") {
@@ -555,9 +555,53 @@
 					else {
 						if(cmd.value == "cd" || cmd.value == "cd ~") {
 							currDir = tree._root;
+							prompt = getPrompt();
 						}
 						else {
-							alert("cd: not yet implemented")
+							var dir = currDir;
+							var newPath = cmd.value.substring(3);
+							var newDirs = newPath.split("/");
+							var valid = true;
+							for(var i = 0; i < newDirs.length; i++) {
+								if(newDirs[i] === "..") {
+									if(dir.parent) dir = dir.parent;
+									else {
+										valid = false;
+									}
+								}
+								else if(newDirs[i] !== ".") {
+									for(var j = 0; j < dir.children.length; j++) {
+										var found = false;
+										if(dir.children[j].data.name === newDirs[i]) {
+											if(dir.children[j].data.type === "dir") {
+												dir = dir.children[j];
+												found = true;
+											}
+											else {
+												found = true;
+												valid = false;
+											}
+											break;
+										}
+									}
+									if(!found) {
+										valid = false;
+									}
+								}
+
+							}
+							if(!valid) {
+								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+								var lastOut = document.getElementById("output"+numCmds);
+								if(found) lastOut.value = "cd: " + newPath + ": Not a directory";
+								else lastOut.value = "cd: " + newPath + ": No such file or directory";
+								outs[outs.length] = lastOut.value;
+								lastOut.rows = 1;
+							}
+							else {
+								currDir = dir;
+								prompt = getPrompt();
+							}
 						}
 					}
 					var j = 0, k = 0;
@@ -574,6 +618,7 @@
 					}
 					cmd.value = "";
 					numCmds++;
+					document.getElementById("prompt").innerHTML = prompt;
  				}
  				else if(code == 13) {
  					var old = document.getElementById("old");
