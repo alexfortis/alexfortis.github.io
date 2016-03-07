@@ -661,6 +661,13 @@
 					cmd.value = "";
 					numCmds++;
 					document.getElementById("prompt").innerHTML = prompt;
+					var inputBox = document.getElementById("command");
+					var bottom = inputBox.scrollTop;
+					do {
+						bottom = inputBox.scrollTop;
+						inputBox.scrollTop = inputBox.scrollTop+100;
+
+					} while(bottom < inputBox.scrollTop);
  				}
  				else if(code == 13) {
  					var old = document.getElementById("old");
@@ -678,6 +685,13 @@
 							k++;
 						}
 					}
+					var inputBox = document.getElementById("command");
+					var bottom = inputBox.scrollTop;
+					do {
+						bottom = inputBox.scrollTop;
+						inputBox.scrollTop = inputBox.scrollTop+1;
+
+					} while(bottom != inputBox.scrollTop);
  				}
 			}
 			window.addEventListener("resize", function(event) {
