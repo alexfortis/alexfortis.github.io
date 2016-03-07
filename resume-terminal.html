@@ -434,11 +434,12 @@
 						var lastOut = document.getElementById("output"+numCmds);
 						kids = old.childNodes;
 						if(cmd.value == "help") {
-							lastOut.rows = 5;
+							lastOut.rows = 6;
 							lastOut.value = "\tls:\t\t\tlist all files and directories in this directory";
 							lastOut.value += "\n\tcd [directory_name]:\tchange to the given directory";
 							lastOut.value += "\n\tview:\t\t\tview my resume in a nicer (read: more traditional) format";
 							lastOut.value += "\n\tcat [filename]:\t\tprint the contents of a given file"
+							lastOut.value += "\n\t pwd: \t\t\tprint the path of the current working directory"
 							lastOut.value += "\n\thelp:\t\t\tshow this help dialog";
 						}
 						else if(cmd.value == "ls") {
@@ -541,6 +542,15 @@
 								}
 							}
 							lastOut.value = out;
+						}
+						else if(cmd.value === "pwd") {
+							var curr = "";
+							for(var dir = currDir; dir.parent; dir = dir.parent) {
+								curr = "/" + dir.data.name + curr;
+							}
+							curr = "/" + dir.data.name + curr;
+							lastOut.rows = 1;
+							lastOut.value = curr;
 						}
 						else {
 							lastOut.rows = 1;
