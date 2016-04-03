@@ -243,7 +243,7 @@
 			var competitions = {
 				name: "competitions",
 				type: "txt",
-				catput: "Programming Competitions:\nBinghamton ACM February 2016 competition: won 2nd place\nHackerRank World Cup - University Level CodeSprint (September 2015): Qualified for Semifinals\nBinghamton ACM September 2015 competition: placed 18th",
+				catput: "Programming Competitions:\nBinghamton ACM February 2016 competition (sponsored by Bloomberg): won 2nd place\nHackerRank World Cup - University Level CodeSprint (September 2015): Qualified for Semifinals\nBinghamton ACM September 2015 competition (sponsored by Bloomberg): placed 18th",
 				lines: 6
 			};
 			var pennappsXI = {
@@ -286,21 +286,21 @@
 			};
 
 			var tree = new Tree(rootDir);
-			tree.add(skills, rootDir, tree.traverseBF);
 			tree.add(education, rootDir, tree.traverseBF);
 			tree.add(experiences, rootDir, tree.traverseBF);
+			tree.add(skills, rootDir, tree.traverseBF);
 			tree.add(bing, education, tree.traverseBF);
 			tree.add(bxsci, education, tree.traverseBF);
 			tree.add(jyard, education, tree.traverseBF);
 			tree.add(languages, skills, tree.traverseBF);
-			tree.add(strongLanguages, languages, tree.traverseDF);
 			tree.add(familiarLanguages, languages, tree.traverseDF);
-			tree.add(software, skills, tree.traverseDF);
+			tree.add(strongLanguages, languages, tree.traverseDF);
 			tree.add(OS, skills, tree.traverseDF);
 			tree.add(otherSkills, skills, tree.traverseDF);
-			tree.add(nyspi, experiences, tree.traverseBF);
+			tree.add(software, skills, tree.traverseDF);
 			tree.add(acm, experiences, tree.traverseBF);
 			tree.add(competitions, experiences, tree.traverseBF);
+			tree.add(nyspi, experiences, tree.traverseBF);
 			tree.add(pennappsXI, experiences, tree.traverseBF);
 
 			//TODO: make cd and cat commands actually do something... or do I even need cat? yes, for job experience
@@ -418,20 +418,56 @@
 				return ret;
 			}
 
+			var numUp = 0;
+			var reused = [];
+
+			function moveCursorToEnd(el) {
+				var len = el.value.length;
+				el.setSelectionRange(len, len);
+			}
+
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
 				var cmd = document.getElementById("cmd");
-   				if(code == 13 && textarea.value.trim().length > 0) { //Enter keycode
+				//tab
+				if(code === 9) {
+					//TODO: implement auto-completion
+					alert("You pressed the tab key!");
+					cmd.value = cmd.value.trim();
+				}
+				//up arrow
+				else if(code === 38) {
+					if(numUp < cmds.length) {
+						reused[numUp] = cmd.value;
+						numUp++;
+						reused[numUp] = cmds[cmds.length-numUp];
+						cmd.value = reused[numUp];
+					}
+					moveCursorToEnd(cmd);
+				}
+				//down arrow
+				else if(code === 40) {
+					if(numUp > 0) {
+						reused[numUp] = cmd.value;
+						numUp--;
+						cmd.value = reused[numUp];
+					}
+					moveCursorToEnd(cmd);
+				}
+				//enter
+   				else if(code == 13 && textarea.value.trim().length > 0) {
+   					numUp = 0;
+   					reused = [];
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
-					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
 					//old.innerHTML += "<textarea readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
 					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
-						old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+						old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
 						var lastOut = document.getElementById("output"+numCmds);
 						kids = old.childNodes;
 						if(cmd.value == "help") {
@@ -619,7 +655,7 @@
 
 							}
 							if(!valid) {
-								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
 								var lastOut = document.getElementById("output"+numCmds);
 								if(found) lastOut.value = "cd: " + newPath + ": Not a directory";
 								else lastOut.value = "cd: " + newPath + ": No such file or directory";
@@ -632,7 +668,7 @@
 							}
 						}
 						else {
-							old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
+							old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
 							var lastOut = document.getElementById("output"+numCmds);
 							lastOut.value = "-bash: " + cmd.value.split(" ")[0] + ": command not found";
 							outs[outs.length] = lastOut.value;
@@ -664,7 +700,7 @@
  				}
  				else if(code == 13) {
  					var old = document.getElementById("old");
- 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New\" rows=1>"+"</textarea></td></tr></table>"
+ 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" rows=1>"+"</textarea></td></tr></table>"
  					var kids = old.childNodes;
  					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
@@ -696,7 +732,7 @@
 			});
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;border:none" onKeyPress="processKey(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none"onKeyUp="processKey(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 </body>
 </html>
