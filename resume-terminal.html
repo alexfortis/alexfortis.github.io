@@ -184,7 +184,7 @@
 			var bing = {
 				name: "bing",
 				type: "txt",
-				catput: "Binghamton University (SUNY) - 2013-2017\nBachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017\nMinor in Music\nGPA: 3.54/4.00\nIBM/Watson Fellows Scholar, each fall since 2013\nUpsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015\nPi Mu Epsilon honor society member since April 2015\nCS Courses:\n\tCurrent: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)\n\tPast: CS140 (intro to OOP), CS240 (data structures and algorithms), CS320 (advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)\nMath Courses:\n\tCurrent: MATH404 (Advanced Linear Algebra)\n\tPast: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
+				catput: "Binghamton University (SUNY) - 2013-2017\nBachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017\nMinor in Music\nGPA: 3.54/4.00\nDean's List: Spring 2014, Spring 2015, Fall 2015\nIBM/Watson Fellows Scholar, each fall since 2013\nUpsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015\nPi Mu Epsilon honor society member since April 2015\nCS Courses:\n\tCurrent: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)\n\tPast: CS140 (intro to OOP), CS240 (data structures and algorithms), CS320 (advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)\nMath Courses:\n\tCurrent: MATH404 (Advanced Linear Algebra)\n\tPast: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
 				lines: 17
 			};
 			var bxsci = {
@@ -459,15 +459,25 @@
 						if(args[0] == "ls" || args[0] == "cat" || args[0] == "cd") {
 							var matches = [];
 							var spl = args[args.length-1].split("/");
-							for(var i = 0; i < currDir.children.length; i++) {
-								//alert(currDir.children[i].data.name);
-								if(startsWith(currDir.children[i].data.name, spl[spl.length-1].trim())) {
+							var dir = currDir;
+							for(var i = 0; i < spl.length-1; i++) {
+								for(var j = 0; j < dir.children.length; j++) {
+									if(dir.children[j].data.name === spl[i]) {
+										dir = dir.children[j];
+									}
+								}
+							}
+							for(var i = 0; i < dir.children.length; i++) {
+								//alert(dir.children[i].data.name);
+								if(startsWith(dir.children[i].data.name, spl[spl.length-1].trim())) {
 									matches[matches.length] = i;
 								}
 							}
+							//alert(matches.length);
 							if(matches.length == 1) {
-								spl[spl.length-1] = currDir.children[matches[0]].data.name;
+								spl[spl.length-1] = dir.children[matches[0]].data.name;
 								args[args.length-1] = concat(spl, "/");
+								if((dir.children[matches[0]]).data.type === "dir") args[args.length-1] += "/";
 								cmd.value = concat(args, " ");
 							}
 							else if(matches.length > 1) {
@@ -476,7 +486,7 @@
 								var matchesAsString = "";
 								for(var i = 0; i < matches.length; i++) {
 									//alert(currDir.children[matches[i]].data.name);
-									matchesAsString = (matchesAsString + "\t" + currDir.children[matches[i]].data.name).trim();
+									matchesAsString = (matchesAsString + "\t" + dir.children[matches[i]].data.name).trim() + (((dir.children[matches[i]]).data.type === "dir")?("/"):(""));
 								}
 								//alert(matchesAsString);
 								cmd.value = cmd.value.trim();
@@ -499,6 +509,9 @@
 									}
 								}
 								numCmds++;
+							}
+							else {
+								cmd.value = cmd.value.trim();
 							}
 						}
 					}
