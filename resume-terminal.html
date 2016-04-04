@@ -715,7 +715,7 @@
 							var newPath = cmd.value.substring(3);
 							var newDirs = newPath.split("/");
 							var valid = true;
-							for(var i = 0; i < newDirs.length; i++) {
+							for(var i = 0; i < newDirs.length && newDirs[i].length > 0; i++) {
 								if(i === 0 && newDirs[i] === "~") {
 									dir = tree._root;
 								}
