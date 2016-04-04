@@ -426,14 +426,93 @@
 				el.setSelectionRange(len, len);
 			}
 
+			function getLast(str) {
+				var spl = str.split("/");
+				return spl[spl.length-1];
+			}
+
+			//return true iff str1 starts with str2
+			function startsWith(str1, str2) {
+				if(str2.length > str1.length) return false;
+				for(var i = 0; i < str2.length; i++) {
+					if(str1[i] !== str2[i]) return false;
+				}
+				return true;
+			}
+
+			function concat(arr, delim) {
+				var ret = "";
+				for(var i = 0; i < arr.length; i++) {
+					ret += arr[i];
+					if(i+1 < arr.length) ret += delim;
+				}
+				return ret;
+			}
+
+			function processTab(e, textarea) {
+				var code = (e.keyCode || e.which);
+				var cmd = document.getElementById("cmd");
+				cmd.focus();
+				if(code === 9) {
+					var args = cmd.value.split(" ");
+					if(args.length > 1) {
+						if(args[0] == "ls" || args[0] == "cat" || args[0] == "cd") {
+							var matches = [];
+							var spl = args[args.length-1].split("/");
+							for(var i = 0; i < currDir.children.length; i++) {
+								//alert(currDir.children[i].data.name);
+								if(startsWith(currDir.children[i].data.name, spl[spl.length-1].trim())) {
+									matches[matches.length] = i;
+								}
+							}
+							if(matches.length == 1) {
+								spl[spl.length-1] = currDir.children[matches[0]].data.name;
+								args[args.length-1] = concat(spl, "/");
+								cmd.value = concat(args, " ");
+							}
+							else if(matches.length > 1) {
+								var term = document.getElementById("terminal");
+								var old = document.getElementById("old");
+								var matchesAsString = "";
+								for(var i = 0; i < matches.length; i++) {
+									//alert(currDir.children[matches[i]].data.name);
+									matchesAsString = (matchesAsString + "\t" + currDir.children[matches[i]].data.name).trim();
+								}
+								//alert(matchesAsString);
+								cmd.value = cmd.value.trim();
+								old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" rows=1 style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
+								var lastOut = document.getElementById("output"+numCmds);
+								lastOut.value = matchesAsString;
+								outs[outs.length] = matchesAsString;
+								var kids = old.childNodes;
+			 					var j = 0, k = 0;
+								for(var i = 0; i < kids.length; i++) {
+									if(kids[i].id.substring(0,6) == "output") {
+										kids[i].value = outs[j];
+										j++;
+									}
+									else if(kids[i].id.substring(0,3) == "cmd") {
+										kids[i].rows = 1;
+										kids[i].value = cmds[k];
+										k++;
+									}
+								}
+								numCmds++;
+							}
+						}
+					}
+					cmd.focus();
+
+				}
+			}
+
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
 				var cmd = document.getElementById("cmd");
 				//tab
 				if(code === 9) {
-					//TODO: implement auto-completion
-					alert("You pressed the tab key!");
-					cmd.value = cmd.value.trim();
+					//implemented in processTab (on key down event).
 				}
 				//up arrow
 				else if(code === 38) {
@@ -481,9 +560,9 @@
 						}
 						else if(cmd.value == "ls") {
 							lastOut.rows = currDir.children.length;
-							lastOut.value = "\t" + currDir.children[0].data.name;
+							lastOut.value = currDir.children[0].data.name;
 							for(var i = 1; i < currDir.children.length; i++) {
-								lastOut.value += "\n\t" + currDir.children[i].data.name;
+								lastOut.value += "\n" + currDir.children[i].data.name;
 							}
 						}
 						else if(cmd.value.substring(0,3) === "ls ") {
@@ -521,10 +600,10 @@
 								}
 								if(isDir) {
 									if(dir.children.length > 0) {
-										out = "\t" + dir.children[0].data.name;
+										out = dir.children[0].data.name;
 									}
 									for(var i = 1; i < dir.children.length; i++) {
-										out += "\n\t" + dir.children[i].data.name;
+										out += "\n" + dir.children[i].data.name;
 										lastOut.rows++;
 									}
 								}
@@ -700,7 +779,7 @@
  				}
  				else if(code == 13) {
  					var old = document.getElementById("old");
- 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" rows=1>"+"</textarea></td></tr></table>"
+ 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" onfocus=\"javascript:document.getElementById('cmd').focus()\" rows=1>"+"</textarea></td></tr></table>"
  					var kids = old.childNodes;
  					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
@@ -722,6 +801,7 @@
 
 					} while(bottom != inputBox.scrollTop);
  				}
+				cmd.focus();
 			}
 			window.addEventListener("resize", function(event) {
 				var cmdCell = document.getElementById("cmdCell");
@@ -732,7 +812,8 @@
 			});
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none"onKeyUp="processKey(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onfocusout="javascript:this.focus();"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
+	<div id="dummy" contenteditable="true" onfocus="javascript:document.getElementById('cmd').focus()"></div>
 </body>
 </html>
