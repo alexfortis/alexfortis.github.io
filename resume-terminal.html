@@ -385,7 +385,7 @@
 				for(var dir = currDir; dir.parent; dir = dir.parent) {
 					curr = "/" + dir.data.name + curr;
 				}
-				curr = "/" + dir.data.name + curr;
+				curr = "~"+ curr;
 				return app + "@alexfortis.github.io:" + curr + "$&nbsp";
 			}
 			var prompt = getPrompt();
@@ -517,6 +517,7 @@
 							}
 							else {
 								cmd.value = cmd.value.trim();
+								//TODO: implement autocompletion for commands
 							}
 						}
 					}
@@ -707,7 +708,7 @@
 							for(var dir = currDir; dir.parent; dir = dir.parent) {
 								curr = "/" + dir.data.name + curr;
 							}
-							curr = "alexfortis.github.io/" + dir.data.name + curr;
+							curr = "alexfortis.github.io/resume" + curr;
 							lastOut.rows = 1;
 							lastOut.value = curr;
 						}
