@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="background-color:black" onkeydown="processKeyInner(event)" id="html" onfocusout="javascript:document.getElementById('html').focus()">
+<html style="background-color:black" onkeydown="processKeyInner(event)" id="html" onfocusout="javascript:document.getElementById('html').focus()" >
 <!--TODO: ADD CONTACT INFO-->
 <head>
 	<title>alexfortis.github.io - bash</title>
@@ -726,19 +726,19 @@
 						frame.style.position="relative";
 						frame.style.top = d;
 						x = document.getElementById('html');
+						frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation";
 						frame.onload = function() {
+							alert(frame.sandbox);
 							//alert('hey there!');
-							frame.onfocus = function(e) {
+							frame.contentWindow.document.getElementById('html').onfocus = function(e) {
 								document.getElementById("html").focus();
 							};
-							frame.contentWindow.document.getElementById('html').onclick = function(e) {
-								//alert('what chu clicking for');
-								x.focus();
-							};
-							frame.onkeydown = function(e) {
+							alert("set onfocus");
+							frame.contentWindow.document.getElementById('html').onkeydown = function(e) {
 								alert('aaah');
 								parent.processKeyInner(e);
 							};
+							alert("added a listener to the content window's html thingy... or so we think");
 						};
 						document.getElementById("body").appendChild(frame);
 						frame.style.zIndex = "999";
@@ -862,6 +862,7 @@
 					document.getElementById("cmdCell" + i).width = window.innerWidth - document.getElementById("promptCell" + i).width;
 				}
 			});
+			//window.addEventListener("keydown", processKeyInner(event));
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
 		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
