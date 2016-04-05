@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html onclick="javascript:alert('yo')" onkeydown="process(event, this)">
+<html id="html">
   <title>Resume - Alexander Strong</title>
   <head>
     <link href="favicon.ico" rel="shortcut icon">
     <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
     <link href="treeStuff.css" rel="stylesheet">
-    <br>
-    <div><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press Escape to close.</h3></div>
+    <div><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press Escape to close. If it doesn't work, click on the navbar and try again.</h3></div>
     <div class="dropdown" style="align:center;margin-left:5%;margin-bottom:1%;">
       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" style="width:88px" aria-expanded="true">
 	Contact&nbsp;&nbsp;&rsaquo;
@@ -19,12 +18,12 @@
       </ul>
     </div>
     <script>
-      function process(e, thing) {
-        var code = e.keyCode || e.which;
-        //alert(code);
-        if(code === 27) {
-          alert("You pressed the escape key.");
-          window.close();
+      function process(e) {
+        if(window.parent !== window) {
+          window.parent.dispatchEvent('keydown', e);
+        }
+        else {
+          alert("NO PARENT");
         }
       }
     </script>

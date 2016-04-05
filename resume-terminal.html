@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="background-color:black" onkeydown="processKeyInner(event, this)">
+<html style="background-color:black" onkeydown="processKeyInner(event)" id="html" onfocusout="javascript:document.getElementById('html').focus()">
 <!--TODO: ADD CONTACT INFO-->
 <head>
 	<title>alexfortis.github.io - bash</title>
@@ -31,7 +31,7 @@
 		<p style="background-color:black;color:#00ff00;font-family:Courier New"><br>This is my resume page. Type "help" to see a list of commands.</p></div>
 	</div>
   </head>
-<body style="background-color:black" id="body">
+<body style="background-color:black" id="body" onclick="javascript:document.getElementById('cmd').focus()">
 	<script>
 		document.body.style.overflow="hidden";
 	</script>
@@ -520,7 +520,7 @@
 				}
 			}
 
-			function processKeyInner(e, thing) {
+			function processKeyInner(e) {
 				var code = e.keyCode || e.which;
 				if(code === 27) {
 					var nice = document.getElementById("resume-nice");
@@ -725,6 +725,20 @@
 						frame.style.width = w;
 						frame.style.position="relative";
 						frame.style.top = d;
+						x = document.getElementById('html');
+						frame.onload = function() {
+							alert('hey there!');
+							frame.onfocus = function(e) {
+								document.getElementById("html").focus();
+							};
+							frame.contentWindow.document.getElementById('html').onclick = function(e) {
+								alert('what chu clicking for');
+							};
+							frame.onkeydown = function(e) {
+								alert('aaah');
+								parent.processKeyInner(e);
+							};
+						};
 						document.getElementById("body").appendChild(frame);
 						frame.style.zIndex = "999";
 						frame.focus();
