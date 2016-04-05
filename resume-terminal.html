@@ -716,9 +716,9 @@
 						frame.style.position="relative";
 						frame.style.top = d;
 						frame.style.zIndex = "999";
-						/*frame.onkeydown = function(e, frame) {
-							alert(e.keyCode || e.which);
-						};*/
+						frame.onkeydown = "function(e, this) {\
+							alert(e.keyCode || e.which);\
+						}";
 						document.getElementById("body").appendChild(frame);
 						frame.focus();
 					}
@@ -842,7 +842,7 @@
 			});
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onfocusout="javascript:this.focus();"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 	<div id="dummy" contenteditable="true" onfocus="javascript:document.getElementById('cmd').focus()"></div>
 </body>
