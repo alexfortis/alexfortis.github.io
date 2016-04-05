@@ -24,7 +24,7 @@
       </div>
     </nav>
     <style type="text/css">
-    	textarea { border: none; }
+    	textarea { border: none; outline: none;}
 	</style>
 	<br><br>
 	<div id="instructions" style="background-color:black;position:fixed;width:100vw">
@@ -303,10 +303,6 @@
 			tree.add(nyspi, experiences, tree.traverseBF);
 			tree.add(pennappsXI, experiences, tree.traverseBF);
 
-			//TODO: make cd and cat commands actually do something... or do I even need cat? yes, for job experience
-			//TODO: add pwd
-			//TODO: organize the resume data into objects and stuff
-			//TODO: make a shell prompt
 			var numCmds = 0;
 			var cmds = [];
 			var outs = [];
