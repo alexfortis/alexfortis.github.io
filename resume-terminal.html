@@ -381,7 +381,12 @@
 			var app = getAppName(); //not going to change, so why go through that method more than once?
 
 			function getPrompt() {
-				return app + ":" + currDir.data.name + " alexfortis.github.io$&nbsp";
+				var curr = "";
+				for(var dir = currDir; dir.parent; dir = dir.parent) {
+					curr = "/" + dir.data.name + curr;
+				}
+				curr = "/" + dir.data.name + curr;
+				return app + "@alexfortis.github.io:" + curr + "$&nbsp";
 			}
 			var prompt = getPrompt();
 			var promptBox = document.getElementById("prompt");
