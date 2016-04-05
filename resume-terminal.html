@@ -603,10 +603,15 @@
 							var fileName = cmd.value.substring(3);
 							var dir = currDir;
 							var path = fileName.split("/");
+							while(path[path.length] === "") path.pop();
 							var out = "ls: " + fileName + ": No such file or directory.";
 							var isDir = true;
+							var isFile = false;
+							var regexp;
 							if(path.length > 0) {
 								for(var i = 0; i < path.length; i++) {
+									if(path[i] === "") break;
+									regexp = new RegExp(path[i]);
 									if(i === 0 && path[i] === "~") {
 										dir = tree._root;
 									}
@@ -616,18 +621,26 @@
 										}
 										else break;
 									}
-									else if(path[i] != ".") {
+									else if(path[i] !== ".") {
 										if(dir.data.type === "dir") {
+											//alert(dir.data.name + " is a dir");
 											for(var j = 0; j < dir.children.length; j++) {
-												if(dir.children[j].data.name === path[i]) {
+												//alert("dir.children[" + j + "]: " + dir.children[j].data.name);
+												if(regexp.test(dir.children[j].data.name)) {
+													alert(dir.children[j].data.name);
 													dir = dir.children[j];
 													break;
 												}
 											}
 										}
 										else {
-											isDir = false;
-											break;
+											//isDir = false;
+											alert(dir.data.name + " is not a dir; i == " + i + ", path.length == " + path.length);
+											if(i+1 === path.length) {
+												alert("is a file!");
+												isFile = true;
+											}
+											else break;
 										}
 									}
 								}
@@ -639,6 +652,9 @@
 										out += "\n" + dir.children[i].data.name;
 										lastOut.rows++;
 									}
+								}
+								else if(isFile) {
+									out = dir.data.name;
 								}
 							}
 							lastOut.value = out;
@@ -654,8 +670,12 @@
 							var path = fileName.split("/");
 							var out = "cat: "+fileName+": No such file or directory."
 							var isDir = true;
+							var regexp;
 							if(path.length > 0) {
+								regexp = new RegExp(path[0]);
 								for(var i = 0; i < path.length-1; i++) {
+									if(path[i] === "") break;
+									regexp = new RegExp(path[i]);
 									if(i === 0 && path[i] === "~") {
 										dir = tree._root;
 									}
@@ -668,7 +688,7 @@
 									else if(path[i] != ".") {
 										if(dir.data.type === "dir") {
 											for(var j = 0; j < dir.children.length; j++) {
-												if(dir.children[j].data.name === path[i]) {
+												if(regexp.test(dir.children[j].data.name)) {
 													dir = dir.children[j];
 													break;
 												}
@@ -693,7 +713,7 @@
 									}
 									else {
 										for(var i = 0; i < dir.children.length; i++) {
-											if(dir.children[i].data.name === path[path.length-1]) {
+											if(regexp.test(dir.children[i].data.name)) {
 												theFile = dir.children[i].data;
 												break;
 											}
@@ -765,7 +785,9 @@
 							var newPath = cmd.value.substring(3);
 							var newDirs = newPath.split("/");
 							var valid = true;
+							var regexp;
 							for(var i = 0; i < newDirs.length && newDirs[i].length > 0; i++) {
+								regexp = new RegExp(newDirs[i]);
 								if(i === 0 && newDirs[i] === "~") {
 									dir = tree._root;
 								}
@@ -778,7 +800,7 @@
 								else if(newDirs[i] !== ".") {
 									for(var j = 0; j < dir.children.length; j++) {
 										var found = false;
-										if(dir.children[j].data.name === newDirs[i]) {
+										if(regexp.test(dir.children[j].data.name)) {
 											if(dir.children[j].data.type === "dir") {
 												dir = dir.children[j];
 												found = true;
