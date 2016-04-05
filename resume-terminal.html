@@ -31,7 +31,7 @@
 		<p style="background-color:black;color:#00ff00;font-family:Courier New"><br>This is my resume page. Type "help" to see a list of commands.</p></div>
 	</div>
   </head>
-<body style="background-color:black">
+<body style="background-color:black" id="body">
 	<script>
 		document.body.style.overflow="hidden";
 	</script>
@@ -703,7 +703,24 @@
 						outs[outs.length]=lastOut.value;
 					}
 					else if(cmd.value == "view") {
-						window.open("resume.html", "_blank");
+						//window.open("resume.html", "_blank");
+						var frame = document.createElement("IFRAME");
+						frame.src = "resume-nice.html";
+						frame.id = "nice";
+						frame.style.width = document.getElementById("body").style.width;
+						var h = "95vh";
+						var d = "-" + h;
+						var w = "100vw";
+						frame.style.height = h;
+						frame.style.width = w;
+						frame.style.position="relative";
+						frame.style.top = d;
+						frame.style.zIndex = "999";
+						/*frame.onkeydown = function(e, frame) {
+							alert(e.keyCode || e.which);
+						};*/
+						document.getElementById("body").appendChild(frame);
+						frame.focus();
 					}
 					else {
 						if(cmd.value == "cd" || cmd.value == "cd ~") {
