@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="background-color:black">
+<html style="background-color:black" onkeydown="processKeyInner(event, this)">
 <!--TODO: ADD CONTACT INFO-->
 <head>
 	<title>alexfortis.github.io - bash</title>
@@ -520,6 +520,16 @@
 				}
 			}
 
+			function processKeyInner(e, thing) {
+				var code = e.keyCode || e.which;
+				if(code === 27) {
+					var nice = document.getElementById("resume-nice");
+					if(nice) {
+						nice.parentNode.removeChild(nice);
+					}
+				}
+			}
+
 			function processKey(e, textarea) {
 				var code = (e.keyCode ? e.keyCode : e.which);
 				var cmd = document.getElementById("cmd");
@@ -564,7 +574,7 @@
 						kids = old.childNodes;
 						if(cmd.value == "help") {
 							lastOut.rows = 6;
-							lastOut.value = "\tview:\t\t\tview my resume in a nicer format (opens in new tab)";
+							lastOut.value = "\tview:\t\t\tview my resume in a nicer-looking format";
 							lastOut.value += "\n\tls:\t\t\tlist all files and directories in this directory";
 							lastOut.value += "\n\tcd [directory_name]:\tchange to the given directory";
 							lastOut.value += "\n\tcat [filename]:\t\tprint the contents of a given file"
@@ -706,7 +716,7 @@
 						//window.open("resume.html", "_blank");
 						var frame = document.createElement("IFRAME");
 						frame.src = "resume-nice.html";
-						frame.id = "nice";
+						frame.id = "resume-nice";
 						frame.style.width = document.getElementById("body").style.width;
 						var h = "95vh";
 						var d = "-" + h;
@@ -715,11 +725,8 @@
 						frame.style.width = w;
 						frame.style.position="relative";
 						frame.style.top = d;
-						frame.style.zIndex = "999";
-						frame.onkeydown = "function(e, this) {\
-							alert(e.keyCode || e.which);\
-						}";
 						document.getElementById("body").appendChild(frame);
+						frame.style.zIndex = "999";
 						frame.focus();
 					}
 					else {

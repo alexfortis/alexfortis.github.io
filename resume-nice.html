@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html onclick="javascript:alert('yo')" onkeydown="process(event, this)">
   <title>Resume - Alexander Strong</title>
   <head>
     <link href="favicon.ico" rel="shortcut icon">
     <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
     <link href="treeStuff.css" rel="stylesheet">
     <br>
-    <div><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press Escape to close (not yet implemented)</h3></div>
+    <div><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press Escape to close.</h3></div>
     <div class="dropdown" style="align:center;margin-left:5%;margin-bottom:1%;">
       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" style="width:88px" aria-expanded="true">
 	Contact&nbsp;&nbsp;&rsaquo;
@@ -18,8 +18,18 @@
 	<li role="presentation" class="pull-left"><a role="menuItem" tabindex="-1" href="http://github.com/alexfortis" target="blank">GitHub</a></li>
       </ul>
     </div>
+    <script>
+      function process(e, thing) {
+        var code = e.keyCode || e.which;
+        //alert(code);
+        if(code === 27) {
+          alert("You pressed the escape key.");
+          window.close();
+        }
+      }
+    </script>
   </head>
-  <body style="background-color:LightGrey">
+  <body style="background-color:LightGrey" id="body">
     <div class="tree well" style="margin-left:5%;margin-right:5%">
       <ul id="tree">
         <li>
