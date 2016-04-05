@@ -737,6 +737,7 @@
 							frame.contentWindow.document.getElementById('html').onkeydown = function(e) {
 								//alert('aaah');
 								parent.processKeyInner(e);
+								document.getElementById("cmd").focus();
 							};
 							//alert("added a listener to the content window's html thingy... or so we think");
 						};
