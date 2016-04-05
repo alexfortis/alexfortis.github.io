@@ -381,7 +381,7 @@
 			var app = getAppName(); //not going to change, so why go through that method more than once?
 
 			function getPrompt() {
-				return app + ":alexfortis.github.io " + currDir.data.name + "$&nbsp";
+				return app + ":" + currDir.data.name + " alexfortis.github.io$&nbsp";
 			}
 			var prompt = getPrompt();
 			var promptBox = document.getElementById("prompt");
@@ -692,7 +692,7 @@
 							for(var dir = currDir; dir.parent; dir = dir.parent) {
 								curr = "/" + dir.data.name + curr;
 							}
-							curr = "/" + dir.data.name + curr;
+							curr = "alexfortis.github.io/" + dir.data.name + curr;
 							lastOut.rows = 1;
 							lastOut.value = curr;
 						}
