@@ -252,6 +252,12 @@
 				catput: "Built, with a team, a website that sped up updates by using bytewise subtraction rather than deleting and rewriting",
 				lines: 2
 			};
+			var contact = {
+				name:"contact",
+				type: "txt",
+				catput: "Personal Email: alex.j.strong+website@gmail.com\nSchool E-mail: astrong3+website@binghamton.edu\nLinkedIn: https://linkedin.com/in/strongalexander\nGitHub Username: alexfortis",
+				lines: 4
+			};
 
 			//now, set up stuff from the top down
 			var rootDir = {
@@ -286,6 +292,7 @@
 			};
 
 			var tree = new Tree(rootDir);
+			tree.add(contact, rootDir, tree.traverseBF);
 			tree.add(education, rootDir, tree.traverseBF);
 			tree.add(experiences, rootDir, tree.traverseBF);
 			tree.add(skills, rootDir, tree.traverseBF);
