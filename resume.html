@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="html">
+<html id="html" style="background-color:black">
 	<title id="title">Redirecting to resume.</title>
 	<head>
 		<div style="background-color:black">
@@ -35,11 +35,12 @@
 			}
 		</script>
 	</head>
-	<body id="theBody" style="overflow:hidden">
+	<body id="theBody" style="overflow:hidden;background-color:black">
 		<div id="body">
 		<script>
 			var frame = document.createElement("IFRAME");
 			frame.zIndex = "998";
+			frame.frameBorder = "0";
 			if(mobileAndTabletcheck()) {
 				//alert("mobile");
 				document.getElementById("title").innerHTML = "Resume - Alex Strong";
