@@ -2,33 +2,9 @@
 <html style="background-color:black" onkeydown="processKeyInner(event)" id="html" onfocusout="javascript:document.getElementById('html').focus()" >
 <head>
 	<title>alexfortis.github.io - bash</title>
-	<div style="background-color:black">
-    <link href="favicon.ico" rel="shortcut icon">
-    <link href="bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
-    <link href="treeStuff.css" rel="stylesheet">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="index.html"><img src="alexstrong.jpg" style="width:30px;height:30px;display:inline"></img>&nbsp;Alexander Strong</a>
-        </div>
-	<div id="navbar" class="collapse navbar-collapse">
-	  <ul class="nav navbar-nav">
-	    <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Me</a></li>
-	    <li><a href="programs.html">Programs</a></li>
-	    <li><a href="music.html">Music</a></li>
-	    <li class="active"><a href="resume.html">Resume</a></li>
-	  </ul>
-	</div>
-      </div>
-    </nav>
-    <style type="text/css">
+	<style type="text/css">
     	textarea { border: none; outline: none;}
 	</style>
-	<br><br>
-	<div id="instructions" style="background-color:black;position:fixed;width:100vw">
-		<p style="background-color:black;color:#00ff00;font-family:Courier New"><br>This is my resume page. Type "help" to see a list of commands.</p></div>
-	</div>
   </head>
 <body style="background-color:black" id="body" onclick="javascript:document.getElementById('cmd').focus()">
 	<script>
@@ -539,34 +515,9 @@
 				}
 			}
 
-			function processKey(e, textarea) {
-				var code = (e.keyCode ? e.keyCode : e.which);
-				var cmd = document.getElementById("cmd");
-				//tab
-				if(code === 9) {
-					//implemented in processTab (on key down event).
-				}
-				//up arrow
-				else if(code === 38) {
-					if(numUp < cmds.length) {
-						reused[numUp] = cmd.value;
-						numUp++;
-						reused[numUp] = cmds[cmds.length-numUp];
-						cmd.value = reused[numUp];
-					}
-					moveCursorToEnd(cmd);
-				}
-				//down arrow
-				else if(code === 40) {
-					if(numUp > 0) {
-						reused[numUp] = cmd.value;
-						numUp--;
-						cmd.value = reused[numUp];
-					}
-					moveCursorToEnd(cmd);
-				}
-				//enter
-   				else if(code == 13 && textarea.value.trim().length > 0) {
+			function processEnter(e, textarea) {
+				var code = e.keyCode || e.which;
+				if(code == 13 && textarea.value.trim().length > 0) {
    					numUp = 0;
    					reused = [];
 					cmd.value = cmd.value.trim();
@@ -931,6 +882,36 @@
 
 					} while(bottom != inputBox.scrollTop);
  				}
+			}
+
+			function processKey(e, textarea) {
+				var code = (e.keyCode ? e.keyCode : e.which);
+				var cmd = document.getElementById("cmd");
+				//tab
+				if(code === 9) {
+					//implemented in processTab (on key down event).
+				}
+				//up arrow
+				else if(code === 38) {
+					if(numUp < cmds.length) {
+						reused[numUp] = cmd.value;
+						numUp++;
+						reused[numUp] = cmds[cmds.length-numUp];
+						cmd.value = reused[numUp];
+					}
+					moveCursorToEnd(cmd);
+				}
+				//down arrow
+				else if(code === 40) {
+					if(numUp > 0) {
+						reused[numUp] = cmd.value;
+						numUp--;
+						cmd.value = reused[numUp];
+					}
+					moveCursorToEnd(cmd);
+				}
+				//enter
+   				
 				cmd.focus();
 			}
 			window.addEventListener("resize", function(event) {
@@ -943,7 +924,7 @@
 			//window.addEventListener("keydown", processKeyInner(event));
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;width: auto;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;width: auto;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onkeypress="processEnter(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 	<div id="dummy" contenteditable="true" onfocus="javascript:document.getElementById('cmd').focus()"></div>
 </body>
