@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html style="background-color:black" onkeydown="processKeyInner(event)" id="html" onfocusout="javascript:document.getElementById('html').focus()" >
-<!--TODO: make the output text areas into divs so the output looks nicer-formated and I don't need to worry about manually setting the number of rows-->
+<!--TODO: make the command history into divs (from textareas) so maybe it'll be formatted properly -->
 <!-- TODO: implement clear command. -->
 <head>
 	<title>alexfortis.github.io - bash</title>
@@ -165,78 +165,78 @@
 				name: "bing",
 				type: "txt",
 				catput: "Binghamton University (SUNY) - 2013-2017<br>Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017<br>Minor in Music<br>GPA: 3.54/4.00<br>Dean's List: Spring 2014, Spring 2015, Fall 2015<br>IBM/Watson Fellows Scholar, each fall since 2013<br>Upsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015<br>Pi Mu Epsilon honor society member since April 2015<br>CS Courses:<br>&nbsp;&nbsp;&nbsp;&nbsp;Current: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)<br>&nbsp;&nbsp;&nbsp;&nbsp;Past: CS120 (systems I: machine organization), CS140 (intro to OOP), CS220 (systems II: architecture and programming), CS240 (data structures and algorithms), CS320 (systems III: advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)<br>Math Courses:<br>&nbsp;&nbsp;&nbsp;&nbsp;Current: MATH404 (Advanced Linear Algebra)<br>&nbsp;&nbsp;&nbsp;&nbsp;Past: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
-				lines: 17
+				//lines: 17
 			};
 			var bxsci = {
 				name: "bxsci",
 				type: "txt",
 				catput: "Bronx High School of Science, class of 2013<br>qualified for 2013 AIME<br>won the Samuel Greitzer computer science award<br>Treasurer of Latin Club; played in the jazz band",
-				lines: 4
+				//lines: 4
 			};
 			var jyard = {
 				name: "juilliard",
 				type: "txt",
 				catput: "The Juilliard School, Pre-College Division, class of 2013<br>Studied composition under Manuel Sosa; took courses in music theory, counterpoint, and ear training",
-				lines: 2
+				//lines: 2
 			};
 			var nyspi = {
 				name: "nyspi",
 				type: "txt",
 				catput: "New York State Psychiatric Institute (NYSPI)<br>Columbia University Medical Center<br>PsyIT Volunteer<br>Encrypted computers with BitLocker<br>Wrote a software tool in Java to help determine, from Excel sheets, which computers should be banned from the network",
-				lines: 6
+				//lines: 6
 			};
 			var strongLanguages = {
 				name: "strong",
 				type: "txt",
 				catput: "Java, C++, C",
-				lines: 1
+				//lines: 1
 			};
 			var familiarLanguages = {
 				name: "familiar",
 				type: "txt",
 				catput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript",
-				lines: 1
+				//lines: 1
 			};
 			var software = {
 				name: "software",
 				type: "txt",
 				catput: "Emacs, Eclipse, Git, UNIX Terminal",
-				lines: 1
+				//lines: 1
 			};
 			var otherSkills = {
 				name: "other",
 				type: "txt",
-				catput: "Other skills:<br>Latin; vibraphone (and other percussion), piano, electric bass; composing, arranging, Sibelius 5, Sibelius 7", lines: 3
+				catput: "Other skills:<br>Latin; vibraphone (and other percussion), piano, electric bass; composing, arranging, Sibelius 5, Sibelius 7", //lines: 3
 			};
 			var OS = {
 				name: "os",
 				type: "txt",
 				catput: "Operating Systems:<br>Experience using Mac OS X, Linux (Ubuntu, Debian), Windows",
-				lines: 2
+				//lines: 2
 			};
 			var acm = {
 				name: "acm",
 				type: "txt",
 				catput: "ACM Projects Division<br>Develop a website, as project manager, similar to ratemyprofessors.com, but for classes<br>&nbsp;&nbsp;&nbsp;&nbsp;- Should include an interactive graphical prerequisite flowchart",
-				lines: 3
+				//lines: 3
 			};
 			var competitions = {
 				name: "competitions",
 				type: "txt",
 				catput: "Programming Competitions:<br>Binghamton ACM February 2016 competition (sponsored by Bloomberg): won 2nd place<br>HackerRank World Cup - University Level CodeSprint (September 2015): Qualified for Semifinals<br>Binghamton ACM September 2015 competition (sponsored by Bloomberg): placed 18th",
-				lines: 6
+				//lines: 6
 			};
 			var pennappsXI = {
 				name:"pennappsXI",
 				type: "txt",
 				catput: "Built, with a team, a website that sped up updates by using bytewise subtraction rather than deleting and rewriting",
-				lines: 2
+				//lines: 2
 			};
 			var contact = {
 				name:"contact",
 				type: "txt",
 				catput: "Personal Email: alex.j.strong+website@gmail.com<br>School E-mail: astrong3+website@binghamton.edu<br>LinkedIn: https://linkedin.com/in/strongalexander<br>GitHub Username: alexfortis",
-				lines: 4
+				//lines: 4
 			};
 
 			//now, set up stuff from the top down
@@ -244,31 +244,31 @@
 				name: "resume",
 				type: "dir",
 				catput: "cat: resume: Is a directory",
-				lines: 1
+				//lines: 1
 			};
 			var skills = {
 				name: "skills",
 				type: "dir",
 				catput: "cat: skills: Is a directory",
-				lines: 1
+				//lines: 1
 			};
 			var education = {
 				name: "education",
 				type: "dir",
 				catput: "cat: education: Is a directory",
-				lines: 1
+				//lines: 1
 			};
 			var experiences = {
 				name: "experiences",
 				type: "dir",
 				catput: "cat: experiences: Is a directory",
-				lines: 1
+				//lines: 1
 			};
 			var languages = {
 				name: "languages",
 				type: "dir",
 				catput: "cat: languages: Is a directory",
-				lines: 1
+				//lines: 1
 			};
 
 			var tree = new Tree(rootDir);
@@ -548,14 +548,14 @@
 							lastOut.innerHTML += "<br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: http://www.w3schools.com/jsref/jsref_obj_regexp.asp) in file names and paths."
 						}
 						else if(cmd.value == "ls") {
-							lastOut.rows = currDir.children.length;
+							//lastOut.rows = currDir.children.length;
 							lastOut.innerHTML = currDir.children[0].data.name;
 							for(var i = 1; i < currDir.children.length; i++) {
 								lastOut.innerHTML += "<br>" + currDir.children[i].data.name;
 							}
 						}
 						else if(cmd.value.substring(0,3) === "ls ") {
-							lastOut.rows = 1;
+							//lastOut.rows = 1;
 							var fileName = cmd.value.substring(3);
 							var dir = currDir;
 							var path = fileName.split("/");
@@ -601,7 +601,7 @@
 												out = matches[0].data.name;
 												for(var j = 1; j < matches.length; j++) {
 													out += "<br>" + matches[j].data.name;
-													lastOut.rows++;
+													//lastOut.rows++;
 												}
 											}
 											else if(matches.length === 1) {
@@ -641,11 +641,11 @@
 							lastOut.innerHTML = out;
 						}
 						else if(cmd.value === "cat") {
-							lastOut.rows = 1;
+							//lastOut.rows = 1;
 							lastOut.innerHTML = "cat: Please specify the file"
 						}
 						else if(cmd.value.substring(0,4) === "cat ") {
-							lastOut.rows = 1;
+							//lastOut.rows = 1;
 							var fileName = cmd.value.substring(4);
 							var dir = currDir;
 							var path = fileName.split("/");
@@ -720,14 +720,14 @@
 										}
 									}
 									if(theFile !== undefined) {
-										lastOut.rows = theFile.lines;
+										//lastOut.rows = theFile.lines;
 										out = theFile.catput;
 									}
 									else if(matches.length > 1) {
-										lastOut.rows = 0;
+										//lastOut.rows = 0;
 										out = "";
 										for(var i = 0; i < matches.length; i++) {
-											lastOut.rows += matches[i].lines;
+											//lastOut.rows += matches[i].lines;
 											out += matches[i].catput + "<br>";
 										}
 									}
@@ -741,11 +741,11 @@
 								curr = "/" + dir.data.name + curr;
 							}
 							curr = "alexfortis.github.io/resume" + curr;
-							lastOut.rows = 1;
+							//lastOut.rows = 1;
 							lastOut.innerHTML = curr;
 						}
 						else {
-							lastOut.rows = 1;
+							//lastOut.rows = 1;
 							lastOut.innerHTML = "-bash: " + cmd.value.split(" ")[0] + ": command not found"
 						}
 						outs[outs.length]=lastOut.innerHTML;
