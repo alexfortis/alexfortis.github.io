@@ -34,7 +34,7 @@
 		</script>
 	</head>
 	<body id="theBody" style="overflow:hidden;background-color:black;">
-		<div id="body" style="overflow:hidden;">
+		<div id="body" style="overflow:hidden;height:100vh;width:100vw;">
 		<script>
 			var frame = document.createElement("IFRAME");
 			frame.zIndex = "998";
@@ -45,7 +45,7 @@
 				frame.src = "resume-nice.html";
 				frame.id = "resume";
 				frame.style.width = document.getElementById("body").style.width;
-				var h = "90vh";
+				var h = "calc(100vh - 45px)";
 				var w = "100vw";
 				frame.style.height = h;
 				frame.style.width = w;
@@ -64,12 +64,13 @@
 				document.getElementById("title").innerHTML = "alexfortis.github.io - bash"
 				frame.src = "resume-terminal.html";
 				frame.id = "resume";
-				frame.style.width = document.getElementById("body").style.width;
+				//frame.style.width = document.getElementById("body").style.width;
 				var h = "100vh";
 				var w = "100vw";
 				frame.style.height = h;
 				frame.style.width = w;
 				frame.style.position="relative";
+				frame.style.offsetTop = "0";
 				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation allow-popups";
 				document.getElementById("body").appendChild(frame);
 			}
