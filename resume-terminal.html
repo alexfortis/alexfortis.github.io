@@ -473,8 +473,8 @@
 								}
 								//alert(matchesAsString);
 								cmd.value = cmd.value.trim();
-								old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
-								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" rows=1 style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
+								old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" rows=1 style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;resize: none;\"></textarea>";
 								var lastOut = document.getElementById("output"+numCmds);
 								lastOut.value = matchesAsString;
 								outs[outs.length] = matchesAsString;
@@ -523,13 +523,13 @@
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
-					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><textarea readonly align=\"right\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</textarea><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
 					//old.innerHTML += "<textarea readonly align=\"left\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New\"></textarea>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
 					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
-						old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
+						old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\"></textarea>";
 						var lastOut = document.getElementById("output"+numCmds);
 						kids = old.childNodes;
 						if(cmd.value == "help") {
@@ -815,7 +815,7 @@
 
 							}
 							if(!valid) {
-								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
+								old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\"></textarea>";
 								var lastOut = document.getElementById("output"+numCmds);
 								if(found) lastOut.value = "cd: " + newPath + ": Not a directory";
 								else lastOut.value = "cd: " + newPath + ": No such file or directory";
@@ -828,7 +828,7 @@
 							}
 						}
 						else {
-							old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;resize: none;\"></textarea>";
+							old.innerHTML += "<textarea readonly align=\"left\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\"></textarea>";
 							var lastOut = document.getElementById("output"+numCmds);
 							lastOut.value = "-bash: " + cmd.value.split(" ")[0] + ": command not found";
 							outs[outs.length] = lastOut.value;
@@ -860,7 +860,7 @@
  				}
  				else if(code == 13) {
  					var old = document.getElementById("old");
- 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;\" onfocus=\"javascript:document.getElementById('cmd').focus()\" rows=1>"+"</textarea></td></tr></table>"
+ 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><textarea readonly align=\"right\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\" onfocus=\"javascript:document.getElementById('cmd').focus()\" rows=1>"+"</textarea></td></tr></table>"
  					var kids = old.childNodes;
  					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
@@ -924,7 +924,7 @@
 			//window.addEventListener("keydown", processKeyInner(event));
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;resize: none;width: auto;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onkeypress="processEnter(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;font-size:14px;resize: none;width: auto;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onkeypress="processEnter(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 	<div id="dummy" contenteditable="true" onfocus="javascript:document.getElementById('cmd').focus()"></div>
 </body>
