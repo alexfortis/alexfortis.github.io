@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="html" style="background-color:black" onkeydown="processKeyDown(event)">
+<html id="html" style="background-color:black">
 	<title id="title">Resume - Alex Strong</title>
 	<head>
 		<div style="background-color:black">
@@ -24,16 +24,6 @@
 	    </nav>
 	</div>
 		<script>
-			function processKeyDown(e) {
-				var code = e.keyCode || e.which;
-				if(code == 27) {
-					alert("you pressed esc");
-					var frame = document.getElementById("resume");
-					if(document.getElementById("title").innerHTML == "alexfortis.github.io - bash") {
-						frame.processKeyInner(e);
-					}
-				}
-			}
 
 			//found this here: http://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
 			window.mobileAndTabletcheck = function() {
