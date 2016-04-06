@@ -53,7 +53,7 @@
 				frame.style.height = h;
 				frame.style.width = w;
 				frame.style.position="relative";
-				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation";
+				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation allow-modals";
 				frame.onload = function() {
 					var cls = frame.contentDocument.getElementById("closing");
 					cls.innerHTML = "<br>";
@@ -71,7 +71,7 @@
 				frame.style.height = h;
 				frame.style.width = w;
 				frame.style.position="relative";
-				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation";
+				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation allow-modals";
 				document.getElementById("body").appendChild(frame);
 			}
 		</script>
