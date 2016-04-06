@@ -54,6 +54,11 @@
 				frame.style.width = w;
 				frame.style.position="relative";
 				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation";
+				frame.onload = function() {
+					alert("ayy lmao");
+					var cls = frame.contentDocument.getElementById("closing");
+					cls.innerHTML = "";
+				};
 				document.getElementById("body").appendChild(frame);
 			}
 			else {
