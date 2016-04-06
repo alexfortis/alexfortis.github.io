@@ -7,14 +7,14 @@
     	textarea { border: none; outline: none;}
 	</style>-->
 	<br><br>
-	<div id="instructions" style="background-color:black; position:fixed; width:100vw; z-index:999; height:20px; top:40px">
+	<div id="instructions" style="background-color:black; position:fixed; width:100vw; z-index:999; height:30px; top:40px">
 		<p style="background-color:black;color:#00ff00;font-family:Courier;font-size:14px;">This is my resume page. Type "help" to see a list of commands.</p></div>
   </head>
 <body style="background-color:black" id="body" onclick="javascript:document.getElementById('cmd').focus()">
 	<script>
 		document.body.style.overflow="hidden";
 	</script>
-	<div id="terminal" style="width:100vw;height:calc(100vh - 70px);background-color:black;overflow-y:auto;top:70px;">
+	<div id="terminal" style="width:100vw;height:calc(100vh - 80px);background-color:black;overflow-y:auto;top:80px;">
 		<br><br><br>
 		<script>
 			//queue
@@ -756,8 +756,12 @@
 						frame.src = "resume-nice.html";
 						frame.id = "resume-nice";
 						frame.style.width = document.getElementById("body").style.width;
-						var h = "calc(100vh - 70px)";
+						var h = "calc(100vh - 90px)";
 						var d = "calc(90px - 100vh)";
+						if(getAppName() === "Firefox") {
+							h = "calc(100vh - 105px)";
+							d = "calc(105px - 100vh)";
+						}
 						var w = "100vw";
 						frame.style.height = h;
 						frame.style.width = w;
