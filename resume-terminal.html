@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html style="background-color:black" onkeydown="processKeyInner(event)" id="html" onfocusout="javascript:document.getElementById('html').focus()" >
-<!--TODO: ADD CONTACT INFO-->
 <head>
 	<title>alexfortis.github.io - bash</title>
 	<div style="background-color:black">
@@ -520,7 +519,7 @@
 							}
 							else {
 								cmd.value = cmd.value.trim();
-								//TODO: implement autocompletion for commands
+								//TODO: implement autocompletion for commands (or do I need this...?)
 							}
 						}
 					}
@@ -583,13 +582,14 @@
 						var lastOut = document.getElementById("output"+numCmds);
 						kids = old.childNodes;
 						if(cmd.value == "help") {
-							lastOut.rows = 6;
+							lastOut.rows = 8;
 							lastOut.value = "\tview:\t\t\tview my resume in a nicer-looking format";
 							lastOut.value += "\n\tls:\t\t\tlist all files and directories in this directory";
 							lastOut.value += "\n\tcd [directory_name]:\tchange to the given directory";
 							lastOut.value += "\n\tcat [filename]:\t\tprint the contents of a given file"
 							lastOut.value += "\n\tpwd: \t\t\tprint the path of the current working directory"
 							lastOut.value += "\n\thelp:\t\t\tshow this help dialog";
+							lastOut.value += "\n\tYou can use JavaScript regular expressions (reference: http://www.w3schools.com/jsref/jsref_obj_regexp.asp) in file names and paths."
 						}
 						else if(cmd.value == "ls") {
 							lastOut.rows = currDir.children.length;
@@ -608,10 +608,12 @@
 							var isDir = true;
 							var isFile = false;
 							var regexp;
+							var matches = [];
 							if(path.length > 0) {
 								for(var i = 0; i < path.length; i++) {
 									if(path[i] === "") break;
 									regexp = new RegExp(path[i]);
+									//alert(regexp);
 									if(i === 0 && path[i] === "~") {
 										dir = tree._root;
 									}
@@ -626,18 +628,28 @@
 											//alert(dir.data.name + " is a dir");
 											for(var j = 0; j < dir.children.length; j++) {
 												//alert("dir.children[" + j + "]: " + dir.children[j].data.name);
-												if(regexp.test(dir.children[j].data.name)) {
-													alert(dir.children[j].data.name);
-													dir = dir.children[j];
-													break;
+												if(regexp.exec(dir.children[j].data.name)) {
+													//alert(dir.children[j].data.name + " matches " + regexp);
+													matches[matches.length] = dir.children[j];
 												}
+											}
+											if(matches.length > 1) {
+												isDir = false;
+												out = matches[0].data.name;
+												for(var j = 1; j < matches.length; j++) {
+													out += "\n" + matches[j].data.name;
+													lastOut.rows++;
+												}
+											}
+											else if(matches.length === 1) {
+												dir = matches[0];
 											}
 										}
 										else {
 											//isDir = false;
-											alert(dir.data.name + " is not a dir; i == " + i + ", path.length == " + path.length);
+											//alert(dir.data.name + " is not a dir; i == " + i + ", path.length == " + path.length);
 											if(i+1 === path.length) {
-												alert("is a file!");
+												//alert("is a file!");
 												isFile = true;
 											}
 											else break;
@@ -671,11 +683,17 @@
 							var out = "cat: "+fileName+": No such file or directory."
 							var isDir = true;
 							var regexp;
+							var matches = [];
 							if(path.length > 0) {
-								regexp = new RegExp(path[0]);
+								var len = path.length;
 								for(var i = 0; i < path.length-1; i++) {
-									if(path[i] === "") break;
+									//alert(path[i]);
+									if(path[i+1] === "") {
+										len = i+1;
+										break;
+									}
 									regexp = new RegExp(path[i]);
+									//alert(regexp);
 									if(i === 0 && path[i] === "~") {
 										dir = tree._root;
 									}
@@ -686,12 +704,21 @@
 										else break;
 									}
 									else if(path[i] != ".") {
+										//alert("checking contents of directory " + dir.data.name);
 										if(dir.data.type === "dir") {
 											for(var j = 0; j < dir.children.length; j++) {
+												//alert("checking " + dir.children[j].data.name);
 												if(regexp.test(dir.children[j].data.name)) {
-													dir = dir.children[j];
-													break;
+													matches[matches.length] = dir.children[j];
+													//alert("found a match: " + dir.data.name);
 												}
+											}
+											if(matches.length === 1) {
+												dir = matches[0];
+											}
+											else if(matches.length > 1) {
+												isDir = false;
+												out = filename + ": There are too many matches.";
 											}
 										}
 										else {
@@ -699,29 +726,40 @@
 											break;
 										}
 									}
+									matches = [];
 								}
 								if(isDir) {
+									regexp = new RegExp(path[len-1]);
 									var theFile = undefined;
 									if(path.length === 1 && path[0] === "~") {
 										theFile = dir.data;
 									}
-									else if(path[path.length-1] === ".") {
+									else if(path[len-1] === ".") {
 										theFile = dir.data;
 									}
-									else if(path[path.length-1] === "..") {
+									else if(path[len-1] === "..") {
 										theFile = dir.parent.data;
 									}
 									else {
 										for(var i = 0; i < dir.children.length; i++) {
 											if(regexp.test(dir.children[i].data.name)) {
-												theFile = dir.children[i].data;
-												break;
+												matches[matches.length] = dir.children[i].data;
 											}
+										}
+										if(matches.length === 1) {
+											theFile = matches[0];
 										}
 									}
 									if(theFile !== undefined) {
 										lastOut.rows = theFile.lines;
 										out = theFile.catput;
+									}
+									else if(matches.length > 1) {
+										lastOut.rows = 0;
+										for(var i = 0; i < matches.length; i++) {
+											lastOut.rows += matches[i].lines;
+											out += matches[i].catput + "\n";
+										}
 									}
 								}
 							}
