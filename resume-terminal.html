@@ -396,7 +396,7 @@
 
 			function cleanUp(fileName) {
 				fileName = fileName.trim();
-				alert(fileName);
+				//alert(fileName);
 				var dirs = fileName.split("/");
 				var newDirs = new Array();
 				var ret = fileName;
@@ -416,7 +416,7 @@
 						for(var i = 1; i < newDirs.length; i++) {
 							ret += newDirs[i];
 						}
-						alert(ret);
+						//alert(ret);
 					}
 					else {
 						ret = "";
@@ -613,7 +613,7 @@
 								for(var i = 0; i < path.length; i++) {
 									if(path[i] === "") break;
 									regexp = new RegExp(path[i]);
-									//alert(regexp);
+									//alert(path[i] + "\t\t" + regexp);
 									if(i === 0 && path[i] === "~") {
 										dir = tree._root;
 									}
@@ -628,11 +628,16 @@
 											//alert(dir.data.name + " is a dir");
 											for(var j = 0; j < dir.children.length; j++) {
 												//alert("dir.children[" + j + "]: " + dir.children[j].data.name);
-												if(regexp.exec(dir.children[j].data.name)) {
+												//alert("\"" + regexp.exec(dir.children[j].data.name) + "\"");
+												if(regexp.exec(dir.children[j].data.name) == path[i]) {
 													//alert(dir.children[j].data.name + " matches " + regexp);
 													matches[matches.length] = dir.children[j];
 												}
+												else {
+													//alert(dir.children[j].data.name + " does not match " + regexp);
+												}
 											}
+											//alert("There are " + matches.length + " matches.");
 											if(matches.length > 1) {
 												isDir = false;
 												out = matches[0].data.name;
@@ -642,6 +647,7 @@
 												}
 											}
 											else if(matches.length === 1) {
+												//alert("dir is now " + matches[0].data.name);
 												dir = matches[0];
 											}
 										}
@@ -655,6 +661,7 @@
 											else break;
 										}
 									}
+									matches = [];
 								}
 								if(isDir) {
 									if(dir.children.length > 0) {
