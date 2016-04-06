@@ -6,6 +6,9 @@
 	<style type="text/css">
     	textarea { border: none; outline: none;}
 	</style>
+	<br><br>
+	<div id="instructions" style="background-color:black;position:fixed;width:100vw;z-index:999">
+		<p style="background-color:black;color:#00ff00;font-family:Courier New;font-size:14px"><br>This is my resume page. Type "help" to see a list of commands.</p></div>
   </head>
 <body style="background-color:black" id="body" onclick="javascript:document.getElementById('cmd').focus()">
 	<script>
@@ -507,6 +510,7 @@
 
 			function processKeyInner(e) {
 				var code = e.keyCode || e.which;
+				//escape
 				if(code === 27) {
 					var nice = document.getElementById("resume-nice");
 					if(nice) {
@@ -752,7 +756,7 @@
 						frame.src = "resume-nice.html";
 						frame.id = "resume-nice";
 						frame.style.width = document.getElementById("body").style.width;
-						var h = "95vh";
+						var h = "92vh";
 						var d = "-" + h;
 						var w = "100vw";
 						frame.style.height = h;
@@ -777,6 +781,18 @@
 						};
 						document.getElementById("body").appendChild(frame);
 						frame.style.zIndex = "999";
+						var inst = document.getElementById("instructions");
+						var instructions = inst.innerHTML;
+						inst.innerHTML = "<p style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;z-index:999\"><br>Click anywhere on this bar to close.</p>";
+						inst.onclick = function() {
+							var nice = document.getElementById("resume-nice");
+							if(nice) {
+								nice.parentNode.removeChild(nice);
+								document.getElementById("cmd").value = "";
+							}
+							inst.onclick = "";
+							inst.innerHTML = instructions;
+						};
 						frame.focus();
 					}
 					else {
