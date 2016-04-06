@@ -766,20 +766,15 @@
 						frame.style.top = d;
 						x = document.getElementById('html');
 						frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation";
-						frame.onload = function() {
+						/*frame.onload = function() {
 							//alert(frame.sandbox);
 							//alert('hey there!');
 							frame.contentWindow.document.getElementById('html').onfocus = function(e) {
 								document.getElementById("html").focus();
 							};
 							//alert("set onfocus");
-							frame.contentWindow.document.getElementById('html').onkeydown = function(e) {
-								//alert('aaah');
-								parent.processKeyInner(e);
-								document.getElementById("cmd").focus();
-							};
 							//alert("added a listener to the content window's html thingy... or so we think");
-						};
+						};*/
 						document.getElementById("body").appendChild(frame);
 						frame.style.zIndex = "999";
 						var inst = document.getElementById("instructions");
