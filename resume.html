@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html id="html">
-	<title>Redirecting to resume.</title>
+	<title id="title">Redirecting to resume.</title>
 	<head>
 		<div style="background-color:black">
 	    <link href="favicon.ico" rel="shortcut icon">
@@ -42,6 +42,7 @@
 			frame.zIndex = "998";
 			if(mobileAndTabletcheck()) {
 				//alert("mobile");
+				document.getElementById("title").innerHTML = "Resume - Alex Strong"
 				frame.src = "resume-nice.html";
 				frame.id = "resume";
 				frame.style.width = document.getElementById("body").style.width;
@@ -55,6 +56,7 @@
 			}
 			else {
 				//alert("not mobile");
+				document.getElementById("title").innerHTML = "alexfortis.github.io - bash"
 				frame.src = "resume-terminal.html";
 				frame.id = "resume";
 				frame.style.width = document.getElementById("body").style.width;
