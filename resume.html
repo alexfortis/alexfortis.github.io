@@ -52,7 +52,7 @@
 				frame.style.height = h;
 				frame.style.width = w;
 				frame.style.position="relative";
-				frame.top="30px";
+				frame.marginheight="30px";
 				frame.sandbox = "allow-same-origin allow-scripts allow-top-navigation";
 				frame.onload = function() {
 					var cls = frame.contentDocument.getElementById("closing");
@@ -61,7 +61,7 @@
 				document.getElementById("body").appendChild(frame);
 			}
 			else {
-				//alert("not mobile");
+				alert("not mobile");
 				document.getElementById("title").innerHTML = "alexfortis.github.io - bash"
 				frame.src = "resume-terminal.html";
 				frame.id = "resume";
