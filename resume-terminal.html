@@ -164,7 +164,7 @@
 			var bing = {
 				name: "bing",
 				type: "txt",
-				catput: "Binghamton University (SUNY) - 2013-2017<br>Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017<br>Minor in Music<br>GPA: 3.54/4.00<br>Dean's List: Spring 2014, Spring 2015, Fall 2015<br>IBM/Watson Fellows Scholar, each fall since 2013<br>Upsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015<br>Pi Mu Epsilon honor society member since April 2015<br>CS Courses:<br>&nbsp;&nbsp;&nbsp;&nbsp;Current: CS471 (Programming Languages), CS440 (Advanced Topics in Object Oriented Programming)<br>&nbsp;&nbsp;&nbsp;&nbsp;Past: CS120 (systems I: machine organization), CS140 (intro to OOP), CS220 (systems II: architecture and programming), CS240 (data structures and algorithms), CS320 (systems III: advanced architecture), CS350 (operating systems), CS373 (automata and formal languages), CS375 (design and analysis of algorithms)<br>Math Courses:<br>&nbsp;&nbsp;&nbsp;&nbsp;Current: MATH404 (Advanced Linear Algebra)<br>&nbsp;&nbsp;&nbsp;&nbsp;Past: MATH304 (linear algebra), MATH323 (calculus III), MATH330 (number systems), MATH375 (functions of complex variables), MATH478-479 (real analysis I and II), MATH461 (topology)",
+				catput: "Binghamton University (SUNY) - 2013-2017<br>Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017<br>Minor in Music<br>GPA: 3.54/4.00<br>Dean's List: Spring 2014, Spring 2015, Fall 2015<br>IBM/Watson Fellows Scholar, each fall since 2013 (annual award)<br>Upsilon Pi Epsilon honor society member since December 2014, chapter treasurer since April 2015<br>Pi Mu Epsilon honor society member since April 2015<br>CS Courses:<ul><li>Current: <ul><li>CS471 (Programming Languages)</li><li>CS440 (Advanced Topics in Object Oriented Programming)</li></ul></li><li>Past: <ul><li>CS373 (Automata Theory and Formal Languages)</li><li>CS350 (Operating Systems)</li><li>CS375 (Design and Analysis of Algorithms)</li><li>CS320 (Computer Systems III: Advanced Computer Architecture)</li><li>CS240 (Data Structures and Algorithms)</li><li>CS220 (Computer Systems II: Architecture and Programming)</li><li>CS140 (Programming with Objects)</li><li>CS120 (Computer Systems I: Machine Organization)</li></ul></li></ul>Math Courses: <ul><li>Current: <ul><li>MATH404 (Advanced Linear Algebra)</li></ul></li><li>Past: <ul><li>MATH461 (Topology I)</li><li>MATH479 (Real Analysis II)</li><li>MATH478 (Real Analysis I)</li><li>MATH375 (Functions of Complex Variables)</li><li>MATH330 (Number Systems)</li><li>MATH323 (Calculus III)</li><li>MATH304 (Linear Algebra)</li></ul></li></ul>",
 				//lines: 17
 			};
 			var bxsci = {
@@ -182,7 +182,7 @@
 			var nyspi = {
 				name: "nyspi",
 				type: "txt",
-				catput: "New York State Psychiatric Institute (NYSPI)<br>Columbia University Medical Center<br>PsyIT Volunteer<br>Encrypted computers with BitLocker<br>Wrote a software tool in Java to help determine, from Excel sheets, which computers should be banned from the network",
+				catput: "New York State Psychiatric Institute (NYSPI) at Columbia University Medical Center<br>PsyIT Volunteer<ul><li>Encrypted computers with BitLocker</li><li>Wrote a software tool in Java to help determine, from Excel sheets, which computers should be banned from the network</li></ul>",
 				//lines: 6
 			};
 			var strongLanguages = {
@@ -217,19 +217,19 @@
 			var acm = {
 				name: "acm",
 				type: "txt",
-				catput: "ACM Projects Division<br>Develop a website, as project manager, similar to ratemyprofessors.com, but for classes<br>&nbsp;&nbsp;&nbsp;&nbsp;- Should include an interactive graphical prerequisite flowchart",
+				catput: "ACM Projects Division<br>Develop a website, as project manager, similar to ratemyprofessors.com, but for classes<ul><li>Should include an interactive graphical prerequisite flowchart</li></ul>",
 				//lines: 3
 			};
 			var competitions = {
 				name: "competitions",
 				type: "txt",
-				catput: "Programming Competitions:<br>Binghamton ACM February 2016 competition (sponsored by Bloomberg): won 2nd place<br>HackerRank World Cup - University Level CodeSprint (September 2015): Qualified for Semifinals<br>Binghamton ACM September 2015 competition (sponsored by Bloomberg): placed 18th",
+				catput: "Programming Competitions:<ul><li>Binghamton ACM February 2016 competition (sponsored by Bloomberg): won 2nd place</li><li>HackerRank World Cup - University Level CodeSprint (September 2015): Qualified for Semifinals</li><li>Binghamton ACM September 2015 competition (sponsored by Bloomberg): placed 18th</li></ul>",
 				//lines: 6
 			};
 			var pennappsXI = {
 				name:"pennappsXI",
 				type: "txt",
-				catput: "Built, with a team, a website that sped up updates by using bytewise subtraction rather than deleting and rewriting",
+				catput: "<ul><li>Built, with a team, a website that sped up updates by using bytewise subtraction rather than deleting and rewriting</li><li>Top 30 team</li></ul>",
 				//lines: 2
 			};
 			var contact = {
@@ -237,6 +237,11 @@
 				type: "txt",
 				catput: "Personal Email: alex.j.strong+website@gmail.com<br>School E-mail: astrong3+website@binghamton.edu<br>LinkedIn: https://linkedin.com/in/strongalexander<br>GitHub Username: alexfortis",
 				//lines: 4
+			};
+			var rescon = {
+				name:"rescon",
+				type: "txt",
+				catput:"Resident Computer Consultant (Binghamton University ITS)<br><ul><li>Provide technical support to students on campus, helping them resolve questions and issues about device connectivity and software problems</li><li>Staff the IT help desk at the Glenn G. Bartle library</li></ul>",
 			};
 
 			//now, set up stuff from the top down
@@ -289,6 +294,7 @@
 			tree.add(competitions, experiences, tree.traverseBF);
 			tree.add(nyspi, experiences, tree.traverseBF);
 			tree.add(pennappsXI, experiences, tree.traverseBF);
+			tree.add(rescon, experiences, tree.traverseBF);
 
 			var numCmds = 0;
 			var cmds = [];
