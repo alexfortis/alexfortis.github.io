@@ -9,7 +9,7 @@
 	</style>-->
 	<br><br>
 	<div id="instructions" style="background-color:black;position:fixed;width:100vw;z-index:999;height:20px;top:50px">
-		<p style="background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;">This is my resume page. Type "help" to see a list of commands.</p></div>
+		<p style="background-color:black;color:#00ff00;font-family:Courier;font-size:14px;">This is my resume page. Type "help" to see a list of commands.</p></div>
   </head>
 <body style="background-color:black" id="body" onclick="javascript:document.getElementById('cmd').focus()">
 	<script>
@@ -478,8 +478,8 @@
 								}
 								//alert(matchesAsString);
 								cmd.value = cmd.value.trim();
-								old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><div contenteditable=\"false\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</div><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
-								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" rows=1 style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;resize: none;\"></div>";
+								old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><div contenteditable=\"false\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</div><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" rows=1 style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;resize: none;\"></div>";
 								var lastOut = document.getElementById("output"+numCmds);
 								lastOut.innerHTML = matchesAsString;
 								outs[outs.length] = matchesAsString;
@@ -529,18 +529,18 @@
 					cmd.value = cmd.value.trim();
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
-					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><div contenteditable=\"false\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</div><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
+					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><div contenteditable=\"false\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</div><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
 					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
-						old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\"></div>";
+						old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
 						var lastOut = document.getElementById("output"+numCmds);
 						kids = old.childNodes;
 						if(cmd.value == "help") {
 							var url = "http://www.w3schools.com/jsref/jsref_obj_regexp.asp";
 							//lastOut.rows = 8;
-							lastOut.innerHTML = "<table style=\"border:none;padding-left:30px\"><tr><td>view:</td><td style=\"padding-left:30px\">view my resume in a nicer-looking format</td></tr><tr><td>ls:</td><td style=\"padding-left:30px\">list all files and directories in this directory</td></tr><tr><td>cd [directory_name]:</td><td style=\"padding-left:30px\">change to the given directory</td></tr><tr><td>cat [filename]:</td><td style=\"padding-left:30px\">print the contents of a given file</td></tr><tr><td>pwd:</td><td style=\"padding-left:30px\">print the path of the current working directory</td></tr><tr><td>help:</td><td style=\"padding-left:30px\">show this help dialog</td></tr></table><br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: <span onclick=\"javascript:parent.window.open(\'"+url+"\')\" contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;font-size:14px;resize: none;text-decoration: underline;cursor: pointer;\">"+url+"</span>) in file names and paths."
+							lastOut.innerHTML = "<table style=\"border:none;padding-left:30px\"><tr><td>view:</td><td style=\"padding-left:30px\">view my resume in a nicer-looking format</td></tr><tr><td>ls:</td><td style=\"padding-left:30px\">list all files and directories in this directory</td></tr><tr><td>cd [directory_name]:</td><td style=\"padding-left:30px\">change to the given directory</td></tr><tr><td>cat [filename]:</td><td style=\"padding-left:30px\">print the contents of a given file</td></tr><tr><td>pwd:</td><td style=\"padding-left:30px\">print the path of the current working directory</td></tr><tr><td>help:</td><td style=\"padding-left:30px\">show this help dialog</td></tr></table><br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: <span onclick=\"javascript:parent.window.open(\'"+url+"\')\" contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;text-decoration: underline;cursor: pointer;\">"+url+"</span>) in file names and paths."
 						}
 						else if(cmd.value == "ls") {
 							//lastOut.rows = currDir.children.length;
@@ -773,7 +773,7 @@
 						frame.style.zIndex = "999";
 						var inst = document.getElementById("instructions");
 						var instructions = inst.innerHTML;
-						inst.innerHTML = "<p style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;z-index:999\">Click anywhere on this bar to close.</p>";
+						inst.innerHTML = "<p style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;z-index:999\">Click anywhere on this bar to close.</p>";
 						inst.onclick = function() {
 							var nice = document.getElementById("resume-nice");
 							if(nice) {
@@ -829,7 +829,7 @@
 
 							}
 							if(!valid) {
-								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\"></div>";
+								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
 								var lastOut = document.getElementById("output"+numCmds);
 								if(found) lastOut.innerHTML = "cd: " + newPath + ": Not a directory";
 								else lastOut.innerHTML = "cd: " + newPath + ": No such file or directory";
@@ -842,7 +842,7 @@
 							}
 						}
 						else {
-							old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\"></div>";
+							old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
 							var lastOut = document.getElementById("output"+numCmds);
 							lastOut.innerHTML = "-bash: " + cmd.value.split(" ")[0] + ": command not found";
 							outs[outs.length] = lastOut.innerHTML;
@@ -874,7 +874,7 @@
  				}
  				else if(code == 13) {
  					var old = document.getElementById("old");
- 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><div contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;font-size:14px;resize: none;\" onfocus=\"javascript:document.getElementById('cmd').focus()\" rows=1>"+"</div></td></tr></table>"
+ 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><div contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;\" onfocus=\"javascript:document.getElementById('cmd').focus()\" rows=1>"+"</div></td></tr></table>"
  					var kids = old.childNodes;
  					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
@@ -942,7 +942,7 @@
 			//window.addEventListener("keydown", processKeyInner(event));
 		</script>
 		<div id="old" style="width:100vw;background-color:black"></div>
-		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier New;font-size:14px;font-size:14px;resize: none;width: auto;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier New" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier New;font-size:14px;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onkeypress="processEnter(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
+		<table id="command" style="width:100%"><tr><td id="promptCell"><div id="prompt" style="background-color:black;color:#00ff00;font-family:Courier;font-size:14px;font-size:14px;resize: none;width: auto;"><script>document.getElementById("prompt").innerHTML = prompt; document.getElementById("promptCell").style = "white-space:nowrap";</script></div></td><td id="cmdCell"><!--<textarea autofocus align="right" id="cmd" style="background-color:black;color:#00ff00;width:100%;font-family:Courier" rows=1 onKeyPress="processKey(event, this)"></textarea>--><input autofocus type="text" id="cmd" style="outline:none;background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;resize: none;border:none" onKeyUp="processKey(event, this)" onKeyDown="processTab(event, this)" onkeypress="processEnter(event, this)"><script> document.getElementById("cmdCell").width = window.innerWidth - document.getElementById("promptCell").width; </script></td></tr></table>
 	</div>
 	<div id="dummy" contenteditable="true" onfocus="javascript:refocus()" onclick="javascript:refocus()"></div>
 </body>
