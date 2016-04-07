@@ -280,6 +280,8 @@
 				//lines: 1
 			};
 
+			var howMuchForClear = 0;
+
 			var tree = new Tree(rootDir);
 			tree.add(contact, rootDir, tree.traverseBF);
 			tree.add(education, rootDir, tree.traverseBF);
@@ -380,7 +382,7 @@
 					curr = "/" + dir.data.name + curr;
 				}
 				curr = "~"+ curr;
-				return app + "@alexfortis.github.io:" + curr + "$&nbsp";
+				return app + "@resume:" + curr + "$&nbsp";
 			}
 			var prompt = getPrompt();
 			var promptBox = document.getElementById("prompt");
@@ -751,7 +753,8 @@
 							lastOut.innerHTML = curr;
 						}
 						else if(cmd.value === "clear") {
-							lastOut.style.height = "calc(100vh - 80px)";
+							alert(old.scrollHeight);
+							lastOut.style.height ="calc(100vh - 80px)";
 						}
 						else {
 							//lastOut.rows = 1;
