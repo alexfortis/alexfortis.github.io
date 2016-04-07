@@ -750,6 +750,9 @@
 							//lastOut.rows = 1;
 							lastOut.innerHTML = curr;
 						}
+						else if(cmd.value === "clear") {
+							lastOut.style.height = "calc(100vh - 80px)";
+						}
 						else {
 							//lastOut.rows = 1;
 							lastOut.innerHTML = "-bash: " + cmd.value.split(" ")[0] + ": command not found"
