@@ -796,8 +796,10 @@
 								document.getElementById("cmd").value = "";
 							}
 							inst.onclick = "";
+							inst.style.cursor = "";
 							inst.innerHTML = instructions;
 						};
+						inst.style.cursor = "pointer";
 						frame.focus();
 					}
 					else {
