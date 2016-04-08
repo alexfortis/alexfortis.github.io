@@ -10,11 +10,11 @@
 	<div id="instructions" style="background-color:black; position:fixed; width:100vw; z-index:999; height:30px; top:40px">
 		<p style="background-color:black;color:#00ff00;font-family:Courier;font-size:14px;padding-bottom:8px">This is my resume page. Type "help" to see a list of commands.</p></div>
   </head>
-<body style="background-color:black" id="body" onclick="javascript:document.getElementById('cmd').focus()">
+<body style="background-color:black;" id="body" onclick="javascript:document.getElementById('cmd').focus()">
 	<script>
 		document.body.style.overflow="hidden";
 	</script>
-	<div id="terminal" style="width:100vw;height:calc(100vh - 80px);background-color:black;overflow-y:auto;top:80px;">
+	<div id="terminal" style="width:100vw;height:calc(100vh - 50px);background-color:black;overflow-y:auto;top:80px;">
 		<br><br>
 		<script>
 			//queue
@@ -117,6 +117,8 @@
 			        throw new Error('Cannot add node to a non-existent parent.');
 			    }
 			};
+
+			var howMuchFromTop = 0;
 
 			Tree.prototype.remove = function(data, fromData, traversal) {
 			    var tree = this,
@@ -752,6 +754,9 @@
 							//lastOut.rows = 1;
 							lastOut.innerHTML = curr;
 						}
+						/*else if(cmd.value.split(" ")[0] === "clear") {
+							lastOut.style.height = (()?():()) + "px";
+						}*/
 						else {
 							//lastOut.rows = 1;
 							lastOut.innerHTML = "-bash: " + cmd.value.split(" ")[0] + ": command not found"
