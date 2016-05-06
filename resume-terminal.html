@@ -244,6 +244,11 @@
 				type: "txt",
 				catput:"Resident Computer Consultant (Binghamton University ITS)<br><ul><li>Provide technical support to students on campus, helping them resolve questions and issues about device connectivity and software problems</li><li>Staff the IT help desk at the Glenn G. Bartle library</li></ul>",
 			};
+			var citi = {
+				name: "citi.txt",
+				type: "txt",
+				catput: "Summer Technology Analyst - Software Development Track (June-August 2016)<br>Will work on the Citi Velocity Analytics team, developing charting and pricing applications to help clients make trading decisions."
+			};
 			var otherExperiences = {
 				name: "other.txt",
 				type: "txt",
@@ -297,6 +302,7 @@
 			tree.add(otherSkills, skills, tree.traverseDF);
 			tree.add(software, skills, tree.traverseDF);
 			tree.add(acm, experiences, tree.traverseBF);
+			tree.add(citi, experiences, tree.traverseBF);
 			tree.add(competitions, experiences, tree.traverseBF);
 			tree.add(nyspi, experiences, tree.traverseBF);
 			tree.add(otherExperiences, experiences, tree.traverseBF);
