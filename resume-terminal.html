@@ -10,7 +10,7 @@
 	<div id="instructions" style="background-color:black; position:fixed; width:100vw; z-index:999; height:30px; top:40px">
 		<p style="background-color:black;color:#00ff00;font-family:Courier;font-size:14px;padding-bottom:8px">This is my resume page. Type "help" to see a list of commands.</p></div>
   </head>
-<body style="background-color:black;" id="body" onclick="javascript:document.getElementById('cmd').focus()">
+<body style="background-color:black;" id="body" onclick="javascript:document.getElementById('cmd').focus()" link="#00ff00">
 	<script>
 		document.body.style.overflow="hidden";
 	</script>
@@ -190,12 +190,12 @@
 			var familiarLanguages = {
 				name: "familiar.txt",
 				type: "txt",
-				catput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript, Haskell, Coq"
+				catput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript, Haskell, Coq, SQL"
 			};
 			var software = {
 				name: "software.txt",
 				type: "txt",
-				catput: "Emacs, Eclipse, Git, UNIX Terminal"
+				catput: "Emacs, Eclipse, Git, SVN, UNIX Terminal"
 			};
 			var otherSkills = {
 				name: "other.txt",
@@ -235,7 +235,7 @@
 			var citi = {
 				name: "citi.txt",
 				type: "txt",
-				catput: "Summer Technology Analyst - Software Development Track (June-August 2016)<br>Will work on the Citi Velocity Analytics team, developing charting and pricing applications to help clients make trading decisions."
+				catput: "Summer Technology Analyst - Software Development Track (June-August 2016)<br>Worked on the Citi Velocity Analytics team.<ul><li>Made a tool in Java to change the ownership of all of someone's charts to someone else<ul><li>Involved connecting to, retrieving, and modifying data in a SQL database</li><li>Learned SQL</li><li>Saves cost by saving development time and making self-service easier</li></ul></li><li>Made a data structure called a Cube<ul><li>Conceptually, a Map that associates a triple of keys with a value</li><li>Implemented Cube&lt;R, C, L, V&gt; as Map&lt;R, Map&lt;C, Map&lt;L, V&gt;&gt;&gt;</li><li>Inspired by Google Guava's <a href=\"https://google.github.io/guava/releases/18.0/api/docs/com/google/common/collect/Table.html\" style=\"color:#00ff00\">Table</a> data structure</li><li>Built to replace instances of Map&lt;R, Table&lt;C, L, V&gt;&gt; in the team's code base</li></ul></li></ul>"
 			};
 			var otherExperiences = {
 				name: "other.txt",
@@ -453,6 +453,10 @@
 							}
 							for(var i = 0; i < spl.length-1; i++) {
 								dirFound = false;
+								if(i == 0 && spl[i] === "~") {
+									dir = tree._root;
+									dirFound = true;
+								}
 								if(spl[i] === "..") {
 									if(dir.data.name !== "resume") {
 										dir = dir.parent;
