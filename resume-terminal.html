@@ -235,7 +235,7 @@
 			var citi = {
 				name: "citi.txt",
 				type: "txt",
-				catput: "Summer Technology Analyst - Software Development Track (June-August 2016)<br>Worked on the Citi Velocity Analytics team.<ul><li>Made a tool in Java to change the ownership of all of someone's charts to someone else<ul><li>Involved connecting to, retrieving, and modifying data in a SQL database</li><li>Learned SQL</li><li>Saves cost by saving development time and making self-service easier</li></ul></li><li>Built a data structure called a Cube<ul><li>Conceptually, a Map that associates a triple of keys with a value</li><li>Implemented Cube&lt;R, C, L, V&gt; as Map&lt;R, Map&lt;C, Map&lt;L, V&gt;&gt;&gt;</li><li>Inspired by Google Guava's <a href=\"https://google.github.io/guava/releases/18.0/api/docs/com/google/common/collect/Table.html\" style=\"color:#00ff00\">Table</a> data structure</li><li>Designed to replace instances of Map&lt;R, Table&lt;C, L, V&gt;&gt; in the team's code base</li></ul></li></ul>"
+				catput: "Summer Technology Analyst - Software Development Track (June-August 2016)<br>Worked on the Citi Velocity Analytics team.<ul><li>Made a tool in Java to change the ownership of all of someone's charts to someone else<ul><li>Involved connecting to, retrieving, and modifying data in a SQL database</li><li>Learned SQL</li><li>Saves cost by saving development time and making self-service easier</li></ul></li><li>Built a data structure called a Cube<ul><li>Conceptually, a Map that associates a triple of keys with a value</li><li>Implemented Cube&lt;R, C, L, V&gt; as Map&lt;R, Map&lt;C, Map&lt;L, V&gt;&gt;&gt;</li><li>Inspired by Google Guava's <a href=\"https://google.github.io/guava/releases/18.0/api/docs/com/google/common/collect/Table.html\" target=\"_blank\" style=\"color:#00ff00\">Table</a> data structure</li><li>Designed to replace instances of Map&lt;R, Table&lt;C, L, V&gt;&gt; in the team's code base</li></ul></li></ul>"
 			};
 			var otherExperiences = {
 				name: "other.txt",
@@ -443,7 +443,8 @@
 				if(code === 9) {
 					var args = cmd.value.split(" ");
 					if(args.length > 1) {
-						if(args[0] == "ls" || args[0] == "cat" || args[0] == "cd") {
+						//if(args[0] == "ls" || args[0] == "cat" || args[0] == "cd") {
+						if(true) {
 							var matches = [];
 							var spl = args[args.length-1].split("/");
 							var dir = currDir;
@@ -554,202 +555,180 @@
 				}
 			}
 
+			//returns a list of matches
+			function findFileNode(path) {
+				if(path[path.length-1] === '/') path = path.substr(0, path.length-1);
+				var pathArr = path.split("/");
+				var regexp;
+				var matches = [];
+				if(pathArr.length > 0) {
+					var currMatches = new Queue();
+					currMatches.enqueue(currDir);
+
+					for(var i = 0; i < pathArr.length; i++) {
+						if(pathArr[i] === "..") {
+							var parents = new Queue();
+							while(currMatches.size() > 0) {
+								var current = currMatches.dequeue();
+								if(current.parent) {
+									parents.enqueue(current.parent);
+								}
+							}
+							currMatches = parents;
+						}
+						else if(pathArr[i] !== ".") {
+							var len = currMatches.size();
+							regexp = new RegExp(pathArr[i]);
+							var matchesAtThisLevel = new Queue();
+							var specialMatches = [];
+
+							for(var j = 0; j < len; j++) {
+								var current = currMatches.dequeue();
+
+								for(var k = 0; k < current.children.length; k++) {
+									var matchesAtThisLevelInThisFolder = new Queue();
+
+									if(pathArr[i] === current.children[k].data.name) {
+										specialMatches.push(current.children[k]);
+										break;
+									}
+
+									else if(specialMatches.length === 0 && regexp.test(current.children[k].data.name)) {
+										matchesAtThisLevelInThisFolder.enqueue(current.children[k]);
+									}
+
+									if(specialMatches.length === 0) {
+										while(matchesAtThisLevelInThisFolder.size() > 0) {
+											matchesAtThisLevel.enqueue(matchesAtThisLevelInThisFolder.dequeue());
+										}
+									}
+								}
+							}
+							//if there are no exact matches
+							if(specialMatches.length === 0) {
+								currMatches = matchesAtThisLevel;
+							}
+							else {
+								//the only matches that matter are exact matches
+								currMatches = new Queue();
+								for(var z = 0; z < specialMatches.length; z++) {
+									currMatches.enqueue(specialMatches[z]);
+								}
+							}
+						}
+						//if there are no matches
+						if(currMatches.size() === 0) {
+							return undefined;
+						}
+					}
+					var ret = [];
+					while(currMatches.size() > 0) {
+						ret.push(currMatches.dequeue());
+					}
+					return ret;
+				}
+				//if the path was empty, return the directory we were already in
+				return [currDir];
+			}
+
+			function getPath(relativeRootNode, fileNode) {
+				var ret = "";
+
+				//construct the path required to get to each node from the root
+				var currentNode = fileNode;
+				var filePath = [];
+				var relativeRootPath = [];
+				while(currentNode !== tree._root) {
+					filePath.push(currentNode);
+					currentNode = currentNode.parent;
+				}
+				currentNode = relativeRootNode;
+				while(currentNode !== tree._root) {
+					relativeRootPath.push(currentNode);
+					currentNode = currentNode.parent;
+				}
+
+				//now shorten the paths so there's less redundancy
+				while(filePath.length > 0 && relativeRootPath.length > 0 && filePath[filePath.length] === relativeRootPath[relativeRootPath.length]) {
+					filePath.pop();
+					relativeRootPath.pop();
+				}
+
+				//now, construct the path string
+				for(var i = 0; i < relativeRootPath.length; i++) {
+					ret += "../";
+				}
+				for(var i = filePath.length-1; i >= 0; i--) {
+					ret += filePath[i].data.name + "/";
+				}
+				ret = ret.substring(0, ret.length-1);
+				return ret;
+			}
+
 			function processEnter(e, textarea) {
 				var code = e.keyCode || e.which;
+				//if we want to execute a command
 				if(code == 13 && textarea.value.trim().length > 0) {
-   					numUp = 0;
-   					reused = [];
+					numUp = 0;
+					reused = [];
 					cmd.value = cmd.value.trim();
+					//update the command history
 					var term = document.getElementById("terminal");
 					var old = document.getElementById("old");
 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td id=\"cmdCell"+numCmds+"\" width=" + document.getElementById("cmdCell").width + "><div contenteditable=\"false\" id=\"cmd"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;\" rows=1>"+cmd.value+"</div><script> document.getElementById(\"cmdCell"+numCmds+"\").width = window.innerWidth - document.getElementById(\"promptCell"+numCmds+"\").width; <"+"/script></td></tr></table>";
 					var prevCmd = document.getElementById("cmd"+numCmds);
 					var kids = old.childNodes;
 					cmds[cmds.length] = cmd.value;
-					if(cmd.value.substring(0,2) != "cd" && cmd.value != "view") {
-						old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
-						var lastOut = document.getElementById("output"+numCmds);
-						kids = old.childNodes;
-						if(cmd.value == "help") {
-							var url = "http://www.w3schools.com/jsref/jsref_obj_regexp.asp";
-							lastOut.innerHTML = "<table style=\"border:none;padding-left:30px\"><tr><td>view:</td><td style=\"padding-left:30px\">view my resume in a nicer-looking format</td></tr><tr><td>ls:</td><td style=\"padding-left:30px\">list all files and directories in this directory</td></tr><tr><td>cd [directory_name]:</td><td style=\"padding-left:30px\">change to the given directory</td></tr><tr><td>cat [filename]:</td><td style=\"padding-left:30px\">print the contents of a given file</td></tr><tr><td>pwd:</td><td style=\"padding-left:30px\">print the path of the current working directory</td></tr><tr><td>help:</td><td style=\"padding-left:30px\">show this help dialog</td></tr></table><br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: <span onclick=\"javascript:parent.window.open(\'"+url+"\')\" contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;text-decoration: underline;cursor: pointer;\"><a href=\""+url+"\" target=\"_blank\" style=\"color:#00ff00\">"+url+"</a></span>) in file names and paths.<br><br>"
-						}
-						else if(cmd.value == "ls") {
-							lastOut.innerHTML = currDir.children[0].data.name;
-							for(var i = 1; i < currDir.children.length; i++) {
-								lastOut.innerHTML += "<br>" + currDir.children[i].data.name;
-							}
-						}
-						else if(cmd.value.substring(0,3) === "ls ") {
-							var fileName = cmd.value.substring(3);
-							var dir = currDir;
-							var path = fileName.split("/");
-							while(path[path.length] === "") path.pop();
-							var out = "ls: " + fileName + ": No such file or directory.";
-							var isDir = true;
-							var isFile = false;
-							var regexp;
-							var matches = [];
-							if(path.length > 0) {
-								for(var i = 0; i < path.length; i++) {
-									if(path[i] === "") break;
-									regexp = new RegExp(path[i]);
-									if(i === 0 && path[i] === "~") {
-										dir = tree._root;
-									}
-									else if(path[i] == "..") {
-										if(dir.parent) {
-											dir = dir.parent;
-										}
-										else break;
-									}
-									else if(path[i] !== ".") {
-										if(dir.data.type === "dir") {
-											for(var j = 0; j < dir.children.length; j++) {
-												if(regexp.exec(dir.children[j].data.name) !== null) {
-													matches[matches.length] = dir.children[j];
-												}
-												else {
-												}
-											}
-											if(matches.length > 1) {
-												isDir = false;
-												out = "";
-												out = matches[0].data.name;
-												for(var j = 1; j < matches.length; j++) {
-													out += "<br>" + matches[j].data.name;
-												}
-											}
-											else if(matches.length === 1) {
-												dir = matches[0];
-												if(dir.data.name !== path[i]) {
-													isDir = false;
-													if(i === path.length-1) isFile = true;
-												}
-											}
-										}
-										else {
-											if(i+1 === path.length) {
-												isFile = true;
-											}
-											else break;
-										}
-									}
-									matches = [];
-								}
-								if(isDir) {
-									if(dir.children.length > 0) {
-										out = dir.children[0].data.name;
-									}
-									for(var i = 1; i < dir.children.length; i++) {
-										out += "<br>" + dir.children[i].data.name;
-									}
-								}
-								else if(isFile) {
-									out = dir.data.name;
-								}
-							}
-							lastOut.innerHTML = out;
-						}
-						else if(cmd.value === "cat") {
-							lastOut.innerHTML = "cat: Please specify the file"
-						}
-						else if(cmd.value.substring(0,4) === "cat ") {
-							var fileName = cmd.value.substring(4);
-							var dir = currDir;
-							var path = fileName.split("/");
-							var out = "cat: "+fileName+": No such file or directory."
-							var isDir = true;
-							var regexp;
-							var matches = [];
-							if(path.length > 0) {
-								var len = path.length;
-								for(var i = 0; i < path.length-1; i++) {
-									if(path[i+1] === "") {
-										len = i+1;
-										break;
-									}
-									regexp = new RegExp(path[i]);
-									if(i === 0 && path[i] === "~") {
-										dir = tree._root;
-									}
-									else if(path[i] == "..") {
-										if(dir.parent) {
-											dir = dir.parent;
-										}
-										else break;
-									}
-									else if(path[i] != ".") {
-										if(dir.data.type === "dir") {
-											for(var j = 0; j < dir.children.length; j++) {
-												if(regexp.test(dir.children[j].data.name)) {
-													matches[matches.length] = dir.children[j];
-												}
-											}
-											if(matches.length === 1) {
-												dir = matches[0];
-											}
-											else if(matches.length > 1) {
-												isDir = false;
-												out = filename + ": There are too many matches.";
-											}
-										}
-										else {
-											isDir = false;
-											break;
-										}
-									}
-									matches = [];
-								}
-								if(isDir) {
-									regexp = new RegExp(path[len-1]);
-									var theFile = undefined;
-									if(path.length === 1 && path[0] === "~") {
-										theFile = dir.data;
-									}
-									else if(path[len-1] === ".") {
-										theFile = dir.data;
-									}
-									else if(path[len-1] === "..") {
-										theFile = dir.parent.data;
-									}
-									else {
-										for(var i = 0; i < dir.children.length; i++) {
-											if(regexp.test(dir.children[i].data.name)) {
-												matches[matches.length] = dir.children[i].data;
-											}
-										}
-										if(matches.length === 1) {
-											theFile = matches[0];
-										}
-									}
-									if(theFile !== undefined) {
-										out = theFile.catput;
-									}
-									else if(matches.length > 1) {
-										out = "";
-										for(var i = 0; i < matches.length; i++) {
-											out += matches[i].catput + "<br>";
-										}
-									}
-								}
-							}
-							lastOut.innerHTML = out;
-						}
-						else if(cmd.value === "pwd") {
-							var curr = "";
-							for(var dir = currDir; dir.parent; dir = dir.parent) {
-								curr = "/" + dir.data.name + curr;
-							}
-							curr = "alexfortis.github.io/resume" + curr;
-							lastOut.innerHTML = curr;
+					//get the arguments
+					var args = cmd.value.split(" ");
+
+					//parse the command
+					if(args.length > 0) {}
+					var command = args[0];
+
+					//change directory
+					if(command == "cd") {
+						if(args.length == 1) {
+							currDir = tree._root;
+							prompt = getPrompt();
 						}
 						else {
-							lastOut.innerHTML = "-bash: " + cmd.value.split(" ")[0] + ": command not found"
+							var matches = findFileNode(args[1]);
+							if(matches == undefined) {
+								var result = "-bash: cd: " + args[1] + ": no such file or directory";
+								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
+								var lastOut = document.getElementById("output"+numCmds);
+								lastOut.innerHTML = result;
+								outs[outs.length] = result;
+							}
+							else if(matches.length === 1) {
+								if(matches[0].data.type === "dir") {
+									currDir = matches[0];
+									prompt = getPrompt();
+								}
+								else {
+									var result = "-bash: cd: " + args[1] + ": not a directory";
+									old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
+									var lastOut = document.getElementById("output"+numCmds);
+									lastOut.innerHTML = result;
+									outs[outs.length] = result;
+								}
+							}
+							else {
+								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
+								var lastOut = document.getElementById("output"+numCmds);
+								var result = "cd: Multiple matches:";
+								for(var i = 0; i < matches.length; i++) {
+									result += "<br>" + getPath(currDir, matches[i]);
+								}
+								lastOut.innerHTML = result;
+								outs[outs.length] = result;
+							}
 						}
-						outs[outs.length]=lastOut.innerHTML;
 					}
-					else if(cmd.value == "view") {
+
+					//view the nicer-looking resume
+					else if(command == "view") {
 						var frame = document.createElement("IFRAME");
 						frame.src = "resume-nice.html";
 						frame.id = "resume-nice";
@@ -786,68 +765,102 @@
 						inst.style.cursor = "pointer";
 						frame.focus();
 					}
+
+					//now, check for the other ones
 					else {
-						if(cmd.value == "cd" || cmd.value == "cd ~") {
-							currDir = tree._root;
-							prompt = getPrompt();
+						//setup
+						old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
+						var lastOut = document.getElementById("output"+numCmds);
+						kids = old.childNodes;
+
+						//help dialog
+						if(command == "help") {
+							var url = "http://www.w3schools.com/jsref/jsref_obj_regexp.asp";
+							lastOut.innerHTML = "<table style=\"border:none;padding-left:30px\"><tr><td>view:</td><td style=\"padding-left:30px\">view my resume in a nicer-looking format</td></tr><tr><td>ls:</td><td style=\"padding-left:30px\">list all files and directories in this directory</td></tr><tr><td>cd [directory_name]:</td><td style=\"padding-left:30px\">change to the given directory</td></tr><tr><td>cat [filename]:</td><td style=\"padding-left:30px\">print the contents of a given file</td></tr><tr><td>pwd:</td><td style=\"padding-left:30px\">print the path of the current working directory</td></tr><tr><td>help:</td><td style=\"padding-left:30px\">show this help dialog</td></tr></table><br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: <span onclick=\"javascript:parent.window.open(\'"+url+"\')\" contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;text-decoration: underline;cursor: pointer;\"><a href=\""+url+"\" target=\"_blank\" style=\"color:#00ff00\">"+url+"</a></span>) in file names and paths.<br><br>"
 						}
-						else if(cmd.value.substring(0,3) === "cd ") {
-							var dir = currDir;
-							var newPath = cmd.value.substring(3);
-							var newDirs = newPath.split("/");
-							var valid = true;
-							var regexp;
-							for(var i = 0; i < newDirs.length && newDirs[i].length > 0; i++) {
-								regexp = new RegExp(newDirs[i]);
-								if(i === 0 && newDirs[i] === "~") {
-									dir = tree._root;
+
+						//list files
+						else if(command == "ls") {
+							if(args.length == 1) {
+								lastOut.innerHTML = currDir.children[0].data.name;
+								for(var i = 1; i < currDir.children.length; i++) {
+									lastOut.innerHTML += "<br>" + currDir.children[i].data.name;
 								}
-								else if(newDirs[i] === "..") {
-									if(dir.parent) dir = dir.parent;
-									else {
-										valid = false;
-									}
+							}
+
+							else {
+								var matches = findFileNode(args[1]);
+
+								//file not found
+								if(matches == undefined) {
+									var out = "ls: " + args[1] + ": no such file or directory";
+									lastOut.innerHTML = out;
 								}
-								else if(newDirs[i] !== ".") {
-									for(var j = 0; j < dir.children.length; j++) {
-										var found = false;
-										if(regexp.test(dir.children[j].data.name)) {
-											if(dir.children[j].data.type === "dir") {
-												dir = dir.children[j];
-												found = true;
-											}
-											else {
-												found = true;
-												valid = false;
-											}
-											break;
+
+								//there is exactly one match
+								else if(matches.length == 1) {
+									var fileNode = matches[0];
+									//if it's a directory
+									if(fileNode.data.type == "dir") {
+										lastOut.innerHTML = "";
+										for(var i = 0; i < fileNode.children.length; i++) {
+											if(i > 0) lastOut.innerHTML += "<br>";
+											lastOut.innerHTML += fileNode.children[i].data.name;
 										}
 									}
-									if(!found) {
-										valid = false;
+									//otherwise
+									else {
+										lastOut.innerHTML = args[1];
 									}
 								}
 
+								//multiple matches
+								else {
+									lastOut.innerHTML = "";
+									for(var i = 0; i < matches.length; i++) {
+										var thePath = getPath(currDir, matches[i]);
+										lastOut.innerHTML += thePath;
+										if(i+1 !== matches.length) {
+											lastOut.innerHTML += "<br>";
+										}
+									}
+								}
 							}
-							if(!valid) {
-								old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
-								var lastOut = document.getElementById("output"+numCmds);
-								if(found) lastOut.innerHTML = "cd: " + newPath + ": Not a directory";
-								else lastOut.innerHTML = "cd: " + newPath + ": No such file or directory";
-								outs[outs.length] = lastOut.innerHTML;
+						}
+
+						//concatenate the file's contents
+						else if(command == "cat") {
+							if(args.length == 1) {
+								lastOut.innerHTML = "cat: Please specify the file.";
 							}
 							else {
-								currDir = dir;
-								prompt = getPrompt();
+								var matches = findFileNode(args[1]);
+								//if there are no matches, say so
+								if(matches == undefined || matches.length == 0) {
+									lastOut.innerHTML = "cat: " + args[1] + ": No such file or directory";
+								}
+
+								//otherwise, just concatenate all of them
+								else {
+									lastOut.innerHTML = "";
+									for(var i = 0; i < matches.length; i++) {
+										lastOut.innerHTML += matches[i].data.catput;
+										if(i+1 < matches.length) {
+											lastOut.innerHTML += "<br>";
+										}
+									}
+								}
 							}
 						}
-						else {
-							old.innerHTML += "<div contenteditable=\"false\" id=\"output"+numCmds+"\" style=\"background-color:black;color:#00ff00;width:100vw;font-family:Courier;font-size:14px;font-size:14px;resize: none;\"></div>";
-							var lastOut = document.getElementById("output"+numCmds);
-							lastOut.innerHTML = "-bash: " + cmd.value.split(" ")[0] + ": command not found";
-							outs[outs.length] = lastOut.innerHTML;
+
+						//print working directory
+						else if(command == "pwd") {
+							lastOut.innerHTML = "alexfortis.github.io/resume/" + getPath(tree._root, currDir);
+							if(lastOut.innerHTML[lastOut.innerHTML.length-1] !== '/') lastOut.innerHTML += "/";
 						}
 					}
+
+					//update everything
 					var j = 0, k = 0;
 					for(var i = 0; i < kids.length; i++) {
 						if(kids[i].id.substring(0,6) == "output") {
@@ -870,31 +883,7 @@
 						inputBox.scrollTop = inputBox.scrollTop+100;
 
 					} while(bottom < inputBox.scrollTop);
- 				}
- 				else if(code == 13) {
- 					var old = document.getElementById("old");
- 					old.innerHTML += "<table style=\"width:100%\"><tr><td id=\"promptCell"+numCmds+"\" style=\"white-space:nowrap\"><div id=\"prompt"+numCmds+"\" style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;font-size:14px;resize: none;width:" + document.getElementById("promptCell").offsetWidth + "\">"+prompt+"</div></td><td><div contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;\" onfocus=\"javascript:document.getElementById('cmd').focus()\" rows=1>"+"</div></td></tr></table>"
- 					var kids = old.childNodes;
- 					var j = 0, k = 0;
-					for(var i = 0; i < kids.length; i++) {
-						if(kids[i].id.substring(0,6) == "output") {
-							kids[i].value = outs[j];
-							j++;
-						}
-						else if(kids[i].id.substring(0,3) == "cmd") {
-							kids[i].rows = 1;
-							kids[i].value = cmds[k];
-							k++;
-						}
-					}
-					var inputBox = document.getElementById("terminal");
-					var bottom = inputBox.scrollTop;
-					do {
-						bottom = inputBox.scrollTop;
-						inputBox.scrollTop = inputBox.scrollTop+1;
-
-					} while(bottom != inputBox.scrollTop);
- 				}
+				}
 			}
 
 			function processKey(e, textarea) {
