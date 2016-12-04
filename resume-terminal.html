@@ -771,11 +771,8 @@
 
 					//print the resume
 					else if(command == "print") {
+						url="resume-printable.html";
 					    var printWindow = window.open( url, 'Print', 'left=200, top=200, width=950, height=500, toolbar=0, resizable=0');
-					    printWindow.addEventListener('load', function(){
-					        printWindow.print();
-					        printWindow.close();
-					    }, true);
 					}
 
 					//now, check for the other ones
@@ -788,7 +785,7 @@
 						//help dialog
 						if(command == "help") {
 							var url = "http://www.w3schools.com/jsref/jsref_obj_regexp.asp";
-							lastOut.innerHTML = "<table style=\"border:none;padding-left:30px\"><tr><td>view:</td><td style=\"padding-left:30px\">view my resume in a nicer-looking format</td></tr><tr><td>ls:</td><td style=\"padding-left:30px\">list all files and directories in this directory</td></tr><tr><td>cd [directory_name]:</td><td style=\"padding-left:30px\">change to the given directory</td></tr><tr><td>cat [filename]:</td><td style=\"padding-left:30px\">print the contents of a given file</td></tr><tr><td>pwd:</td><td style=\"padding-left:30px\">print the path of the current working directory</td></tr><tr><td>help:</td><td style=\"padding-left:30px\">show this help dialog</td></tr></table><br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: <span onclick=\"javascript:parent.window.open(\'"+url+"\')\" contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;text-decoration: underline;cursor: pointer;\"><a href=\""+url+"\" target=\"_blank\" style=\"color:#00ff00\">"+url+"</a></span>) in file names and paths.<br><br>"
+							lastOut.innerHTML = "<table style=\"border:none;padding-left:30px\"><tr><td>view:</td><td style=\"padding-left:30px\">view my resume in a nicer-looking format</td></tr><tr><td>ls:</td><td style=\"padding-left:30px\">list all files and directories in this directory</td></tr><tr><td>cd [directory_name]:</td><td style=\"padding-left:30px\">change to the given directory</td></tr><tr><td>cat [filename]:</td><td style=\"padding-left:30px\">print the contents of a given file</td></tr><tr><td>pwd:</td><td style=\"padding-left:30px\">print the path of the current working directory</td></tr><tr><td>print:</td><td style=\"padding-left:30px\">show a printer-friendly resume in a new window</td></tr><tr><td>help:</td><td style=\"padding-left:30px\">show this help dialog</td></tr></table><br>&nbsp;&nbsp;&nbsp;&nbsp;You can use JavaScript regular expressions (reference: <span onclick=\"javascript:parent.window.open(\'"+url+"\')\" contenteditable=\"false\" style=\"background-color:black;color:#00ff00;width:100%;font-family:Courier;font-size:14px;font-size:14px;resize: none;text-decoration: underline;cursor: pointer;\"><a href=\""+url+"\" target=\"_blank\" style=\"color:#00ff00\">"+url+"</a></span>) in file names and paths.<br><br>"
 						}
 
 						//list files
