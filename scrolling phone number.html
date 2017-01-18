@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		Please input your phone number.
+		<table id="table1">
+			<tr id="numbers">
+				<td>(</td> <td id="digit0">_</td> <td id="digit1">_</td> <td id="digit2">_</td> <td>)</td> <td id="digit3">_</td> <td id="digit4">_</td> <td id="digit5">_</td> <td>-</td> <td id="digit6">_</td> <td id="digit7">_</td> <td id="digit8">_</td> <td id="digit9">_</td>
+			</tr>
+		</table>
+		<table>
+			<tr id="buttons">
+				<td><button id="start">Start</button></td> <td><button id="stop">Stop</button></td> <td><button id="next">Next</button></td>
+			</tr>
+		</table>
+	<script>
+		var digits = {};
+		var buttons = {};
+		for(var i = 0; i < 10; i++) {
+			digits[i] = document.getElementById("digit"+i);
+		}
+		buttons[0] = document.getElementById("start");
+		buttons[1] = document.getElementById("stop");
+		buttons[2] = document.getElementById("next");
+
+		var chosen = false;
+		var stopped = false;
+
+		function inputPN() {
+			alert("You clicked start");
+			setTimeout(function() {
+				for(var i = 0; i < 10 && !stopped; i++) {
+					var current = 0;
+					while(!stopped && !chosen) {
+						current = (current+1) %10;
+						setTimeout(function() {
+							digits[i].innerHTML = current;
+						}, 0);
+					}
+				}
+			}, 0);
+		}
+
+		function choose() {
+			alert("you clicked next");
+			chosen = true;
+		}
+
+		function stopGen() {
+			alert("you clicked stop");
+			stopped = true;
+		}
+
+		buttons[0].onclick = inputPN;
+		buttons[1].onclick = stopGen;
+		buttons[2].onclick = choose;
+	</script>
+	</body>
+</html>
