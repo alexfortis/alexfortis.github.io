@@ -165,7 +165,7 @@
 			var bing = {
 				name: "bing.txt",
 				type: "txt",
-				catput: "Binghamton University (SUNY) - 2013-2017<br>Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, expected May 2017<br>GPA: 3.54/4.00<br>Dean's List: Spring 2014, Spring 2015, Fall 2015, Spring 2016<br>Computer Science GPA: 3.42<br>Mathematics GPA: 3.71<br>IBM/Watson Fellows Scholar, each fall since 2013 (annual award)<br>Upsilon Pi Epsilon honor society member since December 2014<ul><li>chapter treasurer, April 2015-May 2016</li><li>chapter president, May 2016-May 2017</li></ul><br>Pi Mu Epsilon honor society member since April 2015<br>CS Courses:<ul><li>Spring 2017: <ul><li>CS442 (Design Patterns)</li><li>CS476 (Programming Models for Emerging Platforms)</li></ul></li><li>Past: <ul><li>CS451 (Systems Programming)</li><li>CS436 (Machine Learning)</li><li>CS471 (Programming Languages)</li><li>CS440 (Advanced Topics in Object Oriented Programming)</li><li>CS373 (Automata Theory and Formal Languages)</li><li>CS350 (Operating Systems)</li><li>CS375 (Design and Analysis of Algorithms)</li><li>CS320 (Computer Systems III: Advanced Computer Architecture)</li><li>CS240 (Data Structures and Algorithms)</li><li>CS220 (Computer Systems II: Architecture and Programming)</li><li>CS140 (Programming with Objects)</li><li>CS120 (Computer Systems I: Machine Organization)</li></ul></li></ul>Math Courses: <ul><li>Spring 2017: <ul><li>MATH407 (Intro to the Theory of Numbers)</li><li>MATH381 (Graph Theory)</li></ul></li><li>Past: <ul><li>MATH401 (Modern Algebra I)</li><li>MATH404 (Advanced Linear Algebra)</li><li>MATH461 (Topology I)</li><li>MATH479 (Real Analysis II)</li><li>MATH478 (Real Analysis I)</li><li>MATH375 (Functions of Complex Variables)</li><li>MATH330 (Number Systems)</li><li>MATH323 (Calculus III)</li><li>MATH304 (Linear Algebra)</li></ul></li></ul>"
+				catput: "Binghamton University (SUNY) - 2013-2017<br>Bachelor of Science in Computer Science and Bachelor of Science in Mathematics, May 2017<br>GPA: 3.57/4.00<br>Dean's List: Spring 2014, Spring 2015, Fall 2015, Spring 2016<br>Computer Science GPA: 3.54<br>Mathematics GPA: 3.73<br>IBM/Watson Fellows Scholar, each fall 2013-2016 (annual award)<br>Upsilon Pi Epsilon honor society member since December 2014<ul><li>chapter treasurer, April 2015-May 2016</li><li>chapter president, May 2016-May 2017</li></ul><br>Pi Mu Epsilon honor society member since April 2015<br>CS Courses:<ul><li>CS442 (Design Patterns)</li><li>CS476 (Programming Models for Emerging Platforms)</li><li>CS451 (Systems Programming)</li><li>CS436 (Machine Learning)</li><li>CS471 (Programming Languages)</li><li>CS440 (Advanced Topics in Object Oriented Programming)</li><li>CS373 (Automata Theory and Formal Languages)</li><li>CS350 (Operating Systems)</li><li>CS375 (Design and Analysis of Algorithms)</li><li>CS320 (Computer Systems III: Advanced Computer Architecture)</li><li>CS240 (Data Structures and Algorithms)</li><li>CS220 (Computer Systems II: Architecture and Programming)</li><li>CS140 (Programming with Objects)</li><li>CS120 (Computer Systems I: Machine Organization)</li></ul></li></ul>Math Courses: <ul><li><li>MATH407 (Intro to the Theory of Numbers)</li><li>MATH381 (Graph Theory)</li><li>MATH401 (Modern Algebra I)</li><li>MATH404 (Advanced Linear Algebra)</li><li>MATH461 (Topology I)</li><li>MATH479 (Real Analysis II)</li><li>MATH478 (Real Analysis I)</li><li>MATH375 (Functions of Complex Variables)</li><li>MATH330 (Number Systems)</li><li>MATH323 (Calculus III)</li><li>MATH304 (Linear Algebra)</li></ul></li></ul>"
 			};
 			var bxsci = {
 				name: "bxsci.txt",
@@ -190,7 +190,7 @@
 			var familiarLanguages = {
 				name: "familiar.txt",
 				type: "txt",
-				catput: "SWI-Prolog, C#, Python, x86 and MIPS assembly, HTML, CSS, JavaScript, Haskell, Coq, SQL"
+				catput: "SQL, SWI-Prolog, C#, HTML, CSS, JavaScript, Haskell, Coq, Python"
 			};
 			var software = {
 				name: "software.txt",
@@ -293,8 +293,8 @@
 			tree.add(rescon, experiences, tree.traverseBF);
 
 			var numCmds = 0;
-			var cmds = [];
-			var outs = [];
+			outs = [];
+			cmds = [];
 			var currDir = tree._root;
 
 			//found this here: http://www.javascripter.net/faq/browsern.htm
@@ -550,8 +550,11 @@
 					if(nice) {
 						nice.parentNode.removeChild(nice);
 						document.getElementById("cmd").value = "";
+						document.getElementById("instructions").innerHTML = "<p style=\"background-color:black;color:#00ff00;font-family:Courier;font-size:14px;padding-bottom:8px\">This is my resume page. Type \"help\" to see a list of commands.</p>";
+						return true;
 					}
 				}
+				return false;
 			}
 
 			//returns a list of matches
@@ -668,6 +671,13 @@
 				return ret;
 			}
 
+			function setupChildrenForEscPress(element) {
+				element.onkeypress = processKeyInner();
+				for(var c in element.childNodes) {
+					setupChildrenForEscPress(c);
+				}
+			}
+
 			function processEnter(e, textarea) {
 				var code = e.keyCode || e.which;
 				//if we want to execute a command
@@ -765,6 +775,8 @@
 							inst.style.cursor = "";
 							inst.innerHTML = instructions;
 						};
+						inst.onkeypress = processKeyInner();
+						frame.onkeypress = frame.parent.processKeyInner();
 						inst.style.cursor = "pointer";
 						frame.focus();
 					}
@@ -867,6 +879,12 @@
 							lastOut.innerHTML = "alexfortis.github.io/resume/" + getPath(tree._root, currDir);
 							if(lastOut.innerHTML[lastOut.innerHTML.length-1] !== '/') lastOut.innerHTML += "/";
 						}
+
+						//unknown command
+						else {
+							lastOut.innerHTML = "-bash: " + command + ": command not found";
+						}
+
 					}
 
 					//update everything
