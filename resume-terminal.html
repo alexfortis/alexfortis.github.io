@@ -235,7 +235,7 @@
 			var citi = {
 				name: "citi.txt",
 				type: "txt",
-				catput: "Full-Time Technology Analyst - Software Development Track (June 2017-Present)<br>Work on the Citi FX OMS team.<br><br>Summer Technology Analyst - Software Development Track (June-August 2016)<br>Worked on the Citi Velocity Analytics team.<ul><li>Made a tool in Java to change the ownership of all of someone's charts to someone else<ul><li>Involved connecting to, retrieving, and modifying data in a SQL database</li><li>Learned SQL</li><li>Saves cost by saving development time and making self-service easier</li></ul></li><li>Built a data structure called a Cube<ul><li>Conceptually, a Map that associates a triple of keys with a value</li><li>Implemented Cube&lt;R, C, L, V&gt; as Map&lt;R, Map&lt;C, Map&lt;L, V&gt;&gt;&gt;</li><li>Inspired by Google Guava's <a href=\"https://google.github.io/guava/releases/18.0/api/docs/com/google/common/collect/Table.html\" target=\"_blank\" style=\"color:#00ff00\">Table</a> data structure</li><li>Designed to replace instances of Map&lt;R, Table&lt;C, L, V&gt;&gt; in the team's code base</li></ul></li></ul>"
+				catput: "Full-Time Technology Analyst - Software Development Track (June 2017-Present)<ul><li>FX MPower/Click - August 2018-Present<ul><li>Sped up daily automated NOP margin report generation (Java program) from about 2 hours to 30 seconds (except one process took over 20 hours before I fixed it)</li><li>Found and fixed a flaw in our Java code that prevented our Hadoop database from knowing when a trade had been liquidated</li><li>Updated stress report generation to use our own Risk API instead of directly getting data from the Gemfire cache</li><li>Generated feeds (using Bash scripting and Hive SQL) to be sent daily to other teams internally</li></ul></li><li>FX OMS - August 2017-August 2018<ul><li>Researched/learned about microservices for a POC of a complete overhaul of the system</li><li>Created a TeamCity process to automatically run FitNesse integration tests before deployment would be allowed</li><li>Automated Sunday checkout using Java programming and Bash scripting</li></ul></li></ul><br><br>Summer Technology Analyst - Software Development Track (June-August 2016)<br>Worked on the Citi Velocity Analytics team.<ul><li>Made a tool in Java to change the ownership of all of someone's charts to someone else<ul><li>Involved connecting to, retrieving, and modifying data in a SQL database</li><li>Learned SQL</li><li>Saves cost by saving development time and making self-service easier</li></ul></li><li>Built a data structure called a Cube<ul><li>Conceptually, a Map that associates a triple of keys with a value</li><li>Implemented Cube&lt;R, C, L, V&gt; as Map&lt;R, Map&lt;C, Map&lt;L, V&gt;&gt;&gt;</li><li>Inspired by Google Guava's <a href=\"https://google.github.io/guava/releases/18.0/api/docs/com/google/common/collect/Table.html\" target=\"_blank\" style=\"color:#00ff00\">Table</a> data structure</li><li>Designed to replace instances of Map&lt;R, Table&lt;C, L, V&gt;&gt; in the team's code base</li></ul></li></ul>"
 			};
 			var otherExperiences = {
 				name: "other.txt",
@@ -441,6 +441,8 @@
 				var cmd = document.getElementById("cmd");
 				cmd.focus();
 				if(code === 9) {
+					e.stopPropagation();
+					e.preventDefault();
 					var args = cmd.value.split(" ");
 					if(args.length > 1) {
 						if(true) {

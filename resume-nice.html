@@ -17,6 +17,9 @@
 	<li role="presentation" class="pull-left"><a role="menuItem" tabindex="-1" href="http://github.com/alexfortis" target="blank">GitHub</a></li>
       </ul>
     </div>
+    <script src="jquery-2.1.4.js"></script>
+  <script src="bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+
     <script>
       function process(e) {
         if(window.parent !== window) {
@@ -26,9 +29,446 @@
           alert("NO PARENT");
         }
       }
+      function loadData() {
+        var rawfile = new XMLHttpRequest();
+        rawfile.open("GET", "resume.json", true);
+        rawfile.onreadystatechange=function() {
+          if(rawfile.readyState == 4) {
+            if(rawfile.status == 200 || rawfile.status == 0) {
+              var allText = rawfile.responseText;
+              var resumeTree = JSON.parse(allText);
+              var education = resumeTree.education;
+              var bing = education.undergrad;
+              var resumeContent="";
+              resumeContent += "<div class=\"tree well\" style=\"margin-left:5%;margin-right:5%;\">";
+              resumeContent +=  "<ul id=\"tree\">";
+              resumeContent +=    "<li class=\"parent_li\">";
+              resumeContent +=      "<span class=\"glyphicon glyphicon-plus\"><h2>Education</h2></span>";
+              resumeContent +=        "<ul id=\"education\">";
+              resumeContent +=          "<li>";
+              resumeContent +=            "<span class=\"glyphicon-plus\" title=\"Undergraduate Institution\"><table><tr><td><img src=\"BinghamtonBearcats.png\" style=\"width:60px;height:40px\"></img></td><td><h4>" + bing.name + "</h4></td></tr></table></span>";
+              resumeContent +=            "<ul id=\"bing\">";
+              resumeContent +=              "<li><span>";
+              resumeContent +=                "<p>Mouse over course titles to see descriptions.</p>";
+              resumeContent +=              "</span></li>";
+              resumeContent +=              "<li>";
+              resumeContent +=                "<span><h4>Overall GPA: " + bing.GPA + "</h4></span>";
+              resumeContent +=              "</li>";
+              resumeContent +=              "<li>";
+              resumeContent +=                "<span class=\"glyphicon glyphicon-plus\" title=\"BS in Computer Science\"><h5>Watson School of Engineering and Applied Sciences</h5></span>";
+              resumeContent +=                "<ul id=\"watson\">";
+              var cs = bing.major1;
+              resumeContent +=                  "<li><span><h5><table><tr><td>" + cs.degree + " in " + cs.program + "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><p class=\"text-right\">" + bing.graddate + "</p></td></tr></table></h5></span></li>";
+              resumeContent +=                  "<li><span><h5>Major GPA: " + cs.GPA + "</h5></span></li>";
+              resumeContent +=                  "<li><a href=\"http://upe.acm.org\" target=\"blank\"><span><table><tr><td><img src=\"UPE-logo.gif\" style=\"height:30px;width:16px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + cs.notes[0] + "<br>&nbsp;&nbsp;President, May 2016-May 2017<br>&nbsp;&nbsp;Treasurer, April 2015-May 2016</td></tr></table></span></a></li>";
+              resumeContent +=                  "<li><span class=\"glyphicon glyphicon-plus\" title=\"Completed CS Courses\">Completed Computer Science Courses</span>";
+              resumeContent +=                    "<ul id=\"bing_cs_courses\">";
+              for(let i = 0; i < cs.allCourses.length; i++) {
+                resumeContent +=                    "<li><span title=\"" + cs.allCourses[i].desc + "\">" + cs.allCourses[i].name + " (" + cs.allCourses[i].code + ") - " + cs.allCourses[i].prof + ", " + cs.allCourses[i].sem + "</span></li>";
+              }
+              resumeContent +=                  "</ul></li>";
+              resumeContent +=                "</ul>";
+              resumeContent +=              "</li>";
+              var math = bing.major2;
+              resumeContent +=              "<li>";
+              resumeContent +=                "<span class=\"glyphicon glyphicon-plus\" title=\"BS in Mathematical Sciences\"><h5>Harpur College of Arts and Sciences</h5></span>";
+              resumeContent +=                "<ul id=\"harpur\">";
+              resumeContent +=                  "<li><span><h5><table><tr><td>" + math.degree + " in " + math.program + "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><p class=\"text-right\">" + bing.graddate + "</p></td></tr></table></h5></span></li>";
+              resumeContent +=                  "<li><span><h5>Major GPA: " + math.GPA + "</h5></span></li>";
+              resumeContent +=                  "<li><a href=\"http://www.pme-math.org\" target=\"blank\"><span><table><tr><td><img src=\"PME-seal.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + math.notes[0] + "</td></tr></table></span></a></li>";
+              resumeContent +=                  "<li><span class=\"glyphicon glyphicon-plus\" title=\"Completed Math Courses\">Completed Mathematics Courses</span>";
+              resumeContent +=                    "<ul id=\"bing_math_courses\">";
+              for(let i = 0; i < math.allCourses.length; i++) {
+                resumeContent +=                    "<li><span title=\"" + math.allCourses[i].desc + "\">" + math.allCourses[i].name + " (" + math.allCourses[i].code + ") - " + math.allCourses[i].prof + ", " + math.allCourses[i].sem + "</span></li>"
+              }
+              //resumeContent +=                    "</li>";
+              //resumeContent +=                    "</li>";
+              resumeContent +=                "</ul></li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=            "<li><span class=\"glyphicon glyphicon-plus\">Ensembles</span>";
+              resumeContent +=              "<ul>";
+              resumeContent +=                "<li><span class=\"glyphicon glyphicon-plus\">Harpur Jazz Ensemble</span>";
+              resumeContent +=                  "<ul>";
+              resumeContent +=                    "<li><span>Vibraphone</span></li>";
+              resumeContent +=                    "<li><span>Piano</span></li>";
+              resumeContent +=                    "<li><span>Auxiliary Percussion</span></li>";
+              resumeContent +=                  "</ul>";
+              resumeContent +=               "</li>";
+              resumeContent +=               "<li><span class=\"glyphicon glyphicon-plus\">Binghamton University Percussion Ensemble</span>";
+              resumeContent +=                  "<ul>";
+              resumeContent +=                    "<li><span>Vibraphone</span></li>";
+              resumeContent +=                    "<li><span>Marimba</span></li>";
+              resumeContent +=                    "<li><span>Xylophone</span></li>";
+              resumeContent +=                    "<li><span>Steel Drum</span></li>";
+              resumeContent +=                    "<li><span>Cowbell</span></li>";
+              resumeContent +=                    "<li><span>Bass Drum</span></li>";
+              resumeContent +=                    "<li><span>Bongos</span></li>";
+              resumeContent +=                    "<li><span>Pieces of Wood</span></li>";
+              resumeContent +=                    "<li><span>Plastic Buckets</span></li>";
+              resumeContent +=                    "<li><span>Large Metal Trash Can</span></li>";
+              resumeContent +=                    "<li><span>Large Metal Pipe</span></li>";
+              resumeContent +=                    "<li><span>Coffee Can</span></li>";
+              resumeContent +=                  "</ul>";
+              resumeContent +=               "</li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=            "<li><span class=\"glyphicon glyphicon-plus\">Awards and Honors</span>";
+              resumeContent +=              "<ul>";
+              resumeContent +=                "<li><span>Won 3rd place out of 28 pairs at Binghamton ACM's April 2016 programming competition (sponsored by MassLight)</span></li>";
+              resumeContent +=                "<li><span>Second place in Binghamton ACM February 2016 programming competition (sponsored by Bloomberg);</span></li>";
+              resumeContent +=                "<li><span>IBM/Watson Fellows Scholarship recipient: Fall 2013-Fall 2015 (annual award)</span></li>";
+              resumeContent +=                "<li><span>Watson School of Engineering Dean's List: ";
+              for(var i = 0; i < bing.deanslist.length; i++) {
+                resumeContent += bing.deanslist[i];
+                if(i+1 < bing.deanslist.length) {
+                  resumeContent += ", ";
+                }
+              }
+              resumeContent +=                "</span></li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent +=        "</li>";
+              resumeContent +=        "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\" title=\"High School\"><table><tr><td>&nbsp;&nbsp;&nbsp;<img src=\"bxsci-logo.png\" style=\"height:40px;width:40px\"></img></td><td><h4>&nbsp;&nbsp;The Bronx High School of Science</h4></td></tr></table></span>";
+              resumeContent +=          "<ul>";
+              resumeContent +=            "<li>";
+              resumeContent += "<span><h4><table><tr><td>High School</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><p class=\"text-left\">June 2013</p></td></tr></table></h4></span>";
+              resumeContent +=            "</li>";
+              resumeContent += "<li><span><h4>GPA: 94.20/100.00</h4></span></li>";
+              resumeContent +=            "<li>";
+              resumeContent +=              "<span class=\"glyphicon glyphicon-plus\">Positions Held</span>";
+              resumeContent +=              "<ul>";
+              resumeContent +=                "<li>";
+              resumeContent +=      "<span class=\"glyphicon glyphicon-plus\">Treasurer of Latin Club, September 2011-June 2013</span>";
+              resumeContent +=      "<ul>";
+              resumeContent += "<li>";
+              resumeContent +=    "<span>Helped organize Latin Club sales at the club fair</span>";
+              resumeContent += "</li>";
+              resumeContent += "<li><span>Managed finances in organizing two annual certamines, and competed in said certamines</span></li>";
+              resumeContent += "<li><span>Organized fundraisers such as Latin Club t-shirt sales</span></li>";
+              resumeContent +=      "</ul>";
+              resumeContent +=                "</li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=            "<li>";
+              resumeContent += "<span class=\"glyphicon glyphicon-plus\">Awards and Honors</span>";
+              resumeContent += "<ul id = \"bxsciawards\">";
+              resumeContent +=    "<li><span>Samuel Greitzer Computer Science Research Award (2013)</span></li>";
+              resumeContent +=    "<li><span>American Invitational Mathematics Examination (AIME) qualifier (2013)</span></li>";
+              resumeContent +=    "<li><span class=\"glyphicon glyphicon-plus\">Maureen O'Donnell Oxford Classical Dictionary Award (2013)</span>";
+              resumeContent +=      "<ul>";
+              resumeContent +=        "<li><span>Four Gold Medals (2010-2013) from the National Latin Exam</span></li>";
+              resumeContent +=      "</ul>";
+              resumeContent +=    "</li>";
+              resumeContent +=    "<li><span>Excellence in the Study of Latin (2013)</span></li>";
+              resumeContent += "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent +=        "</li>";
+              resumeContent += "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><table><tr><td>&nbsp;&nbsp;&nbsp;<img src=\"juilliard-j.png\" style=\"width:40px;height:40px\"></img></td><td><h4>&nbsp;&nbsp;The Juilliard School, Pre-College Division</h4></td></tr></table></span>";
+              resumeContent +=          "<ul>";
+            resumeContent += "<li><span title=\"Private Lesson Teacher: Manuel Sosa\"><h4><table><tr><td>Composition</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><p class=\"text-right\">May 2013</p></td></tr></table></h4></span></li>";
+            resumeContent += "<li><span>Senior Recital on April 27<sup>th</sup>, 2013</span></li>";
+            resumeContent += "<li><span class=\"glyphicon glyphicon-plus\">Completed Courses</span>";
+              resumeContent +=              "<ul id=\"jyardclasses\">";
+              resumeContent +=                "<li><span class=\"glyphicon glyphicon-plus\">Music Theory</span>";
+              resumeContent +=                  "<ul id=\"theory\">";
+              resumeContent +=                    "<li><span>Theory IV (2009-10) - Dr. Maria Rojas</span></li>";
+              resumeContent +=                    "<li><span>Theory V (2010-11) - Dr. Edward Klorman</span></li>";
+              resumeContent +=                    "<li><span>20<sup>th</sup> Century Harmony and Post-Tonal Analysis (2011-12) - Dr. Eric Sessler</span></li>";
+              resumeContent +=                    "<li><span>Musical Form and Analysis (2012-13) - Dr. Greg Knowles</span></li>";
+              resumeContent +=                  "</ul>";
+              resumeContent +=                "</li>";
+              resumeContent +=                "<li><span class=\"glyphicon glyphicon-plus\">Ear Training</span>";
+              resumeContent +=                  "<ul id=\"eartraining\">";
+              resumeContent +=                    "<li><span>Ear Training III (2009-10) - Mr. Lance Horne</span></li>";
+              resumeContent +=                    "<li><span>Ear Training IV (2010-11) - Dr. Joanna Chao</span></li>";
+              resumeContent +=                    "<li><span>Ear Training V (2011-12) - Dr. Joanna Chao</span></li>";
+              resumeContent +=                  "</ul>";
+              resumeContent +=                "</li>";
+              resumeContent +=                "<li><span class=\"glyphicon glyphicon-plus\">Other</span>";
+              resumeContent +=                  "<ul id=\"jyardother\">";
+              resumeContent +=                    "<li><span class=\"glyphicon glyphicon-plus\">Private Composition Lessons (2009-13)</span>";
+              resumeContent +=                      "<ul>";
+              resumeContent +=                        "<li><span>Private Teacher: Dr. Manuel Sosa</span></li>";
+              resumeContent +=                        "<li><span>For examples of my compositions, see the <a href=\"music.html\">Music</a> page.</span></li>";
+              resumeContent +=                      "</ul>";
+              resumeContent +=                    "</li>";
+              resumeContent +=                    "<li><span>Composers' Forum (2009-13) - Dr. Ira Taxin</span></li>";
+              resumeContent +=                    "<li><span>Counterpoint I (2009-10) - Dr. Daniel Ott</span></li>";
+              resumeContent +=                    "<li><span>Counterpoint II (2010-11) - Dr. Daniel Ott</span></li>";
+              resumeContent +=                    "<li><span>Music History Survey (2012-13) - Dr. Ira Taxin</span></li>";
+              resumeContent +=                  "</ul>";
+              resumeContent +=                "</li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent +=        "</li>";
+              resumeContent +=      "</ul>";
+              resumeContent +=    "</li>";
+              resumeContent +=    "<li>";
+              resumeContent +=      "<span class=\"glyphicon glyphicon-plus\"><h2>Skills</h2></span>";
+              resumeContent +=      "<ul>";
+              resumeContent +=        "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>Programming Languages</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent +=            "<li><span class=\"glyphicon glyphicon-plus\"><h5>Proficient/Strong</h5></span>";
+              resumeContent +=              "<ul>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"java.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Java</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"c++.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>C++</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"c.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>C</td></tr></table></span></li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=            "<li><span class=\"glyphicon glyphicon-plus\"><h5>Familiar</h5></span>";
+              resumeContent +=              "<ul>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"prolog.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>SWI-Prolog</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"csharp-logo.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>C#</td></tr></table></span></li>";
+              resumeContent +=                "<li><span class=\"glyphicon glyphicon-plus\"><table><tr><td><img src=\"assembly.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Assembly</td></tr></table></span>";
+              resumeContent +=                  "<ul>";
+              resumeContent +=                    "<li><span>x86</span></li>";
+              resumeContent +=                    "<li><span>MIPS</span></li>";
+              resumeContent +=                  "</ul>";
+              resumeContent +=                "</li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"html5.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>HTML5</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"css3.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>CSS3</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"js.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>JavaScript</td></tr><tr><td><img src=\"jquery.png\" style=\"width:30px;height:30px\"></img>&nbsp;&nbsp;</td><td>jQuery</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"python.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Python</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"Haskell-Logo-Variation.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Haskell</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"CoqLogo.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Coq</td></tr></table></span></li>";
+              resumeContent +=                "<li><span><table><tr><td><img src=\"SQLDev.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>SQL</td></tr></table></span></li>";
+              resumeContent +=              "</ul>";
+              resumeContent +=            "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent +=        "</li>";
+              resumeContent +=        "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>Important Software</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent +=            "<li><span><table><tr><td><img src=\"emacs.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Emacs</td></tr></table></span></li>";
+              resumeContent +=            "<li><span><table><tr><td><img src=\"eclipse.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Eclipse</td></tr></table></span></li>";
+              resumeContent +=            "<li><span><table><tr><td><img src=\"git.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Git</td></tr><tr><td><img src=\"SVN.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>SVN</td></tr></table></span></li>";
+              resumeContent +=            "<li><span><table><tr><td><img src=\"terminal.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>UNIX Terminal</td></tr></table></span></li>";
+              resumeContent +=          "</ul>";
+              resumeContent +=        "</li>";
+              resumeContent +=        "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>Operating Systems</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent += "<li><span><table><tr><td><img src=\"osx.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Mac OS X</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"windows.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Windows</td></tr></table></span></li>";
+              resumeContent += "<li><span class=\"glyphicon glyphicon-plus\"><table><tr><td><img src=\"linux.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Linux</td></tr></table></span>";
+              resumeContent += "<ul>";
+              resumeContent +=    "<li><span><table><tr><td><img src=\"ubuntu.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;</td><td>Ubuntu</td></tr></table></span></li>";
+              resumeContent +=    "<li><span><table><tr><td><img src=\"debian.png\" style=\"height:30px;width:24px\"></img>&nbsp;&nbsp;&nbsp;</td><td>Debian</td></tr></table></span></li>";
+              resumeContent += "</ul>";
+              resumeContent += "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li><span class=\"glyphicon glyphicon-plus\"><h4>Other Skills</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent += "<li><span><table><tr><td><img src=\"spqr.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Latin (reading)</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"vibraphone.gif\" style=\"height:30px;width:50px\"></img>&nbsp;&nbsp;</td><td>Vibraphone (esp. jazz)</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"piano.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Piano (esp. jazz)</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"ibanez-sr506.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Electric Bass (esp. funk, R&B)</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"circle_of_fifths_colors.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Strong background in Music Theory</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"sibelius7.png\" style=\"height:30px;width:30px\"></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Music Composition and Arranging</td></tr></table></span></li>";
+              resumeContent += "<li><span><table><tr><td><img src=\"improv.png\" style=\"height:30px;width:23px\"></img>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;</td><td>Jazz Improvisation</td></tr></table></span></li>";
+              resumeContent +=          "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "</ul>";
+              resumeContent +=    "</li>";
+              resumeContent += "<li>";
+              resumeContent += "<span class=\"glyphicon glyphicon-plus\"><h2>Relevant Experiences</h2></span>";
+              resumeContent += "<ul>";
+              resumeContent += "<li>";
+              resumeContent +=    "<span class=\"glyphicon glyphicon-plus\"><h4>Citi (June-August 2016, June 2017-Present)</h4></span>";
+              resumeContent +=    "<ul>";
+              resumeContent +=      "<li>";
+              resumeContent +=        "<span class=\"glyphicon glyphicon-plus\">Full-Time Technology Analyst - Software Development Track</span>";
+              resumeContent +=        "<ul>";
+              var work = resumeTree.work;
+              var citi = work.Citi;
+              var team = citi.full_time.team1;
+              resumeContent +=          "<li>";
+              resumeContent +=            "<span class=\"glyphicon glyphicon-plus\" title=" + team.description + ">" + team.name + " (" + team.time + ")</span>";
+              resumeContent +=            "<ul>";
+              for(let i = 0; i < team.projects.length; i++) {
+                resumeContent +=            "<li>" + team.projects[i] + "</li>";
+              }
+              resumeContent +=            "</ul>";
+              resumeContent +=          "</li>";
+              team = citi.full_time.team2;
+              resumeContent +=          "<li>";
+              resumeContent +=            "<span class=\"glyphicon glyphicon-plus\" title=" + team.description + ">" + team.name + " (" + team.time + ")</span>";
+              resumeContent +=            "<ul>";
+              for(let i = 0; i < team.projects.length; i++) {
+                resumeContent +=            "<li>" + team.projects[i] + "</li>";
+              }
+              resumeContent +=            "</ul>";
+              resumeContent +=          "</li>";
+              resumeContent +=        "</ul>";
+              resumeContent +=      "</li>";
+              resumeContent +=      "<li>";
+              resumeContent +=        "<span class=\"glyphicon glyphicon-plus\">Summer Technology Analyst - Software Development Track (June-August 2016)<br>Citi Velocity Analytics</span>";
+              resumeContent +=        "<ul>";
+              resumeContent +=          "<li>";
+              resumeContent +=            "<span class=\"glyphicon glyphicon-plus\">Wrote a tool in Java to change ownership of all of one person's charts to someone else.</span>";
+              resumeContent +=            "<ul>";
+              resumeContent +=              "<li>";
+              resumeContent +=                "<span>Connected to and performed operations on the team's SQL database.</span>";
+              resumeContent +=              "</li>";
+              resumeContent +=            "</ul>";
+              resumeContent +=          "</li>";
+              resumeContent +=          "<li>";
+              resumeContent +=            "<span class=\"glyphicon glyphicon-plus\">Built a Cube data structure</span>";
+              resumeContent +=            "<ul>";
+              resumeContent +=              "<li><span>Conceptually, a Map that associates a triple of keys with a value.</span></li>";
+              resumeContent +=              "<li>";
+              resumeContent +=                "<span>Implemented <code>Cube&lt;R, C, L, V&gt;</code> as a <code>Map&lt;R, Map&lt;C, Map&lt;L, V&gt;&gt;&gt;</code></span>";
+              resumeContent +=              "</li>";
+              resumeContent +=              "<li>";
+              resumeContent +=                "<span>Inspired by Google Guava's <a href=\"https://google.github.io/guava/releases/18.0/api/docs/com/google/common/collect/Table.html\" target=\"_blank\"><code>Table</code></a></span>";
+              resumeContent +=              "</li>";
+              resumeContent +=              "<li><span>Designed to replace instances of <code>Map&lt;R, Table&lt;C, L, V&gt;&gt;</code> in the team's code base</span></li>";
+              resumeContent +=            "</ul>";
+              resumeContent +=          "</li>";
+              resumeContent +=        "</ul>";
+              resumeContent +=      "</li>";
+              resumeContent +=    "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>Binghamton University Information and Technology Services (ITS) (August 2014-May 2017)</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent += "<li>";
+              resumeContent += "<span class=\"glyphicon glyphicon-plus\">Resident Computer Consultant (ResCon)</span>";
+              resumeContent += "<ul>";
+              resumeContent +=    "<li>";
+              resumeContent +=                  "<span>Provided technical support to students on campus, helping them resolve questions about device connectivity and software problems, among other issues.</span>";
+              resumeContent +=    "</li>";
+              resumeContent +=    "<li>";
+              resumeContent +=                  "<span>Developed technical skills along with the ability to communicate technical information to non-technically-minded people.</span>";
+              resumeContent +=    "</li>";
+              resumeContent += "</ul>";
+              resumeContent += "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li><span class=\"glyphicon glyphicon-plus\"><h4>Programming Competitions</h4></span>";
+              resumeContent +=    "<ul>";
+              resumeContent +=      "<li><span class=\"glyphicon glyphicon-plus\">Binghamton ACM February 2016 Programming Competition</span>";
+              resumeContent +=        "<ul>";
+              resumeContent +=          "<li><span>Placed 2nd out of 72 undergraduate students who participated (3rd overall including the PhD student who came in first)</span></li>";
+              resumeContent +=          "<li><span>Solved 4 of 5 coding questions</span></li>";
+              resumeContent +=        "</ul>";
+              resumeContent +=      "</li>";
+              resumeContent +=      "<li><span class=\"glyphicon glyphicon-plus\">HackerRank World Cup - University Level CodeSprint (September 2015)</span>";
+              resumeContent +=        "<ul>";
+              resumeContent +=          "<li><span>Qualified for the semi-finals on a team of 3</span></li>";
+              resumeContent +=          "<li><span>Solved question #2, <a href=\"https://www.hackerrank.com/contests/worldcup/challenges/swapping-bridges\">Swapping Bridges,</a> in about 30 minutes on my first try in C++</span></li>";
+              resumeContent +=        "</ul>";
+              resumeContent +=      "</li>";
+              resumeContent +=      "<li><span class = \"glyphicon glyphicon-plus\">Binghamton ACM September 2015 Programming Competition</span>";
+              resumeContent +=        "<ul>";
+              resumeContent +=          "<li><span>Placed 18th out of 107 students who participated</span></li>";
+              resumeContent +=          "<li><span>Solved 2 of 6 coding questions</span></li>";
+              resumeContent +=        "</ul>";
+              resumeContent +=    "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>New York State Psychiatric Institute at Columbia University Medical Center (NYSPI) (July-August 2015, January 2016)</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent += "<li>";
+              resumeContent += "<span class=\"glyphicon glyphicon-plus\">PsyIT Volunteer</span>";
+              resumeContent += "<ul>";
+              resumeContent +=    "<li>";
+              resumeContent +=                  "<span>Wrote a Java program (see Excel IPs <a target=\"_blank\" href=\"programs.html\">here</a>) to automate the tedious manual cross-checking of Excel spreadsheets, saving hours (if not days) of tedious manual editing.</span>";
+              resumeContent +=    "</li>";
+              resumeContent +=    "<li>";
+              resumeContent +=                  "<span>Provide technical support to NYSPI staff and Columbia students, helping them resolve problems and set up new machines.</span>";
+              resumeContent +=    "</li>";
+              resumeContent +=    "<li>";
+              resumeContent +=                  "<span>Encrypt computers with BitLocker and FileVault.</span>";
+              resumeContent +=    "</li>";
+              resumeContent += "</ul>";
+              resumeContent += "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent +=    "<span class=\"glyphicon glyphicon-plus\"><h4>PennApps XI (January 2015)</h4></span>";
+              resumeContent +=    "<ul>";
+              resumeContent += "<li>";
+              resumeContent += "<span class=\"glyphicon glyphicon-plus\">Built, with a team, a website that uses bytewise subtraction to create faster updates between two files.</span>";
+              resumeContent += "<ul>";
+              resumeContent +=    "<li><span>Primarily contributed to front-end web development.</span></li>";
+              resumeContent += "</ul>";
+              resumeContent += "</li>";
+              resumeContent +=    "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent += "<span class=\"glyphicon glyphicon-plus\"><h2>Other Experiences</h2></span>";
+              resumeContent += "<ul>";
+              resumeContent += "<li>";
+              resumeContent +=    "<span class=\"glyphicon glyphicon-plus\"><h4>Upsilon Pi Epsilon honor society, Iota chapter (December 2014-present)</h4></span>";
+              resumeContent +=    "<ul>";
+              resumeContent += "<li>";
+              resumeContent += "<span>Member and Peer Tutor December 2014-May 2017</span>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent += "<span>Treasurer, April 2015-May 2016</span>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent += "<span>President, May 2016-May 2017</span>";
+              resumeContent += "</li>";
+              resumeContent +=    "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>Harpur Jazz Ensemble (August 2013-present)</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent += "<li>";
+              resumeContent += "<span>Play music with a big band in various styles such as swing, blues, soul, funk, etc.</span>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent += "<span>Arrange some music for the ensemble. See \"music\" page for some examples.</span>";
+              resumeContent += "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "<li>";
+              resumeContent +=          "<span class=\"glyphicon glyphicon-plus\"><h4>Binghamton University Percussion Ensemble (August 2013-present)</h4></span>";
+              resumeContent +=          "<ul>";
+              resumeContent +=            "<li>";
+              resumeContent +=              "<span>Play percussion music in various styles with a small ensemble.</span>";
+              resumeContent +=            "</li>";
+              resumeContent +=            "<li>";
+              resumeContent +=              "<span>Arrange some music for the ensemble.</span>";
+              resumeContent +=            "</li>";
+              resumeContent +=          "</ul>";
+              resumeContent +=        "</li>";
+              resumeContent += "</ul>";
+              resumeContent += "</li>";
+              resumeContent += "</ul>";
+              resumeContent += "</div>";
+              var body=document.getElementById("body");
+              body.innerHTML += resumeContent;
+              //get the tree expansion/collapse to work
+              var treeStuff="<script src=\"treeStuff.js\"><"+"/"+"script>";
+              var range=document.createRange();
+              range.setStart(body,0);
+              range.setEnd(body,0);
+              body.appendChild(range.createContextualFragment(treeStuff));
+            }
+          }
+        };
+        rawfile.send(null);
+      }
     </script>
   </head>
-  <body style="background-color:LightGrey;padding-bottom:10px" id="body">
+  <body style="background-color:LightGrey;padding-bottom:10px" id="body" onload="loadData()">
+
+  </body>
+
+  <!-- <body style="background-color:LightGrey;padding-bottom:10px" id="body">
       <div class="tree well" style="margin-left:5%;margin-right:5%;">
         <ul id="tree">
           <li>
@@ -443,8 +883,5 @@
   	</li>
         </ul>
       </div>
-  </body>
-  <script src="jquery-2.1.4.js"></script>
-  <script src="bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-  <script src="treeStuff.js"></script>
+  </body>-->
 </html>

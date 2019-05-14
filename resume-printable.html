@@ -2,148 +2,181 @@
 <html style="margin: 0 auto;">
 <head>
 	<title>Resume - Alexander Strong</title>
+	<script src="jquery-2.1.4.js">
+	</script>
+	<script>
+		function loadData() {
+			var rawfile = new XMLHttpRequest();
+			rawfile.open("GET", "resume.json", true);
+			rawfile.onreadystatechange=function() {
+				if(rawfile.readyState == 4) {
+					if(rawfile.status==200 || rawfile.status==0) {
+						//do all processing in here
+						var allText = rawfile.responseText;
+						//parse the json
+						var resumeTree = JSON.parse(allText);
+						var resumeContent = "";
+						//style
+						resumeContent += "<style type=\"text/css\">\n\t* {\n\t\tcolor:black;\n\t\ttext-decoration:none;\n\t}\n\n\tp {\n\t\tmargin-bottom:0px;\n	}\n	</style>\n";
+						//container
+						resumeContent += "<div id=\"container\" align=\"center\" style=\"width:100%;font-size:11.4px;text-align:left\">\n";
+						//name
+						resumeContent += "<h1 align=\"center\">" + resumeTree.name + "</h1>\n";
+						//contact info
+						resumeContent += "<table align=\"center\" style=\"width:100%;margin-top:-15px\">\n";
+						resumeContent += "<colgroup>\n<col style=\"width:33%\">\n<col style=\"width:34%\">\n<col style=\"width:33%\">\n</colgroup>\n";
+						resumeContent += "<tbody>\n<tr>\n";
+						resumeContent += "<td style=\"text-align:left\">" + resumeTree.email +"</td>\n";
+						resumeContent += "<td style=\"text-align:center\">" + resumeTree.linkedin + "</td>\n";
+						resumeContent += "<td style=\"text-align:right\">http://" + resumeTree.github + ".github.io</td>\n";
+						resumeContent += "</tr>\n</tbody>\n";
+						resumeContent += "</table>\n"
+
+						//education
+						resumeContent += "<p style=\"margin-top:2px\">\n";
+						resumeContent += "<strong>EDUCATION</strong>\n";
+						resumeContent += "</p>\n<hr>\n";
+						var education = resumeTree.education;
+						var bing = education.undergrad;
+						resumeContent += "<table style=\"width:100%\">\n";
+						resumeContent += "<tr><td style=\"text-align:left\"><strong>" + bing.name + " - " + bing.school + "</td><td style=\"text-align:right\">" + bing.graddate + "</strong></td></tr>\n";
+						resumeContent += "</table>";
+						resumeContent += "<p style=\"width:100%;margin-top:0px;margin-bottom:5px\"><i>";
+						resumeContent += "GPA: " + bing.GPA + " (Watson School Dean's List ";
+						for(var i = 0; i < bing.deanslist.length; i++) {
+							resumeContent += bing.deanslist[i];
+							if(i+1 < bing.deanslist.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += ")<br>";
+						var currMajor = bing.major1;
+						resumeContent += currMajor.degree + " in " + currMajor.program + " (major GPA: " + currMajor.GPA + ")";
+						for(var i = 0; i < currMajor.notes.length; i++) {
+							resumeContent += "; " + currMajor.notes[i];
+						}
+						resumeContent += "<br>"
+						currMajor = bing.major2;
+						resumeContent += currMajor.degree + " in " + currMajor.program + " (major GPA: " + currMajor.GPA + ")";
+						for(var i = 0; i < currMajor.notes.length; i++) {
+							resumeContent += "; " + currMajor.notes[i];
+						}
+						resumeContent += "</i><br>";
+						resumeContent += "Electives include: ";
+						for(var i = 0; i < bing.electives.length; i++) {
+							resumeContent += bing.electives[i];
+							if(i+1 < bing.electives.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += "</p>";
+
+						//skills
+						var skills = resumeTree.skills;
+						resumeContent += "<strong>SKILLS</strong><hr>";
+						resumeContent += "<ul style=\"margin-top:-5px\"><li>Languages: strong in ";
+						for(var i = 0; i < skills.pl.strong.length; i++) {
+							resumeContent += skills.pl.strong[i];
+							if(i+1 < skills.pl.strong.length) {
+								resumeContent += ", ";
+							}
+							else {
+								resumeContent += "; ";
+							}
+						}
+						resumeContent += "familiar with ";
+						for(var i = 0; i < skills.pl.familiar.length; i++) {
+							resumeContent += skills.pl.familiar[i];
+							if(i+1 < skills.pl.familiar.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += "</li><li>Important Software: ";
+						for(var i = 0; i < skills.sw.length; i++) {
+							resumeContent += skills.sw[i];
+							if(i+1 < skills.sw.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += "</li></ul>";
+
+						//work experience
+						resumeContent += "<strong>PROFESSIONAL EXPERIENCES</strong><hr>";
+						var work = resumeTree.work;
+						var citi = work.Citi;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Full-Time Technology Analyst - Software Development<br>Citi - " + citi.location + "</td><td style=\"text-align:right\">" + citi.time + "</td></tr></table></strong>";
+						var team = citi.full_time.team2;
+						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td><td style=\"text-align:right\">" + team.time + "</td></tr></table>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(project in team.projects) {
+							resumeContent += "<li>" + team.projects[project] + "</li>";
+						}
+						resumeContent += "</ul>";
+						team = citi.full_time.team1;
+						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td><td style=\"text-align:right\">" + team.time + "</td></tr></table>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(project in team.projects) {
+							resumeContent += "<li>" + team.projects[project] + "</li>";
+						}
+						resumeContent += "</ul>";
+						var internship = citi.internship;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Summer Technology Analyst - Software Development<br>Citi - " + internship.location + "</td><td style=\"text-align:right\">" + internship.time + "</td></tr></table></strong>";
+						team = internship.team1;
+						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td></tr></table>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(project in team.projects) {
+							resumeContent += "<li>" + team.projects[project] + "</li>";
+						}
+						resumeContent += "</ul>"
+						var psyit = work.psy_it;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>PsyIT Volunteer<br>New York State Psychiatric Institute at Columbia University Medical Center (NYSPI) - " + psyit.location + "</td><td style=\"text-align:right\">" + psyit.time + "</td></tr></table></strong>";
+						resumeContent += "<ul style=\"margin-top:0px\">";
+						for(entry in psyit.description) {
+							resumeContent += "<li>" + psyit.description[entry] + "</li>";
+						}
+						resumeContent += "</ul>";
+						var its = work.bing_its;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Resident Computer Consultant<br>Binghamton University Information and Technology Services (ITS) - " + its.location + "</td><td style=\"text-align:right\">" + its.time + "</td></tr></table></strong>";
+						resumeContent += "<ul style=\"margin-top:0px\">";
+						for(entry in its.description) {
+							resumeContent += "<li>" + its.description[entry] + "</li>";
+						}
+						resumeContent += "</ul>";
+
+						//relevant projects
+						var projects = resumeTree.relevant;
+						resumeContent += "<strong>RELEVANT PROJECTS</strong><hr>";
+						resumeContent += "<strong>Programming Competitions</strong>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(comp in projects.programming_competitions) {
+							resumeContent += "<li>" + projects.programming_competitions[comp] + "</li>"
+						}
+						resumeContent += "</ul>";
+
+						//other experiences
+						var other = resumeTree.other;
+						resumeContent += "<strong>OTHER EXPERIENCES</strong><hr>"
+						for(var i = 0; i < other.experiences.length; i++) {
+							if(other.experiences[i].print) {
+								resumeContent += "<strong><table><tr><td>" + other.experiences[i].name + "</td><td style=\"text-align:right\">"+ other.experiences[i].time +"</td></tr></table></strong>";
+								resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+								for(j in other.experiences[i].description) {
+									resumeContent += "<li>" + other.experiences[i].description[j] + "</li>";
+								}
+								resumeContent += "</ul>";
+							}
+						}
+
+						resumeContent += "</div>";
+
+						document.getElementById("body").innerHTML = resumeContent;
+					}
+				}
+			};
+			rawfile.send(null);
+		}
+	</script>
 </head>
-<body style="width:7.5in; margin-top:-12px" onload="window.print()">
-	<style type="text/css">
-	* {
-		color:black;
-		text-decoration:none;
-	}
-
-	p {
-		margin-bottom:0px;
-	}
-	</style>
-	<div id="container" align="center" style="width:100%;font-size:11.4px;text-align:left">
-		<h1 align="center">Alexander Strong</h1>
-
-		<!-- CONTACT INFO -->
-		<table align="center" style="width:100%;margin-top:-20px">
-			<colgroup>
-				<col style="width:50%"></col>
-				<col style="width:50%"></col>
-			</colgroup>
-			<tr>
-				<td style="text-align:left">
-					astrong3@binghamton.edu<br>alex.j.strong@gmail.com
-				</td>
-				<td style="text-align:right">
-					<a target="blank" href="http://linkedin.com/in/strongalexander">http://linkedin.com/in/strongalexander</a>
-					<br>
-					<a target="blank" href="http://alexfortis.github.io">http://alexfortis.github.io</a>
-				</td>
-			</tr>
-		</table>
-		<br>
-
-		<!-- EDUCATION -->
-		<p style="margin-top:-6px;"><strong>EDUCATION</strong></p>
-		<hr>
-		<!-- BING -->
-		<strong><table style="width:7.5in"><tr><td>Binghamton University, State University of New York - Watson School of Engineering and Harpur College of Arts and Sciences</td><td align="right">May 2017</td></tr></table></strong>
-		<div style="text-align:left">
-			<i>
-				GPA: 3.59/4.00 (Watson School Dean's List: Spring 2014, Spring 2015, Fall 2015, Spring 2016, Spring 2017)<br>
-				Bachelor of Science in Computer Science (major GPA: 3.54); Upsilon Pi Epsilon honor society member since December 2014; IBM/Watson Fellows Scholarship annual recipient since Fall 2013<br>
-				Bachelor of Science in Mathematics (major GPA: 3.72); Pi Mu Epsilon honor society member since April 2015<br>
-			</i>
-			Electives include: Advanced Topics in Object-Oriented Programming, Systems Programming, Intro to Machine Learning, Design Patterns, Programming Models for Emerging Platforms, Graph Theory, Intro to the Theory of Numbers
-			<!-- Courses include: Systems Programming, Intro to Machine Learning, Modern Algebra, Programming Languages, Advanced Topics in OOP, Operating Systems, Automata Theory, Design and Analysis of Algorithms, Data Structures, Computer Architecture, Advanced Linear Algebra, Topology, Real Analysis, Functions of Complex Variables<br> -->
-		</div>
-		<!-- BXSCI -->
-		<strong><table style="width:7.5in"><tr><td>The Bronx High School of Science</td><td align="right">June 2013</td></tr></table></strong>
-		<div style="text-align:left"><i>
-			American Invitational Mathematics Examination (AIME) qualifier (2013); Samuel L. Greitzer Computer Science Research Award
-		</i></div>
-		<!-- JUILLIARD -->
-		<strong><table style="width:7.5in"><tr><td>The Juilliard School, Pre-College Division</td><td align="right">May 2013</td></tr></table></strong>
-		<div style="text-align:left;margin-bottom:6px"><i>
-			Composition;
-		</i> Senior Recital on April 27th, 2013</div>
-
-		<!-- SKILLS -->
-		<strong>SKILLS</strong>
-		<hr>
-		<ul style="margin-top:-2px">
-			<li>Languages: strong in Java, C++, C; familiar with SWI-Prolog, Haskell, C#, x86 and MIPS assembly, Python, HTML, CSS, JavaScript, Oracle SQL</li>
-			<li>Operating Systems: Mac OS X, Linux (Ubuntu, Debian), Windows</li>
-			<li>Important Software: Eclipse, Emacs, UNIX terminal, Git, SVN, Oracle SQL Developer</li>
-			<li>Other: vibraphone (and other percussion), piano, electric bass, composing, arranging, Sibelius 5, Sibelius 7/8</li>
-		</ul>
-
-		<!-- PROFESSIONAL EXPERIENCES -->
-		<strong>PROFESSIONAL EXPERIENCES</strong>
-		<hr>
-		<!-- CITI -->
-		<strong><table style="width:100%;margin-top:-6px"><tr><td>Summer Technology Analyst &mdash; Software Development Track<br>Citi &mdash; New York, NY</td><td style="text-align:right">June-August 2016</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Wrote a tool that changes ownership of charts in Citi Velocity's Charting application, expediting the workflow when an owner of valuable charts leaves the company</li>
-			<li>Built a Cube data structure (a Map with three keys instead of one) that made my team's code cleaner and development much easier<ul><li>Inspired by Google Guava's Table data structure</li></ul></li>
-		</ul>
-		<!-- RESCON -->
-		<strong><table style="width:100%; margin-top:-10px"><tr><td>Residential Computer Consultant (ResCon)<br>Binghamton University Information and Technology Services (ITS)</td><td style="text-align:right">August 2014-present</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Provide technical support to students on campus, helping them resolve questions about device connectivity and software problems</li>
-			<li>Staff the IT Help Desk at the Glenn G. Bartle Library</li>
-		</ul>
-		<!-- NYSPI -->
-		<strong><table style="width:100%; margin-top:-10px"><tr><td>PsyIT Volunteer<br> New York State Psychiatric Institute at Columbia University Medical Center (NYSPI)</td><td style="text-align:right">July-August 2015<br>January 2016</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Wrote a software tool in Java that automates reconciliation of network setup documentation in Microsoft Excel format, including cross-checking between files, copying and pasting between files, and changing the background color of cells, eliminating hours (if not days) of tedious editing by hand</li>
-			<li>Set up, deployed, and troubleshot computers at NYSPI</li>
-			<li>Encrypted computers with BitLocker and FileVault</li>
-		</ul>
-
-		<!-- RELEVANT PROJECTS -->
-		<strong>RELEVANT PROJECTS</strong>
-		<hr>
-		<!-- COMPETITIONS -->
-		<strong><table style="width:100%; margin-top:-6px"><tr><td>Programming Competitions</td><td style="text-align:right">September 2015-present</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Participated in ACM ICPC in 2015 and 2016; team solved 5 problems in 2016</li>
-			<li>Won 7th place out of 49 competitors schoolwide (Binghamton University) at Bloomberg CodeCon in October 2016</li>
-			<li>Won 3rd place out of 28 pairs at Binghamton ACM's April 2016 programming competition (sponsored by MassLight)</li>
-			<li>Won 2nd place out of 73 hackers at Binghamton ACM's February 2016 programming competition (sponsored by Bloomberg)</li>
-			<li>Qualified for the semi-finals in the 2015 HackerRank World Cup &mdash; University Level CodeSprint (September 2015)</li>
-		</ul>
-		<!-- ACM -->
-		<!--<strong><table style="width:100%; margin-top:-10px"><tr><td>Association of Computing Machinery (ACM) &mdash; Projects Division</td><td style="text-align:right">February 2015-May 2016</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Build, as project manager, a website inspired by Rate My Professors, but arranged by class instead of professor
-				<ul>
-					<li>plan to have an interactive graph with an easy-to-read prerequisite flowchart</li>
-					<li>each class will have crowd-sourced ratings based on its difficulty, relevance, importance, etc</li>
-				</ul>
-			</li>
-			<li>Will continue to work on the project even though the projects division was officially disbanded</li>
-		</ul>-->
-		<!-- PENNAPPS -->
-		<strong><table style="width:100%; margin-top:-10px"><tr><td>PennApps XI Project &mdash; BitBanshee (top 30 overall)<br>University of Pennsylvania</td><td style="text-align:right">January 2015</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Built, with three others, a website that used bytewise subtraction to greatly speed up updating software<ul><li>created an executable whose binary was the difference between a program's new and old versions for the user to run</li></ul></li>
-			<li>Primarily contributed to front-end web development in HTML and JavaScript</li>
-		</ul>
-
-		<!-- OTHER EXPERIENCES -->
-		<strong>OTHER EXPERIENCES</strong>
-		<hr>
-		<!-- UPE -->
-		<strong><table style="width:100%; margin-top:-6px"><tr><td>Upsilon Pi Epsilon Honor Society &mdash; Iota Chapter</td><td style="text-align:right">December 2014-</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Tutor students in Number Systems, Data Structures and Algorithms, Calculus, Discrete Math, and other math and CS courses</li>
-			<li>Treasurer, April 2015-May 2016<ul><li>Helped pioneer a mentoring program for incoming freshmen majoring in Computer Science, beginning Fall 2015</li></ul></li>
-			<li>President, May 2016-May 2017</li>
-		</ul>
-		<!-- HARPUR JAZZ -->
-		<strong><table style="width:100%; margin-top:-10px"><tr><td>Harpur Jazz Ensemble</td><td style="text-align:right">September 2013-May 2017</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Play vibraphone and piano and arrange for Binghamton University's jazz ensemble</li>
-		</ul>
-		<!-- PERCUSSION -->
-		<strong><table style="width:100%; margin-top:-10px"><tr><td>Binghamton University Percussion Ensemble</td><td style="text-align:right">September 2013-May 2017</td></tr></table></strong>
-		<ul style="margin-top:-4px">
-			<li>Perform and arrange classical and contemporary music for Binghamton University's Percussion Ensemble</li>
-		</ul>
-	</div>
+<body id="body" style="width:7.5in;" onload="loadData()">
 </body>
 </html>

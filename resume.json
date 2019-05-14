@@ -1,0 +1,393 @@
+{
+    "name":"Alexander Strong",
+    "email":"alex.j.strong@gmail.com",
+    "linkedin":"https://linkedin.com/in/strongalexander",
+    "github":"alexfortis",
+    "education": {
+	"undergrad":{
+	    "print":true,
+	    "name":"Binghamton University, State University of New York",
+	    "school":"Watson School of Engineering and Harpur College of Arts and Sciences",
+	    "graddate":"May 2017",
+	    "GPA":"3.59/4.00",
+	    "deanslist":[
+		"Spring 2014",
+		"Spring 2015",
+		"Fall 2015",
+		"Spring 2016",
+		"Spring 2017"
+	    ],
+	    "major1":{
+		"print":true,
+		"program":"Computer Science",
+		"degree":"Bachelor of Science",
+		"GPA":"3.54",
+		"notes":[
+		    "Upsilon Pi Epsilon honor society member since December 2014",
+		    "IBM/Watson Fellows scholarship annual recipient Fall 2013-2016"
+		],
+		"allCourses":[
+			{
+				"name":"Programming Models for Emerging Platforms",
+				"code":"CS476",
+				"prof":"Yu David Liu",
+				"sem":"Spring 2017",
+				"desc":"Main topics include programming models for multicore CPUs, GPUs and game chips, smartphones, and UAVs."
+			},
+			{
+				"name":"Design Patterns",
+				"code":"CS442",
+				"prof":"Madhusudan Govindaraju",
+				"sem":"Spring 2017",
+				"desc":"Patterns for program design including examples of patterns used in existing software libraries. Exercises in programming with design patterns and communicating designs to other programmers using the language of patterns. Use of an object-oriented programming language to implement patterns and principles for common design problems."
+			},
+			{
+				"name":"Systems Programming",
+				"code":"CS451",
+				"prof":"Yifan Zhang",
+				"sem":"Fall 2016",
+				"desc":"A detailed study of the application program interface of a modern operating system. File operations, concurrency, processes, threads, inter-process communication, synchronization, client-server programming, multi-tier programming."
+			},
+			{
+				"name":"Intro to Machine Learning",
+				"code":"CS436",
+				"prof":"Weiying Dai",
+				"sem":"Fall 2016",
+				"desc":"Major topics include: supervised learning (generative/discriminative learning, parametric/non-parametric learning, support vector machines); computational learning theory (bias/variance tradeoffs, VC theory, large margins); unsupervised learning; semi-supervised learning; reinforcement learning. The course will give students the basic ideas and intuition behind different techniques as well as a more formal understanding of how and why they work. The course will also discuss recent applications of machine learning, such as to data mining, bioinformatics, and information retrieval."
+			},
+			{
+				"name":"Programming Languages",
+				"code":"CS471",
+				"prof":"Eileen Head",
+				"sem":"Spring 2016",
+				"desc":"Introduction to the design and implementation of programming languages: linguistic features for expressing algorithms; formal syntax specification; introduction to language semantics and parsing; declarative programming (functional and goal-driven); scripting languages; imperative programming (procedural and object-oriented); comparative design and implementation issues across languages and paradigms."
+			},
+			{
+				"name":"Advanced Topics in Object-Oriented Programming",
+				"code":"CS440",
+				"prof":"Kenneth Chiu",
+				"sem":"Spring 2016",
+				"desc":"Examining object-oriented programming and its natural design patterns; investigate object-oriented techniques and how they interact with hardware and operating system issues; dynamic linking, template instantiation mechanisms, template specialization, memory management, thread-safety, and C++ reflection."
+			},
+			{
+				"name":"Operating Systems",
+				"code":"CS350",
+				"prof":"Kartik Gopalan",
+				"sem":"Fall 2015",
+				"desc":"Introduction to fundamental concepts for the design and implementation of operating systems: hardware/software interfaces; processes and threads; scheduling; synchronization techniques and primitives; memory management and virtual memory; file systems; input/output subsystems; resource and system virtualization; protection and security; introduction to distributed systems."
+			},
+			{
+				"name":"Automata Theory and Formal Languages",
+				"code":"CS373",
+				"prof":"David Garrison",
+				"sem":"Fall 2015",
+				"desc":"Theory and application of automata and the languages they recognize. Regular languages, finite-state automata, regular expressions, context-free languages, normal forms, pushdown automata, context-sensitive languages, linear bounded automata, Turing machines, computability, transducers. Application of concepts."
+			},
+			{
+				"name":"Design and Analysis of Algorithms",
+				"code":"CS375",
+				"prof":"Weiyi Meng",
+				"sem":"Spring 2015",
+				"desc":"Analysis of common algorithms for processing strings, trees, and graphs. Comparison of sorting and searching algorithms. Algorithm design strategies: divide and conquer, dynamic programming, greedy algorithms, backtracking. Introduction to NP-completeness."
+			},
+			{
+				"name":"Computer Systems III: Advanced Computer Architecture",
+				"code":"CS320",
+				"prof":"Dmitry Ponomarev",
+				"sem":"Spring 2015",
+				"desc":"Non-pipelined datapath and control logic; instruction pipelines and pipelined datapath implementation; instruction set architecture and its implications on datapaths; memory hierarchy; out-of-order execution; the I/O subsystem; introduction to multicore architectures."
+			},
+			{
+				"name":"Ethical, Global, and Social Issues in Computing",
+				"code":"CS301",
+				"prof":"George Weinschenk",
+				"sem":"Spring 2015",
+				"desc":"Communications course with required writing and oral presentations. Understanding the local and global implications of computing in society, including ethical, legal, security and social issues. Developing professional skills related to computing, including effective communication and productive teamwork. Fostering an appreciation for continuing professional development."
+			},
+			{
+				"name":"Data Structures and Algorithms",
+				"code":"CS240",
+				"prof":"Mike Lewis",
+				"sem":"Fall 2014",
+				"desc":"Analysis of the design, implementation, and properties of basic and advanced data structures, including lists, stacks, queues, hash tables, trees, heaps, and graphs. Design and time-space analysis of basic algorithms, including searching, sorting, insert/delete, hash table collision resolution techniques, recursive functions, balanced tree maintenance, and graph algorithms. Practical programming techniques including C++ templates and the Standard Template Library (STL), operator overloading, C++ stream I/O, separate compilation using makefiles, debugging tools and techniques, dynamic memory management."
+			},
+			{
+				"name":"Computer Systems II: Architecture and Programming",
+				"code":"CS220",
+				"prof":"Zerksis Umrigar",
+				"sem":"Spring 2014",
+				"desc":"The architecture and programming of digital computers. Data representation. Processor, memory and I/O organization. Instruction set architectures, encoding and addressing modes. I/O techniques. Interrupts. Assembly and machine language programming. C programming language constructs (control and data structures, pointers, arrays and functions) and their relationship to the underlying architecture."
+			},
+			{
+				"name":"Programming with Objects",
+				"code":"CS140",
+				"prof":"Leslie Lander",
+				"sem":"Fall 2013",
+				"desc":"Provides the foundations of software development using Java. Problem solving using object-oriented programming techniques is emphasized. Topics include primitive and reference data types, variables, expressions, assignment, functions/methods, parameters, selection, iteration, recursion, exception handling, generic linear data structures and maps, file types, file I/O, simple GUIs, programming to an interface, use of inheritance, javadoc documentation, and introduction to Java threads."
+			},
+			{
+				"name":"Computer Systems I: Machine Organization",
+				"code":"CS120",
+				"prof":"Patrick Madden",
+				"sem":"Fall 2013",
+				"desc":"The design and implementation of digital systems. Number representation and computer arithmetic. Design of a small computing system including an ALU, control unit, RAM, registers, bus system, instruction decoder, program counter, multiplexer, channels and clocking. Programmable logic arrays. Introduction to assembly language and C. Relationship of a higher-order programming language (C) to assembly language, and assembly language to machine code. Use of computer-aided design and simulation tools."
+			},
+			{
+				"name":"Intro Topics in Computer Science",
+				"code":"CS101",
+				"prof":"Dennis Foreman",
+				"sem":"Fall 2013",
+				"desc":"Introduction to and discussion of topics of interest to computer science majors: social, ethical and professional issues; university, school and department resources; current developments in computer science."
+			}
+		]
+	    },
+	    "major2":{
+		"print":true,
+		"program":"Mathematics",
+		"degree":"Bachelor of Science",
+		"GPA":"3.72",
+		"notes":[
+		    "Pi Mu Epsilon honor society member since April 2015"
+		],
+		"allCourses":[
+			{
+				"name":"Intro to the Theory of Numbers",
+				"code":"MATH407",
+				"prof":"Adrian Vasiu",
+				"sem":"Spring 2017",
+				"desc":"Classical number theory. Divisibility, prime numbers, quadratic reciprocity, Diophantine equations."
+			},
+			{
+				"name":"Graph Theory",
+				"code":"MATH381",
+				"prof":"Vaidyanathan Sivaraman",
+				"sem":"Spring 2017",
+				"desc":"Directed and undirected graphs, trees, connectivity, Eulerian and Hamiltonian graphs, planar graphs, coloring of graphs, graph parameters, optimization and graph algorithms."
+			},
+			{
+				"name":"Modern Algebra I",
+				"code":"MATH401",
+				"prof":"Benjamin Brewster",
+				"sem":"Fall 2016",
+				"desc":"Groups, rings, integral domains, fields."
+			},
+			{
+				"name":"Advanced Linear Algebra",
+				"code":"MATH404",
+				"prof":"Alex Feingold",
+				"sem":"Spring 2016",
+				"desc":"Modules, normal forms of linear transformations, canonical forms of matrices, quadratic and Hermitean forms."
+			},
+			{
+				"name":"Topology I",
+				"code":"MATH461",
+				"prof":"Matt Zaremsky",
+				"sem":"Fall 2016",
+				"desc":"Study of topological spaces. Metric spaces, separation properties, connectivity, compactness. Homotopies, groups, quotients."
+			},
+			{
+				"name":"Real Analysis I-II",
+				"code":"MATH478-479",
+				"prof":"Magdalena Czubak",
+				"sem":"Fall 2014-Spring 2015",
+				"desc":"Geometry and topology of Rn, functions and limits, calculus of functions on Rn. Sequences and series of functions, more advanced study of differentiation and integration."
+			},
+			{
+				"name":"Functions of Complex Variables",
+				"code":"MATH375",
+				"prof":"David Biddle",
+				"sem":"Summer 2014",
+				"desc":"Analytic functions. Cauchy's integral theorem, power series."
+			},
+			{
+				"name":"Number Systems",
+				"code":"MATH330",
+				"prof":"Vaidyanathan Sivaraman",
+				"sem":"Spring 2014",
+				"desc":"Careful discussion of the real numbers, the rational numbers and the integers, including a thorough study of induction and recursion. Countable and uncountable sets. The methodology of mathematics: basic logic, the use of quantifiers, equivalence relations, sets and functions. Methods of proof in mathematics. Training in how to discover and write proofs."
+			},
+			{
+				"name":"Calculus III",
+				"code":"MATH323",
+				"prof":"Amanda Taylor",
+				"sem":"Spring 2014",
+				"desc":"Calculus of functions of several variables."
+			},
+			{
+				"name":"Linear Algebra",
+				"code":"MATH304",
+				"prof":"Somnath Basu",
+				"sem":"Fall 2013",
+				"desc":"Vector spaces, linear transformations, determinants, characteristic values, inner products."
+			}
+		]
+	    },
+	    "electives":[
+		"Advanced Topics in Object-Oriented Programming",
+		"Systems Programming",
+		"Intro to Machine Learning",
+		"Design Patterns",
+		"Programming Models for Emerging Platforms",
+		"Graph Theory",
+		"Intro to the Theory of Numbers"
+	    ]
+	},
+	"highschool": {
+	    "print":false,
+	    "name":"Bronx High School of Science",
+	    "graddate":"June 2013",
+	    "notes":[
+		"American Invitational Mathematics Examination (AIME) Qualifier (2013)"
+	    ]
+	},
+	"music": {
+	    "print":false,
+	    "name":"The Juilliard School, Pre-College Division",
+	    "graddate":"May 2013",
+	    "major1":{
+		"print":true,
+		"program":"Composition",
+		"notes":[
+		    "Senior recital on April 27th, 2013"
+		]
+	    }
+	}
+    },
+    "skills":{
+	"print":true,
+	"pl":{
+	    "print":true,
+	    "strong":[
+		"Java",
+		"C++",
+		"C"
+	    ],
+	    "familiar":[
+		"Bash",
+		"SQL",
+		"JavaScript/HTML/CSS",
+		"Python",
+		"SWI-Prolog",
+		"Haskell"
+	    ]
+	},
+	"os":[
+	    "Mac OS X",
+	    "Linux (Debian, Ubuntu, RHEL)",
+	    "Windows"
+	],
+	"sw":[
+	    "Eclipse",
+	    "Emacs",
+	    "Git",
+	    "SQL Developer",
+	    "HUE"
+	]
+    },
+    "work":{
+	"print":true,
+	"Citi":{
+	    "print":true,
+	    "location":"New York, NY; Jersey City, NJ",
+	    "time":"June 2017-present",
+	    "full_time":{
+		"print":true,
+		"time":"June 2017-present",
+		"team1":{
+		    "print":true,
+		    "name":"FX OMS",
+		    "time":"August 2017-August 2018",
+		    "description":"Order Management System for Foreign Exchange trades",
+		    "projects":[
+			"Researched/learned about microservices for a POC of a complete overhaul of the system",
+			"Created a TeamCity process to automatically run FitNesse integration tests before deployment would be allowed",
+			"Automated Sunday checkout using Java programming and Bash scripting"
+		    ]
+		},
+		"team2":{
+		    "print":true,
+		    "name":"FX MPower/Click",
+		    "time":"August 2018-present",
+		    "description":"Provides margin and net-open-position (NOP) data to internal and external clients",
+		    "projects":[
+			"Sped up daily automated NOP margin report generation (Java program) from about 2 hours to 30 seconds (except one process took over 20 hours before I fixed it)",
+			"Found and fixed a flaw in our Java code that prevented our Hadoop database from knowing when a trade had been liquidated",
+			"Updated stress report generation to use our own Risk API instead of directly getting data from the Gemfire cache",
+			"Generated feeds (using Bash scripting and Hive SQL) to be sent daily to other teams internally"
+		    ]
+		}
+	    },
+	    "internship": {
+		"print":true,
+		"time":"June 2016-August 2016",
+		"location":"New York, NY",
+		"team1": {
+		    "print":true,
+		    "name":"Citi Velocity Analytics",
+		    "description":"Provides various analytical applications to internal and external clients on Citi's Velocity platform",
+		    "projects":[
+			"Wrote a tool that automates changing ownership of charts in CVA's Charting application, expediting the workflow when an owner of valuable charts leaves the company",
+			"Built a Cube data structure (a Map with three keys instead of one), inspired by Google Guava's Table (a Map with two keys), to make my team's code cleaner and development much easier"
+		    ]
+		}
+	    }
+	},
+	"psy_it":{
+	    "print":true,
+	    "location":"New York, NY",
+	    "time":"July-August 2015",
+	    "description":[
+		"Wrote a software tool in Java that automates reconciliation of network setup documentation in Microsoft Excel format, including cross-checking between files, copying and pasting between files, and changing the background color of cells, eliminating hours (if not days) of tedious editing by hand",
+		"Set up, deployed, and troubleshot computers at NYSPI",
+		"Encrypted computers with BitLocker and FileVault"
+	    ]
+	},
+	"bing_its":{
+	    "print":true,
+	    "location":"Binghamton, NY",
+	    "time":"August 2014-May 2017",
+	    "description":[
+		"Provided technical support to students on campus, helping them resolve questions about device connectivity and software problems",
+		"Staffed the helpdesk in the Glenn G. Bartle Library"
+	    ]
+	}
+    },
+    "relevant":{
+	"print":true,
+	"programming_competitions":[
+	    "Participated in ACM ICPC in 2015 and 2016; team solved 5 problems in 2016",
+	    "Won 7th place out of 49 competitors schoolwide (Binghamton University) at Bloomberg CodeCon (October 2016)",
+	    "Won 3rd place out of 28 pairs at Binghamton ACM's April 2016 Programming Competition (sponsored by MassLight)",
+	    "Won 2nd place out of 73 hackers at Binghamton ACM's February 2016 Programming Competition (sponsored by Bloomberg)",
+	    "Qualified for Semi-Finals in the 2015 HackerRank World Cup - University Level CodeSprint (September 2015)"
+	]
+    },
+    "other":{
+	"print":true,
+	"experiences":[
+	    {
+		"name":"Upsilon Pi Epsilon Honor Society - Iota Chapter",
+		"print":true,
+		"time":"December 2014-May 2017",
+		"description":[
+		    "Tutored students in Discrete Mathematics, Data Structures and Algorithms, Calculus, and other Math and CS courses",
+		    "Helped pioneer a mentoring program for incoming freshmen majoring in Computer Science in fall 2015",
+		    "Treasurer, April 2015-May 2016",
+		    "President, May 2016-May 2017"
+		]
+	    },
+	    {
+		"print":false,
+		"time":"August 2013-May 2017",
+		"name":"Harpur Jazz Ensemble",
+		"description":["Played vibraphone and piano and wrote a few arrangements for Binghamton University's jazz ensemble"]
+	    },
+	    {
+		"print":false,
+		"time":"August 2013-May 2017",
+		"name":"Binghamton University Percussion Ensemble",
+		"description":["Performed and arranged classical and contemporary music for Binghamton University's percussion ensemble"]
+	    }
+	]
+    }
+}
