@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html style="margin: 0 auto;">
+<head>
+	<title>Resume - Alexander Strong</title>
+	<script src="jquery-2.1.4.js">
+	</script>
+	<script>
+		function loadData() {
+			var rawfile = new XMLHttpRequest();
+			rawfile.open("GET", "resume.json", true);
+			rawfile.onreadystatechange=function() {
+				if(rawfile.readyState == 4) {
+					if(rawfile.status==200 || rawfile.status==0) {
+						//do all processing in here
+						var allText = rawfile.responseText;
+						//parse the json
+						var resumeTree = JSON.parse(allText);
+						var resumeContent = "";
+						//style
+						resumeContent += "<style type=\"text/css\">\n\t* {\n\t\tcolor:black;\n\t\ttext-decoration:none;\n\t}\n\n\tp {\n\t\tmargin-bottom:0px;\n	}\n	</style>\n";
+						//container
+						resumeContent += "<div id=\"container\" align=\"center\" style=\"width:100%;font-size:11.4px;text-align:left\">\n";
+						//name
+						resumeContent += "<h1 align=\"center\">" + resumeTree.name + "</h1>\n";
+						//contact info
+						resumeContent += "<table align=\"center\" style=\"width:100%;margin-top:-15px\">\n";
+						resumeContent += "<colgroup>\n<col style=\"width:33%\">\n<col style=\"width:34%\">\n<col style=\"width:33%\">\n</colgroup>\n";
+						resumeContent += "<tbody>\n<tr>\n";
+						resumeContent += "<td style=\"text-align:left\">" + resumeTree.email +"</td>\n";
+						resumeContent += "<td style=\"text-align:center\">" + resumeTree.linkedin + "</td>\n";
+						resumeContent += "<td style=\"text-align:right\">http://" + resumeTree.github + ".github.io</td>\n";
+						resumeContent += "</tr>\n</tbody>\n";
+						resumeContent += "</table>\n"
+
+						//education
+						resumeContent += "<p style=\"margin-top:2px\">\n";
+						resumeContent += "<strong>EDUCATION</strong>\n";
+						resumeContent += "</p>\n<hr>\n";
+						var education = resumeTree.education;
+						var bing = education.undergrad;
+						resumeContent += "<table style=\"width:100%\">\n";
+						resumeContent += "<tr><td style=\"text-align:left\"><strong>" + bing.name + " - " + bing.school + "</td><td style=\"text-align:right\">" + bing.graddate + "</strong></td></tr>\n";
+						resumeContent += "</table>";
+						resumeContent += "<p style=\"width:100%;margin-top:0px;margin-bottom:5px\"><i>";
+						resumeContent += "GPA: " + bing.GPA + " (Watson School Dean's List ";
+						for(var i = 0; i < bing.deanslist.length; i++) {
+							resumeContent += bing.deanslist[i];
+							if(i+1 < bing.deanslist.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += ")<br>";
+						var currMajor = bing.major1;
+						resumeContent += currMajor.degree + " in " + currMajor.program + " (major GPA: " + currMajor.GPA + ")";
+						for(var i = 0; i < currMajor.notes.length; i++) {
+							resumeContent += "; " + currMajor.notes[i];
+						}
+						resumeContent += "<br>"
+						currMajor = bing.major2;
+						resumeContent += currMajor.degree + " in " + currMajor.program + " (major GPA: " + currMajor.GPA + ")";
+						for(var i = 0; i < currMajor.notes.length; i++) {
+							resumeContent += "; " + currMajor.notes[i];
+						}
+						resumeContent += "</i><br>";
+						resumeContent += "Electives include: ";
+						for(var i = 0; i < bing.electives.length; i++) {
+							resumeContent += bing.electives[i];
+							if(i+1 < bing.electives.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += "</p>";
+
+						//skills
+						var skills = resumeTree.skills;
+						resumeContent += "<strong>SKILLS</strong><hr>";
+						resumeContent += "<ul style=\"margin-top:-5px\"><li>Languages: strong in ";
+						for(var i = 0; i < skills.pl.strong.length; i++) {
+							resumeContent += skills.pl.strong[i];
+							if(i+1 < skills.pl.strong.length) {
+								resumeContent += ", ";
+							}
+							else {
+								resumeContent += "; ";
+							}
+						}
+						resumeContent += "familiar with ";
+						for(var i = 0; i < skills.pl.familiar.length; i++) {
+							resumeContent += skills.pl.familiar[i];
+							if(i+1 < skills.pl.familiar.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += "</li><li>Important Software: ";
+						for(var i = 0; i < skills.sw.length; i++) {
+							resumeContent += skills.sw[i];
+							if(i+1 < skills.sw.length) {
+								resumeContent += ", ";
+							}
+						}
+						resumeContent += "</li></ul>";
+
+						//work experience
+						resumeContent += "<strong>PROFESSIONAL EXPERIENCES</strong><hr>";
+						var work = resumeTree.work;
+						var citi = work.Citi;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Full-Time Technology Analyst - Software Development<br>Citi - " + citi.location + "</td><td style=\"text-align:right\">" + citi.time + "</td></tr></table></strong>";
+						var team = citi.full_time.team2;
+						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td><td style=\"text-align:right\">" + team.time + "</td></tr></table>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(project in team.projects) {
+							resumeContent += "<li>" + team.projects[project] + "</li>";
+						}
+						resumeContent += "</ul>";
+						team = citi.full_time.team1;
+						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td><td style=\"text-align:right\">" + team.time + "</td></tr></table>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(project in team.projects) {
+							resumeContent += "<li>" + team.projects[project] + "</li>";
+						}
+						resumeContent += "</ul>";
+						var internship = citi.internship;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Summer Technology Analyst - Software Development<br>Citi - " + internship.location + "</td><td style=\"text-align:right\">" + internship.time + "</td></tr></table></strong>";
+						team = internship.team1;
+						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td></tr></table>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(project in team.projects) {
+							resumeContent += "<li>" + team.projects[project] + "</li>";
+						}
+						resumeContent += "</ul>"
+						var psyit = work.psy_it;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>PsyIT Volunteer<br>New York State Psychiatric Institute at Columbia University Medical Center (NYSPI) - " + psyit.location + "</td><td style=\"text-align:right\">" + psyit.time + "</td></tr></table></strong>";
+						resumeContent += "<ul style=\"margin-top:0px\">";
+						for(entry in psyit.description) {
+							resumeContent += "<li>" + psyit.description[entry] + "</li>";
+						}
+						resumeContent += "</ul>";
+						var its = work.bing_its;
+						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Resident Computer Consultant<br>Binghamton University Information and Technology Services (ITS) - " + its.location + "</td><td style=\"text-align:right\">" + its.time + "</td></tr></table></strong>";
+						resumeContent += "<ul style=\"margin-top:0px\">";
+						for(entry in its.description) {
+							resumeContent += "<li>" + its.description[entry] + "</li>";
+						}
+						resumeContent += "</ul>";
+
+						//relevant projects
+						var projects = resumeTree.relevant;
+						resumeContent += "<strong>RELEVANT PROJECTS</strong><hr>";
+						resumeContent += "<strong>Programming Competitions</strong>";
+						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+						for(comp in projects.programming_competitions) {
+							resumeContent += "<li>" + projects.programming_competitions[comp] + "</li>"
+						}
+						resumeContent += "</ul>";
+
+						//other experiences
+						var other = resumeTree.other;
+						resumeContent += "<strong>OTHER EXPERIENCES</strong><hr>"
+						for(var i = 0; i < other.experiences.length; i++) {
+							if(other.experiences[i].print) {
+								resumeContent += "<strong><table><tr><td>" + other.experiences[i].name + "</td><td style=\"text-align:right\">"+ other.experiences[i].time +"</td></tr></table></strong>";
+								resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
+								for(j in other.experiences[i].description) {
+									resumeContent += "<li>" + other.experiences[i].description[j] + "</li>";
+								}
+								resumeContent += "</ul>";
+							}
+						}
+
+						resumeContent += "</div>";
+
+						document.getElementById("body").innerHTML = resumeContent;
+						window.print();
+					}
+				}
+			};
+			rawfile.send(null);
+		}
+	</script>
+</head>
+<body id="body" style="width:7.5in;" onload="loadData()">
+</body>
+</html>

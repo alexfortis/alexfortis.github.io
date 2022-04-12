@@ -1,183 +1,136 @@
-<!DOCTYPE html>
-<html style="margin: 0 auto;">
-<head>
-	<title>Resume - Alexander Strong</title>
-	<script src="jquery-2.1.4.js">
-	</script>
-	<script>
-		function loadData() {
-			var rawfile = new XMLHttpRequest();
-			rawfile.open("GET", "resume.json", true);
-			rawfile.onreadystatechange=function() {
-				if(rawfile.readyState == 4) {
-					if(rawfile.status==200 || rawfile.status==0) {
-						//do all processing in here
-						var allText = rawfile.responseText;
-						//parse the json
-						var resumeTree = JSON.parse(allText);
-						var resumeContent = "";
-						//style
-						resumeContent += "<style type=\"text/css\">\n\t* {\n\t\tcolor:black;\n\t\ttext-decoration:none;\n\t}\n\n\tp {\n\t\tmargin-bottom:0px;\n	}\n	</style>\n";
-						//container
-						resumeContent += "<div id=\"container\" align=\"center\" style=\"width:100%;font-size:11.4px;text-align:left\">\n";
-						//name
-						resumeContent += "<h1 align=\"center\">" + resumeTree.name + "</h1>\n";
-						//contact info
-						resumeContent += "<table align=\"center\" style=\"width:100%;margin-top:-15px\">\n";
-						resumeContent += "<colgroup>\n<col style=\"width:33%\">\n<col style=\"width:34%\">\n<col style=\"width:33%\">\n</colgroup>\n";
-						resumeContent += "<tbody>\n<tr>\n";
-						resumeContent += "<td style=\"text-align:left\">" + resumeTree.email +"</td>\n";
-						resumeContent += "<td style=\"text-align:center\">" + resumeTree.linkedin + "</td>\n";
-						resumeContent += "<td style=\"text-align:right\">http://" + resumeTree.github + ".github.io</td>\n";
-						resumeContent += "</tr>\n</tbody>\n";
-						resumeContent += "</table>\n"
-
-						//education
-						resumeContent += "<p style=\"margin-top:2px\">\n";
-						resumeContent += "<strong>EDUCATION</strong>\n";
-						resumeContent += "</p>\n<hr>\n";
-						var education = resumeTree.education;
-						var bing = education.undergrad;
-						resumeContent += "<table style=\"width:100%\">\n";
-						resumeContent += "<tr><td style=\"text-align:left\"><strong>" + bing.name + " - " + bing.school + "</td><td style=\"text-align:right\">" + bing.graddate + "</strong></td></tr>\n";
-						resumeContent += "</table>";
-						resumeContent += "<p style=\"width:100%;margin-top:0px;margin-bottom:5px\"><i>";
-						resumeContent += "GPA: " + bing.GPA + " (Watson School Dean's List ";
-						for(var i = 0; i < bing.deanslist.length; i++) {
-							resumeContent += bing.deanslist[i];
-							if(i+1 < bing.deanslist.length) {
-								resumeContent += ", ";
-							}
-						}
-						resumeContent += ")<br>";
-						var currMajor = bing.major1;
-						resumeContent += currMajor.degree + " in " + currMajor.program + " (major GPA: " + currMajor.GPA + ")";
-						for(var i = 0; i < currMajor.notes.length; i++) {
-							resumeContent += "; " + currMajor.notes[i];
-						}
-						resumeContent += "<br>"
-						currMajor = bing.major2;
-						resumeContent += currMajor.degree + " in " + currMajor.program + " (major GPA: " + currMajor.GPA + ")";
-						for(var i = 0; i < currMajor.notes.length; i++) {
-							resumeContent += "; " + currMajor.notes[i];
-						}
-						resumeContent += "</i><br>";
-						resumeContent += "Electives include: ";
-						for(var i = 0; i < bing.electives.length; i++) {
-							resumeContent += bing.electives[i];
-							if(i+1 < bing.electives.length) {
-								resumeContent += ", ";
-							}
-						}
-						resumeContent += "</p>";
-
-						//skills
-						var skills = resumeTree.skills;
-						resumeContent += "<strong>SKILLS</strong><hr>";
-						resumeContent += "<ul style=\"margin-top:-5px\"><li>Languages: strong in ";
-						for(var i = 0; i < skills.pl.strong.length; i++) {
-							resumeContent += skills.pl.strong[i];
-							if(i+1 < skills.pl.strong.length) {
-								resumeContent += ", ";
-							}
-							else {
-								resumeContent += "; ";
-							}
-						}
-						resumeContent += "familiar with ";
-						for(var i = 0; i < skills.pl.familiar.length; i++) {
-							resumeContent += skills.pl.familiar[i];
-							if(i+1 < skills.pl.familiar.length) {
-								resumeContent += ", ";
-							}
-						}
-						resumeContent += "</li><li>Important Software: ";
-						for(var i = 0; i < skills.sw.length; i++) {
-							resumeContent += skills.sw[i];
-							if(i+1 < skills.sw.length) {
-								resumeContent += ", ";
-							}
-						}
-						resumeContent += "</li></ul>";
-
-						//work experience
-						resumeContent += "<strong>PROFESSIONAL EXPERIENCES</strong><hr>";
-						var work = resumeTree.work;
-						var citi = work.Citi;
-						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Full-Time Technology Analyst - Software Development<br>Citi - " + citi.location + "</td><td style=\"text-align:right\">" + citi.time + "</td></tr></table></strong>";
-						var team = citi.full_time.team2;
-						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td><td style=\"text-align:right\">" + team.time + "</td></tr></table>";
-						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
-						for(project in team.projects) {
-							resumeContent += "<li>" + team.projects[project] + "</li>";
-						}
-						resumeContent += "</ul>";
-						team = citi.full_time.team1;
-						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td><td style=\"text-align:right\">" + team.time + "</td></tr></table>";
-						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
-						for(project in team.projects) {
-							resumeContent += "<li>" + team.projects[project] + "</li>";
-						}
-						resumeContent += "</ul>";
-						var internship = citi.internship;
-						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Summer Technology Analyst - Software Development<br>Citi - " + internship.location + "</td><td style=\"text-align:right\">" + internship.time + "</td></tr></table></strong>";
-						team = internship.team1;
-						resumeContent += "<table style=\"width:100%;margin-top:-5px\"><tr><td>" + team.name + "<br>" + team.description + "</td></tr></table>";
-						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
-						for(project in team.projects) {
-							resumeContent += "<li>" + team.projects[project] + "</li>";
-						}
-						resumeContent += "</ul>"
-						var psyit = work.psy_it;
-						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>PsyIT Volunteer<br>New York State Psychiatric Institute at Columbia University Medical Center (NYSPI) - " + psyit.location + "</td><td style=\"text-align:right\">" + psyit.time + "</td></tr></table></strong>";
-						resumeContent += "<ul style=\"margin-top:0px\">";
-						for(entry in psyit.description) {
-							resumeContent += "<li>" + psyit.description[entry] + "</li>";
-						}
-						resumeContent += "</ul>";
-						var its = work.bing_its;
-						resumeContent += "<strong><table style=\"width:100%;margin-top:-5px\"><tr><td>Resident Computer Consultant<br>Binghamton University Information and Technology Services (ITS) - " + its.location + "</td><td style=\"text-align:right\">" + its.time + "</td></tr></table></strong>";
-						resumeContent += "<ul style=\"margin-top:0px\">";
-						for(entry in its.description) {
-							resumeContent += "<li>" + its.description[entry] + "</li>";
-						}
-						resumeContent += "</ul>";
-
-						//relevant projects
-						var projects = resumeTree.relevant;
-						resumeContent += "<strong>RELEVANT PROJECTS</strong><hr>";
-						resumeContent += "<strong>Programming Competitions</strong>";
-						resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
-						for(comp in projects.programming_competitions) {
-							resumeContent += "<li>" + projects.programming_competitions[comp] + "</li>"
-						}
-						resumeContent += "</ul>";
-
-						//other experiences
-						var other = resumeTree.other;
-						resumeContent += "<strong>OTHER EXPERIENCES</strong><hr>"
-						for(var i = 0; i < other.experiences.length; i++) {
-							if(other.experiences[i].print) {
-								resumeContent += "<strong><table><tr><td>" + other.experiences[i].name + "</td><td style=\"text-align:right\">"+ other.experiences[i].time +"</td></tr></table></strong>";
-								resumeContent += "<ul style=\"margin-top:0px;margin-bottom:5px\">";
-								for(j in other.experiences[i].description) {
-									resumeContent += "<li>" + other.experiences[i].description[j] + "</li>";
-								}
-								resumeContent += "</ul>";
-							}
-						}
-
-						resumeContent += "</div>";
-
-						document.getElementById("body").innerHTML = resumeContent;
-						window.print();
-					}
-				}
-			};
-			rawfile.send(null);
-		}
-	</script>
-</head>
-<body id="body" style="width:7.5in;" onload="loadData()">
-</body>
+<html style="margin:0 auto;">
+  <head>
+    <title>Resume - Alexander Strong</title>
+  </head>
+  <body id="body" style="width:8in;height:10in">
+    <style type="text/css"> * { color:black; text-decoration:none;} p, hr { margin-bottom:0px; margin-top:0px;} ul { margin-top:0px } </style>
+    <h1 align="center">Alexander Strong</h1>
+    <table align="center" style="width:100%;margin-top:-15px">
+      <colgroup>
+	<col style="width:50%">
+	<col style="width:50%">
+      </colgroup>
+      <tbody>
+	<tr>
+	  <td style="text-align:left">alex.j.strong@gmail.com</td>
+	  <td style="text-align:right">https://linkedin.com/in/strongalexander</td>
+	</tr>
+	<tr>
+	  <td style="text-align:left">https://alexfortis.github.io</td>
+	  <td style="text-align:right">https://github.com/alexfortis</td>
+	</tr>
+    </table>
+    <p style="margin-top:2px"><strong>EDUCATION</strong></p>
+    <hr>
+    <p><strong>Binghamton University, SUNY: 2013-2017, 2020-present</strong></p>
+    <ul>
+      <li><strong>MS in Computer Science, expected Spring 2022</strong> (GPA: 3.97/4.00)
+	<!-- <ul>
+	  <li>GPA: 3.97</li>
+	  <li>Teaching Assistant for Programming Models for Emerging Platforms, Fall 2021
+	    <ul>
+	      <li>Graded and assisted students with assignments using the following platforms:
+		<ul>
+		  <li>Paparazzi, for UAV programming</li>
+		  <li>Neo4J, for big data, including the Cypher query language</li>
+		  <li>Go, for multicore programming</li>
+		</ul>
+	      </li>  
+	    </ul>
+	  </li>
+	  <li>Elective courses: Programming Models for Emerging Platforms, Intelligent Mobile Robotics, High-Performance Computing, Intro to Artificial Intelligence, Programming for the Web</li>
+	</ul>-->
+      </li>
+      <li><strong>BS in Computer Science, Spring 2017</strong> (Major GPA: 3.54/4.00)
+	<!--<ul>
+	  <li>GPA: 3.59</li>
+	  <li>Elective courses: Advanced Topics in Object-Oriented Programming, Systems Programming, Intro to Machine Learning, Design Patterns, Graph Theory, Intro to the Theory of Numbers</li>
+	  <li>Member of Upsilon Pi Epsilon and Pi Mu Epsilon honor societies</li>
+	  <li>UPE Treasurer 2015-16, President 2016-17</li>
+	  <li>IBM Watson Fellows Scholarship annual recipient Fall 2013-16</li>
+	  <li>Qualified for Watson School Dean's List 5 times</li>
+	</ul>-->
+      </li>
+      <li><strong>BS in Mathematical Sciences, Spring 2017</strong> (Major GPA: 3.72/4.00)
+    </ul>
+    <p><strong>EMPLOYMENT</strong></p>
+    <hr>
+    <p><strong>Binghamton University, SUNY: 2020-2022</strong></p>
+    <ul>
+      <li><strong>Research Assistant: August 2020-May 2022</strong>
+	<p><strong>Thesis: Compiler-Directed Regulation Enforcement for Unmanned Aerial Vehicles</strong> (funded by the National Science Foundation)</p>
+	<p>Added features to the open-source language Paparazzi to enforce Federal Aviation Administration (FAA) regulations on the operation of unmanned aerial vehicles (UAVs). Regulations include</p>
+	<ul><li>Maximum legal altitude of 400 feet above ground level</li><li>No-fly zones</li><li>No sustained flight above bystanders (in progress)</li></ul>
+	<p>Technologies and concepts used for this project include C, OCaml, XML, visibility graph, A-star graph search</p>
+      </li>
+      <li><strong>Teaching Assistant: August-December 2021</strong> (Programming Models for Emerging Platforms)
+	<p>Graded and assisted students with assignments in Paparazzi, Neo4J/Cypher (graph database), and Go</p>
+	<!--<ul>
+	  <li>Course: Programming Models for Emerging Platforms</li>
+	  <li>Graded and assisted students with assignments using the following platforms:
+	    <ul>
+	      <li>Paparazzi, for UAV programming</li>
+	      <li>Neo4J, for big data, including the Cypher query language</li>
+	      <li>Go, for multicore programming</li>
+	    </ul>-->
+	  </li> 
+	</ul>
+      </li>
+    </ul>
+    <p><strong>Citigroup ICG Technology: 2016, 2017-2019</strong></p>
+    <ul>
+      <li><strong>Full-Time Technology Analyst, Software Development: June 2017-June 2019</strong>
+	<ul>
+	  <li>FX MPower/Click: August 2018-June 2019
+	    <ul>
+	      <li>Sped up daily automated report generation (Java program) from about 2 hours to 30 seconds</li>
+	      <!--<li>Found and fixed a flaw in our Java codebase that prevented our Hadoop database from knowing when a trade had been liquidated</li>-->
+	      <li>Generated reports (using Bash scripting and Hive SQL) to be sent daily to other teams internally</li>
+	    </ul>
+	  </li>
+	  <li>FX Order Management System: August 2017-2018
+	    <ul>
+	      <li>Researched and learned about microservices for a POC of a complete overhaul of the system</li>
+	      <li>Created a TeamCity process to automatically run FitNesse integration tests before deployment</li>
+	      <li>Automated weekly testing using Bash and Java (for more complex tests)</li>
+	    </ul>
+	  </li>
+	</ul>
+      </li>
+      <li><strong>Summer Technology Analyst, Software Development: June-August 2016</strong>
+	<ul>
+	  <li>Citi Velocity Analytics
+	    <ul>
+	      <li>Created a Cube data structure in Java to streamline my team's code
+		<ul><li>A Map or Dictionary structure with three keys instead of one, implemented as nested Maps</li><li>Inspired by Table in Google Guava</li></ul>
+	      </li>
+	      <li>Built a tool in Java using JDBC to transfer ownership of all charts from one user to another<ul><li>Most useful when a user leaves the company</li></ul></li>
+	    </ul>
+	  </li>
+	</ul>
+      </li>
+    </ul>
+    <p><strong>SKILLS</strong></p>
+    <hr>
+    <ul>
+      <li>Expert in Java, C, C++</li>
+      <li>Adept at JavaScript, SQL</li>
+      <li>Familiar with Python, Go, HTML, CSS, OCaml, Neo4J/Cypher</li>
+      <li>Useful software and tools: Emacs, Eclipse, Unix Command Line (mostly Bash), Git, ROS, Gazebo, RViz</li>
+    </ul>
+    <!--<p><strong>COURSE WORK</strong></p>
+    <hr>
+    <p><strong>CS Electives:</strong> Advanced Topics in Object-Oriented Programming, Systems Programming, Intro to Machine Learning, Design Patterns, Programming Models for Emerging Platforms, Intelligent Mobile Robotics, High-Performance Computing, Intro to Artificial Intelligence, Programming for the Web, Computer Graphics</p>
+    <p><strong>Math Electives:</strong> Advanced Linear Algebra, Intro to the Theory of Numbers, Graph Theory</p>-->
+    <p><strong>Awards and Honors</strong></p>
+    <hr>
+    <ul>
+      <li>Watson School Dean's List: Spring 2014, Spring 2015, Fall 2015, Spring 2016, Spring 2017</li>
+      <li>Member of Upsilon Pi Epsilon and Pi Mu Epsilon honor societies</li>
+      <li>Placed top ten among Binghamton students in multiple programming competitions: February 2016 (2nd), April 2016 (3rd - pairs), October 2016 (7th)</li>
+      <li>Participated in ACM ICPC in 2015 and 2016</li>
+      <li>IBM/Watson Fellows Scholarship: Fall 2013-Fall 2016 (annual award)</li>
+      <li>Maureen O'Donnell Oxford Classical Dictionary Award: 2013</li>
+    </ul>
+  </body>
 </html>
